@@ -1,5 +1,6 @@
 package org.socklabs.elasticservices.core.config;
 
+import com.rabbitmq.client.ConnectionFactory;
 import org.socklabs.elasticservices.core.ServiceProto;
 import org.socklabs.elasticservices.core.service.DefaultServiceRegistry;
 import org.socklabs.elasticservices.core.service.ServiceRegistry;
@@ -17,9 +18,12 @@ public class ServiceConfig {
     @Resource
     private Environment environment;
 
+    @Resource
+    private ConnectionFactory rabbitMqConnectionFactory;
+
     @Bean
     public TransportFactory transportFactory() {
-        return new DefaultTransportFactory();
+        return new DefaultTransportFactory(rabbitMqConnectionFactory);
     }
 
     @Bean

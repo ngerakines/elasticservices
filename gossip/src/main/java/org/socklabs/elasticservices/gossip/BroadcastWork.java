@@ -53,11 +53,11 @@ public class BroadcastWork extends AbstractWork implements Work {
                 try {
                     Thread.sleep(TimeUnit.SECONDS.toMillis(delay));
                 } catch (final InterruptedException e) {
-                    e.printStackTrace();
+                    LOGGER.error("interupted", e);
                     throw new RuntimeException("Sleep interupted.", e);
                 }
                 if (delay < 300) {
-                    delay += 15;
+                    delay += 3;
                 }
             }
             setPhase(StandardPhase.STOPPING);

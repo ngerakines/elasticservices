@@ -76,4 +76,9 @@ public interface ServiceRegistry {
             final ServiceProto.ContentType contentType
     );
 
+    void sendMessage(
+            final MessageController controller,
+            final AbstractMessage message
+    );
+
 }

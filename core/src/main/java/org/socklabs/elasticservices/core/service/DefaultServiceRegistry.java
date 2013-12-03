@@ -125,6 +125,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
             final ServiceProto.ComponentRef componentRef,
             final Map<ServiceProto.ServiceRef, String> services
     ) {
+        LOGGER.debug("Updating service information from gossip.");
         for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entrySet()) {
             transportRefsByServiceRef.put(entry.getKey(), entry.getValue());
             serviceRefs.add(entry.getKey());
@@ -171,18 +172,27 @@ public class DefaultServiceRegistry implements ServiceRegistry {
             final AbstractMessage message,
             final ServiceProto.ContentType contentType
     ) {
-        LOGGER.trace("Sending message from {} to {}.", senderServiceRef, destinationServiceRef);
-        final Optional<Transport> transportOptional = transportForService(destinationServiceRef);
+        final MessageController controller = new DefaultMessageController(senderServiceRef,
+                destinationServiceRef,
+                contentType);
+        sendMessage(controller, message);
+    }
+
+    @Override
+    public synchronized void sendMessage(
+            final MessageController controller,
+            final AbstractMessage message
+    ) {
+        final Optional<Transport> transportOptional = transportForService(controller.getDestination());
         if (transportOptional.isPresent()) {
             final Transport transport = transportOptional.get();
-            final MessageController controller = new DefaultMessageController(senderServiceRef,
-                    destinationServiceRef,
-                    contentType);
+            LOGGER.debug("Sending with controller {} message {}", controller, message);
             transport.send(controller, message);
         }
     }
 
     private void dispatchMessage(final MessageController messageController, final byte[] rawMessage) {
+        LOGGER.debug("Dispatching message with controller {}", messageController);
         final ServiceProto.ServiceRef serviceRef = destinationOf(messageController);
         final Service service = services.get(serviceRef);
         if (service == null) {
@@ -193,6 +203,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
             return;
         }
         final Message message = messageOptional.get();
+        LOGGER.debug("Dispatching message {}", message);
         try {
             service.handleMessage(messageController, message);
         } catch (final Exception e) {

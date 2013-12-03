@@ -11,6 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.socklabs.elasticservices.core.ServiceProto;
 
+import java.security.SecureRandom;
+import java.util.Random;
+
 public class MessageUtils {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageUtils.class);
@@ -20,6 +23,8 @@ public class MessageUtils {
     private static final BaseEncoding B16 = BaseEncoding.base16();
 
     private static final Joiner SEMI_COLON_JOINER = Joiner.on(":");
+
+    private static final Random RANDOM = new SecureRandom();
 
     public static Optional<Message> fromJson(final Message prototype, final String json) {
         final Message.Builder builder = prototype.newBuilderForType();
@@ -35,6 +40,12 @@ public class MessageUtils {
     public static String buildMessageId(final Message message) {
         final byte[] hashedBytes = SHA256.hashBytes(message.toByteArray()).asBytes();
         return B16.encode(hashedBytes);
+    }
+
+    public static byte[] randomMessageId(int length) {
+        final byte[] bytes = new byte[length];
+        RANDOM.nextBytes(bytes);
+        return bytes;
     }
 
     public static String componentRefToString(final ServiceProto.ComponentRef componentRef) {

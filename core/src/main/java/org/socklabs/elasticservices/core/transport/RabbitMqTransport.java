@@ -3,6 +3,7 @@ package org.socklabs.elasticservices.core.transport;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.io.BaseEncoding;
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Message;
 import com.googlecode.protobuf.format.JsonFormat;
@@ -25,7 +26,9 @@ import java.util.List;
 
 public class RabbitMqTransport extends AbstractTransport {
 
-    private static final Logger log = LoggerFactory.getLogger(RabbitMqTransport.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqTransport.class);
+
+    private static final BaseEncoding B16 = BaseEncoding.base16();
 
     private final Channel channel;
 
@@ -53,19 +56,19 @@ public class RabbitMqTransport extends AbstractTransport {
         consumers = Lists.newArrayList();
         if (forLocalServiceImpl) {
             final AMQP.Queue.DeclareOk queueDecl = channel.queueDeclare();
-            log.info("queue declared: {}", queueDecl);
+            LOGGER.info("queue declared: {}", queueDecl);
 
             final AMQP.Exchange.DeclareOk exchangeDeclOk = channel.exchangeDeclare(exchange,
                     exchangeType,
                     true,
                     true,
                     Maps.<String, Object>newHashMap());
-            log.info("exchange declared: {}", exchangeDeclOk);
+            LOGGER.info("exchange declared: {}", exchangeDeclOk);
 
             final AMQP.Queue.BindOk queueBindOk = channel.queueBind(queueDecl.getQueue(),
                     exchange,
                     "fanout".equals(exchangeType) ? "" : routingKey);
-            log.info("queue binding declared: {}", queueBindOk);
+            LOGGER.info("queue binding declared: {}", queueBindOk);
 
             final String consumerTag = channel.basicConsume(queueDecl.getQueue(),
                     true,
@@ -89,7 +92,7 @@ public class RabbitMqTransport extends AbstractTransport {
                     messageBytes);
         } catch (final Exception e) {
             // TODO[NKG]: Determine what should happen when a message can't be published.
-            log.error("Exception caught publishing message:", e);
+            LOGGER.error("Exception caught publishing message:", e);
         }
     }
 
@@ -114,6 +117,16 @@ public class RabbitMqTransport extends AbstractTransport {
 
         final ServiceProto.ServiceRef senderServiceRef = messageController.getSender();
         propertiesBuilder.replyTo(JsonFormat.printToString(senderServiceRef));
+
+        final Optional<byte[]> optionalMessageId = messageController.getMessageId();
+        if (optionalMessageId.isPresent()) {
+            propertiesBuilder.messageId(B16.encode(optionalMessageId.get()));
+        }
+
+        final Optional<byte[]> optionalCorrelationId = messageController.getCorrelationId();
+        if (optionalCorrelationId.isPresent()) {
+            propertiesBuilder.correlationId(B16.encode(optionalCorrelationId.get()));
+        }
 
         return propertiesBuilder.build();
     }
@@ -180,9 +193,24 @@ public class RabbitMqTransport extends AbstractTransport {
             final Optional<Message> senderServiceRef = MessageUtils.fromJson(ServiceProto.ServiceRef
                     .getDefaultInstance(), rawSenderServiceRef);
 
+            Optional<byte[]> optionalMessageId = Optional.absent();
+            Optional<byte[]> optionalCorrelationId = Optional.absent();
+
+            final String messageId = properties.getMessageId();
+            if (messageId != null && !messageId.isEmpty()) {
+                optionalMessageId = Optional.of(B16.decode(messageId));
+            }
+
+            final String correlationId = properties.getCorrelationId();
+            if (correlationId != null && !correlationId.isEmpty()) {
+                optionalCorrelationId = Optional.of(B16.decode(correlationId));
+            }
+
             return new DefaultMessageController((ServiceProto.ServiceRef) senderServiceRef.get(),
                     (ServiceProto.ServiceRef) destinationServiceRef.get(),
-                    (ServiceProto.ContentType) contentType.get());
+                    (ServiceProto.ContentType) contentType.get(),
+                    optionalMessageId,
+                    optionalCorrelationId);
         }
 
     }

@@ -14,7 +14,7 @@
         <org.springframework.version>3.2.4.RELEASE</org.springframework.version>
         <com.google.code.findbugs.jsr305.version>2.0.1</com.google.code.findbugs.jsr305.version>
         <com.google.guava.version>14.0.1</com.google.guava.version>
-        <com.google.protobuf.protobuf-java.version>2.5.0</com.google.protobuf.protobuf-java.version>
+        <com.google.protobuf.protobuf-java.version>2.4.1</com.google.protobuf.protobuf-java.version>
         <com.netflix.archaius.version>0.5.11</com.netflix.archaius.version>
         <com.netflix.servo.version>0.4.43</com.netflix.servo.version>
         <protoc>/usr/bin/protoc</protoc>
@@ -123,6 +123,16 @@
                 <artifactId>freemarker</artifactId>
                 <version>2.3.20</version>
             </dependency>
+            <dependency>
+                <groupId>org.socklabs</groupId>
+                <artifactId>elasticservices-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.socklabs</groupId>
+                <artifactId>elasticservices-gossip</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -162,5 +172,7 @@
     <modules>
         <module>core</module>
         <module>gossip</module>
+        <module>examples/calc-service</module>
+        <module>examples/calc-webapp</module>
     </modules>
 </project>
