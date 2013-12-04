@@ -56,11 +56,15 @@ public class RabbitMqTransport extends AbstractTransport {
 			LOGGER.info("exchange declared: {}", exchangeDeclOk);
 
 			final AMQP.Queue.BindOk queueBindOk = channel.queueBind(
-					queueDecl.getQueue(), exchange, "fanout".equals(exchangeType) ? "" : routingKey);
+					queueDecl.getQueue(),
+					exchange,
+					"fanout".equals(exchangeType) ? "" : routingKey);
 			LOGGER.info("queue binding declared: {}", queueBindOk);
 
 			final String consumerTag = channel.basicConsume(
-					queueDecl.getQueue(), true, new FabricMessageConsumer(consumers));
+					queueDecl.getQueue(),
+					true,
+					new FabricMessageConsumer(consumers));
 			LOGGER.info("Received consumer tag {}", consumerTag);
 		}
 	}
@@ -73,10 +77,12 @@ public class RabbitMqTransport extends AbstractTransport {
 		}
 		try {
 			final byte[] messageBytes = rawMessageBytes(contentType, message);
-			final AMQP.BasicProperties basicProperties = buildBasicProperties(
-					messageController, contentType);
+			final AMQP.BasicProperties basicProperties = buildBasicProperties(messageController, contentType);
 			channel.basicPublish(
-					exchange, "fanout".equals(exchangeType) ? "" : routingKey, basicProperties, messageBytes);
+					exchange,
+					"fanout".equals(exchangeType) ? "" : routingKey,
+					basicProperties,
+					messageBytes);
 		} catch (final Exception e) {
 			// TODO[NKG]: Determine what should happen when a message can't be published.
 			LOGGER.error("Exception caught publishing message:", e);
@@ -84,7 +90,8 @@ public class RabbitMqTransport extends AbstractTransport {
 	}
 
 	private AMQP.BasicProperties buildBasicProperties(
-			final MessageController messageController, final ServiceProto.ContentType contentType) {
+			final MessageController messageController,
+			final ServiceProto.ContentType contentType) {
 		final AMQP.BasicProperties.Builder propertiesBuilder = new AMQP.BasicProperties.Builder();
 		propertiesBuilder.contentType(JsonFormat.printToString(contentType));
 
@@ -165,15 +172,18 @@ public class RabbitMqTransport extends AbstractTransport {
 		private MessageController buildMessageController(final BasicProperties properties) {
 			final String rawContenType = properties.getContentType();
 			final Optional<Message> contentType = MessageUtils.fromJson(
-					ServiceProto.ContentType.getDefaultInstance(), rawContenType);
+					ServiceProto.ContentType.getDefaultInstance(),
+					rawContenType);
 
 			final String rawDestinationServiceRef = properties.getAppId();
 			final Optional<Message> destinationServiceRef = MessageUtils.fromJson(
-					ServiceProto.ServiceRef.getDefaultInstance(), rawDestinationServiceRef);
+					ServiceProto.ServiceRef.getDefaultInstance(),
+					rawDestinationServiceRef);
 
 			final String rawSenderServiceRef = properties.getReplyTo();
 			final Optional<Message> senderServiceRef = MessageUtils.fromJson(
-					ServiceProto.ServiceRef.getDefaultInstance(), rawSenderServiceRef);
+					ServiceProto.ServiceRef.getDefaultInstance(),
+					rawSenderServiceRef);
 
 			Optional<byte[]> optionalMessageId = Optional.absent();
 			Optional<byte[]> optionalCorrelationId = Optional.absent();

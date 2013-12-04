@@ -55,7 +55,8 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	private final Set<ServiceProto.ServiceRef> serviceRefs;
 
 	public DefaultServiceRegistry(
-			final ServiceProto.ComponentRef componentRef, final TransportFactory transportFactory) {
+			final ServiceProto.ComponentRef componentRef,
+			final TransportFactory transportFactory) {
 		this.componentRef = componentRef;
 		this.transportFactory = transportFactory;
 		this.services = Maps.newConcurrentMap();
@@ -81,7 +82,8 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 	@Override
 	public synchronized void bindTransportToService(
-			final ServiceProto.ServiceRef serviceRef, final Transport transport) {
+			final ServiceProto.ServiceRef serviceRef,
+			final Transport transport) {
 		Preconditions.checkArgument(serviceRefs.contains(serviceRef));
 		final String transportRef = transport.getRef();
 		if (transportServiceBindings.containsEntry(transportRef, serviceRef)) {
@@ -123,7 +125,8 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 	@Override
 	public synchronized void updateComponentServices(
-			final ServiceProto.ComponentRef componentRef, final Map<ServiceProto.ServiceRef, String> services) {
+			final ServiceProto.ComponentRef componentRef,
+			final Map<ServiceProto.ServiceRef, String> services) {
 		LOGGER.debug("Updating service information from gossip.");
 		for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entrySet()) {
 			transportRefsByServiceRef.put(entry.getKey(), entry.getValue());
@@ -138,16 +141,22 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 	@Override
 	public synchronized List<ServiceProto.ServiceRef> getServices(final ServiceProto.ComponentRef componentRef) {
-		return Ordering.from(new ServiceRefComparator()).sortedCopy(
-				ImmutableList.copyOf(
-						Iterables.filter(
-								serviceRefs, new ComponentRefServiceRefsFilter(componentRef))));
+		return Ordering.from(new ServiceRefComparator())
+				.sortedCopy(
+						ImmutableList.copyOf(
+								Iterables.filter(
+										serviceRefs,
+										new ComponentRefServiceRefsFilter(componentRef))));
 	}
 
 	@Override
 	public synchronized List<ServiceProto.ServiceRef> getServices(final String id) {
 		return Ordering.from(new ServiceRefComparator())
-				.sortedCopy(ImmutableList.copyOf(Iterables.filter(serviceRefs, new IdServiceRefsFilter(id))));
+				.sortedCopy(
+						ImmutableList.copyOf(
+								Iterables.filter(
+										serviceRefs,
+										new IdServiceRefsFilter(id))));
 	}
 
 	@Override
@@ -159,12 +168,14 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 	@Override
 	public synchronized List<ServiceProto.ServiceRef> getServices(
-			final String site, final String cluster, final String id) {
-		// NKG: This is untested.
+			final String site,
+			final String cluster,
+			final String id) {
 		return Ordering.from(new ServiceRefComparator()).sortedCopy(
 				ImmutableList.copyOf(
 						Iterables.filter(
-								serviceRefs, new SiteClusterIdServiceRefsFilter(site, cluster, id))));
+								serviceRefs,
+								new SiteClusterIdServiceRefsFilter(site, cluster, id))));
 	}
 
 	@Override
@@ -174,7 +185,9 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 			final AbstractMessage message,
 			final ServiceProto.ContentType contentType) {
 		final MessageController controller = new DefaultMessageController(
-				senderServiceRef, destinationServiceRef, contentType);
+				senderServiceRef,
+				destinationServiceRef,
+				contentType);
 		sendMessage(controller, message);
 	}
 
@@ -222,18 +235,21 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	}
 
 	private Optional<? extends Message> composeMessage(
-			final MessageController messageController, final byte[] rawMessage) {
+			final MessageController messageController,
+			final byte[] rawMessage) {
 		final ServiceProto.ContentType contentType = messageController.getContentType();
 		if (contentType != null) {
 			final Optional<String> classNameOptional = CollectionUtils.firstAttributeValue(
-					contentType.getAttributeList(), "class");
+					contentType.getAttributeList(),
+					"class");
 			if (classNameOptional.isPresent()) {
 				final String className = classNameOptional.get();
 				final List<MessageFactory> messageFactories = ImmutableList.copyOf(
 						this.messageFactories.get(className));
 				for (final MessageFactory messageFactory : messageFactories) {
 					final Optional<? extends Message> fabricMessageOptional = messageFactory.get(
-							messageController, rawMessage);
+							messageController,
+							rawMessage);
 					if (fabricMessageOptional.isPresent()) {
 						return fabricMessageOptional;
 					}
@@ -299,7 +315,8 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 		@Override
 		public boolean apply(@Nullable final ServiceProto.ServiceRef input) {
 			return input != null && site.equals(
-					input.getComponentRef().getSite()) && serviceId.equals(input.getServiceId());
+					input.getComponentRef()
+							.getSite()) && serviceId.equals(input.getServiceId());
 		}
 	}
 
