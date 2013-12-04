@@ -6,7 +6,6 @@ import org.socklabs.elasticservices.core.service.Service;
 import org.socklabs.elasticservices.core.service.ServiceRegistry;
 import org.socklabs.elasticservices.core.transport.RabbitMqTransport;
 import org.socklabs.elasticservices.core.transport.Transport;
-import org.socklabs.elasticservices.core.transport.TransportFactory;
 import org.socklabs.elasticservices.core.work.Work;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,9 +26,6 @@ public class GossipServiceConfig {
 
 	@Resource
 	private ServiceRegistry serviceRegistry;
-
-	@Resource
-	private TransportFactory transportFactory;
 
 	@Resource
 	private ConnectionFactory connectionFactory;

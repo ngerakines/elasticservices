@@ -52,4 +52,9 @@ public class MessageUtils {
 		return SEMI_COLON_JOINER.join(componentRef.getSite(), componentRef.getCluster(), componentRef.getComponentId());
 	}
 
+	public static String serviceRefToString(final ServiceProto.ServiceRef serviceRef) {
+		final ServiceProto.ComponentRef componentRef = serviceRef.getComponentRef();
+		return SEMI_COLON_JOINER.join(componentRef.getSite(), componentRef.getCluster(), componentRef.getComponentId(), serviceRef.getServiceId());
+	}
+
 }

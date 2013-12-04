@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.BaseEncoding;
+import com.google.common.primitives.Longs;
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Message;
 import com.googlecode.protobuf.format.JsonFormat;
@@ -123,7 +124,7 @@ public class RabbitMqTransport extends AbstractTransport {
 		 */
 		final Optional<DateTime> optionalExpires = messageController.getExpires();
 		if (optionalExpires.isPresent()) {
-			headers.put("expires", optionalExpires.get().toString());
+			headers.put("expires", String.valueOf(optionalExpires.get().getMillis()));
 		}
 
 		if (headers.size() > 0) {
@@ -219,10 +220,12 @@ public class RabbitMqTransport extends AbstractTransport {
 
 			Optional<DateTime> expiresOptional = Optional.absent();
 			final Map<String, Object> headers = properties.getHeaders();
-			final String expiresValue = (String) headers.get("expires");
-			if (expiresValue != null && !expiresValue.isEmpty()) {
-				final DateTime expires = new DateTime(expiresValue);
-				expiresOptional = Optional.of(expires);
+			if (headers != null) {
+				final Long millis = Longs.tryParse(headers.get("expires").toString());
+					if (millis != null) {
+						final DateTime expires = new DateTime(millis);
+						expiresOptional = Optional.of(expires);
+					}
 			}
 
 			return new DefaultMessageController(

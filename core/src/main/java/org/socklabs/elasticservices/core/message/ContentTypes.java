@@ -13,6 +13,7 @@ public class ContentTypes {
 
 	public static ServiceProto.ContentType fromJsonClass(final Class<?> componentOnlineClass) {
 		final ServiceProto.ContentType.Builder contentTypeBuilder = ServiceProto.ContentType.newBuilder();
+		contentTypeBuilder.setValue(CONTENT_TYPE_JSON);
 		contentTypeBuilder.addAttribute(
 				ServiceProto.ContentType
 						.Attribute

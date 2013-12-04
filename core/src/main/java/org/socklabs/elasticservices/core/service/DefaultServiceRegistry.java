@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.socklabs.elasticservices.core.ServiceProto;
 import org.socklabs.elasticservices.core.collection.CollectionUtils;
 import org.socklabs.elasticservices.core.message.MessageFactory;
+import org.socklabs.elasticservices.core.message.MessageUtils;
 import org.socklabs.elasticservices.core.transport.Transport;
 import org.socklabs.elasticservices.core.transport.TransportConsumer;
 import org.socklabs.elasticservices.core.transport.TransportFactory;
@@ -196,13 +197,13 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 		final Optional<Transport> transportOptional = transportForService(controller.getDestination());
 		if (transportOptional.isPresent()) {
 			final Transport transport = transportOptional.get();
-			LOGGER.debug("Sending with controller {} message {}", controller, message);
+			LOGGER.debug("Sending message ({}) to {}", message.getClass().getName(), MessageUtils.serviceRefToString(controller.getDestination()));
 			transport.send(controller, message);
 		}
 	}
 
 	private void dispatchMessage(final MessageController messageController, final byte[] rawMessage) {
-		LOGGER.debug("Dispatching message with controller {}", messageController);
+		LOGGER.debug("Dispatching message {}", messageController.getContentType().getValue());
 		final ServiceProto.ServiceRef serviceRef = destinationOf(messageController);
 		final Service service = services.get(serviceRef);
 		if (service == null) {
@@ -213,7 +214,6 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 			return;
 		}
 		final Message message = messageOptional.get();
-		LOGGER.debug("Dispatching message {}", message);
 		try {
 			service.handleMessage(messageController, message);
 		} catch (final Exception e) {
