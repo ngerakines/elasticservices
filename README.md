@@ -37,6 +37,19 @@ The calc-webapp module includes a spring-based HTTP API that engages the calc
 service. It includes an example edge service that demonstrates how
 synchronous projects, like HTTP edges, can engage asynchronous services.
 
+# Building
+
+This project uses the org.socklabs:maven-protobuff plugin which can be found
+here:
+
+	https://github.com/ngerakines/maven-protobuf
+
+When building this project from scratch, be sure to enable the
+*protobuf-build* profile to ensure that sources are generated from the proto
+files correctly.
+
+	$ mvn compile -P protobuf-build
+
 # License
 
 Copyright (c) 2013 Nick Gerakines <nick@gerakines.net> and Chris
