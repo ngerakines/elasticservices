@@ -3,6 +3,7 @@ package org.socklabs.elasticservices.examples.calc.service;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
+import org.joda.time.DateTime;
 import org.socklabs.elasticservices.core.ServiceProto;
 import org.socklabs.elasticservices.core.message.ContentTypes;
 import org.socklabs.elasticservices.core.message.MessageFactory;
@@ -43,6 +44,13 @@ public class CalcService implements Service {
 
 	@Override
 	public void handleMessage(final MessageController controller, final Message message) {
+		final Optional<DateTime> expiresOptional = controller.getExpires();
+		if (expiresOptional.isPresent()) {
+			final DateTime expires = expiresOptional.get();
+			if (DateTime.now().isAfter(expires)) {
+				return;
+			}
+		}
 		if (message instanceof CalcServiceProto.Add) {
 			int sum = 0;
 			for (final Integer value : ((CalcServiceProto.Add) message).getValuesList()) {

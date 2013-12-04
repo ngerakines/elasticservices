@@ -1,6 +1,7 @@
 package org.socklabs.elasticservices.core.service;
 
 import com.google.common.base.Optional;
+import org.joda.time.DateTime;
 import org.socklabs.elasticservices.core.ServiceProto;
 
 /**
@@ -17,5 +18,7 @@ public interface MessageController {
 	Optional<byte[]> getMessageId();
 
 	Optional<byte[]> getCorrelationId();
+
+	Optional<DateTime> getExpires();
 
 }

@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.socklabs.elasticservices.core.ServiceProto;
 import org.socklabs.elasticservices.core.collection.Pair;
 import org.socklabs.elasticservices.core.message.ContentTypes;
+import org.socklabs.elasticservices.core.message.Expiration;
 import org.socklabs.elasticservices.core.message.MessageUtils;
 import org.socklabs.elasticservices.core.service.DefaultMessageController;
 import org.socklabs.elasticservices.core.service.MessageController;
@@ -37,7 +38,8 @@ public class DefaultEdgeManager implements EdgeManager {
 	public Future<Message> execute(
 			final ServiceProto.ServiceRef destination,
 			final AbstractMessage message,
-			final Class messageClass) {
+			final Class messageClass,
+			final Optional<Expiration> expirationOptional) {
 		final SettableFuture<Message> resultsFuture = SettableFuture.create();
 		final byte[] messageId = MessageUtils.randomMessageId(24);
 		final MessageController controller = new DefaultMessageController(
@@ -45,7 +47,9 @@ public class DefaultEdgeManager implements EdgeManager {
 				destination,
 				ContentTypes.fromJsonClass(messageClass),
 				Optional.of(messageId),
-				Optional.<byte[]>absent());
+				Optional.<byte[]>absent(),
+				expirationOptional.isPresent() ? Optional.of(
+						expirationOptional.get().getExpiration()) : Optional.<DateTime>absent());
 		resultsFutures.putIfAbsent(Arrays.hashCode(messageId), new Pair<>(resultsFuture, DateTime.now()));
 		serviceRegistry.sendMessage(controller, message);
 		return resultsFuture;

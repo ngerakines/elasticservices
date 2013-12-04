@@ -14,6 +14,7 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.ShutdownSignalException;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.socklabs.elasticservices.core.ServiceProto;
@@ -23,6 +24,7 @@ import org.socklabs.elasticservices.core.service.MessageController;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class RabbitMqTransport extends AbstractTransport {
 
@@ -109,6 +111,23 @@ public class RabbitMqTransport extends AbstractTransport {
 		final Optional<byte[]> optionalCorrelationId = messageController.getCorrelationId();
 		if (optionalCorrelationId.isPresent()) {
 			propertiesBuilder.correlationId(B16.encode(optionalCorrelationId.get()));
+		}
+
+		final Map<String, Object> headers = Maps.newHashMap();
+
+		/*
+		NKG: The "expiration" property is handled by the queue and using it
+		could have side effects. For that reason, if the sender of a message
+		wants to /hint/ that a message shouldn't be processed after a certain
+		time, we set that as a header key/value.
+		 */
+		final Optional<DateTime> optionalExpires = messageController.getExpires();
+		if (optionalExpires.isPresent()) {
+			headers.put("expires", optionalExpires.get().toString());
+		}
+
+		if (headers.size() > 0) {
+			propertiesBuilder.headers(headers);
 		}
 
 		return propertiesBuilder.build();
@@ -198,12 +217,21 @@ public class RabbitMqTransport extends AbstractTransport {
 				optionalCorrelationId = Optional.of(B16.decode(correlationId));
 			}
 
+			Optional<DateTime> expiresOptional = Optional.absent();
+			final Map<String, Object> headers = properties.getHeaders();
+			final String expiresValue = (String) headers.get("expires");
+			if (expiresValue != null && !expiresValue.isEmpty()) {
+				final DateTime expires = new DateTime(expiresValue);
+				expiresOptional = Optional.of(expires);
+			}
+
 			return new DefaultMessageController(
 					(ServiceProto.ServiceRef) senderServiceRef.get(),
 					(ServiceProto.ServiceRef) destinationServiceRef.get(),
 					(ServiceProto.ContentType) contentType.get(),
 					optionalMessageId,
-					optionalCorrelationId);
+					optionalCorrelationId,
+					expiresOptional);
 		}
 
 	}

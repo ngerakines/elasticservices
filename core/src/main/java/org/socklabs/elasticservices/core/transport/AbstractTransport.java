@@ -8,7 +8,8 @@ import org.socklabs.elasticservices.core.service.MessageController;
 public abstract class AbstractTransport implements Transport {
 
 	protected ServiceProto.ContentType getContentType(
-			final MessageController controller, final com.google.protobuf.Message message) {
+			final MessageController controller,
+			final com.google.protobuf.Message message) {
 		return controller.getContentType();
 	}
 

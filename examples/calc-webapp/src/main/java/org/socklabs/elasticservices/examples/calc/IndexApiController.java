@@ -1,5 +1,6 @@
 package org.socklabs.elasticservices.examples.calc;
 
+import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
 import com.google.protobuf.Message;
 import com.googlecode.protobuf.format.JsonFormat;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.socklabs.elasticservices.core.ServiceProto;
 import org.socklabs.elasticservices.core.collection.PartitionUtil;
 import org.socklabs.elasticservices.core.edge.EdgeManager;
+import org.socklabs.elasticservices.core.message.Expiration;
 import org.socklabs.elasticservices.core.service.ServiceRegistry;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +25,8 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-@Controller @RequestMapping("/api")
+@Controller
+@RequestMapping("/api")
 public class IndexApiController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(IndexApiController.class);
@@ -47,7 +50,10 @@ public class IndexApiController {
 		}
 		final ServiceProto.ServiceRef serviceRef = selectDestination();
 		final Future<Message> resultfuture = edgeManager.execute(
-				serviceRef, addBuilder.build(), CalcServiceProto.Add.class);
+				serviceRef,
+				addBuilder.build(),
+				CalcServiceProto.Add.class,
+				Optional.of(Expiration.fromNow(60, TimeUnit.SECONDS)));
 		try {
 			final Message message = resultfuture.get(10, TimeUnit.SECONDS);
 			if (message instanceof CalcServiceProto.Result) {

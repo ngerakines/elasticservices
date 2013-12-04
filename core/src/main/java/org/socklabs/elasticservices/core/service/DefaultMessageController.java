@@ -1,6 +1,7 @@
 package org.socklabs.elasticservices.core.service;
 
 import com.google.common.base.Optional;
+import org.joda.time.DateTime;
 import org.socklabs.elasticservices.core.ServiceProto;
 
 public class DefaultMessageController implements MessageController {
@@ -10,16 +11,18 @@ public class DefaultMessageController implements MessageController {
 	private final ServiceProto.ContentType contentType;
 	private final Optional<byte[]> messageId;
 	private final Optional<byte[]> correlationId;
+	private final Optional<DateTime> expires;
 
 	public DefaultMessageController(
 			final ServiceProto.ServiceRef senderServiceRef,
 			final ServiceProto.ServiceRef destinationServiceRef,
 			final ServiceProto.ContentType contentType) {
-		this.senderServiceRef = senderServiceRef;
-		this.destinationServiceRef = destinationServiceRef;
-		this.contentType = contentType;
-		this.messageId = Optional.absent();
-		this.correlationId = Optional.absent();
+		this(
+				senderServiceRef,
+				destinationServiceRef,
+				contentType,
+				Optional.<byte[]>absent(),
+				Optional.<byte[]>absent());
 	}
 
 	public DefaultMessageController(
@@ -28,11 +31,28 @@ public class DefaultMessageController implements MessageController {
 			final ServiceProto.ContentType contentType,
 			final Optional<byte[]> messageId,
 			final Optional<byte[]> correlationId) {
+		this(
+				senderServiceRef,
+				destinationServiceRef,
+				contentType,
+				messageId,
+				correlationId,
+				Optional.<DateTime>absent());
+	}
+
+	public DefaultMessageController(
+			final ServiceProto.ServiceRef senderServiceRef,
+			final ServiceProto.ServiceRef destinationServiceRef,
+			final ServiceProto.ContentType contentType,
+			final Optional<byte[]> messageId,
+			final Optional<byte[]> correlationId,
+			final Optional<DateTime> expires) {
 		this.senderServiceRef = senderServiceRef;
 		this.destinationServiceRef = destinationServiceRef;
 		this.contentType = contentType;
 		this.messageId = messageId;
 		this.correlationId = correlationId;
+		this.expires = expires;
 	}
 
 	@Override
@@ -58,6 +78,11 @@ public class DefaultMessageController implements MessageController {
 	@Override
 	public Optional<byte[]> getCorrelationId() {
 		return correlationId;
+	}
+
+	@Override
+	public Optional<DateTime> getExpires() {
+		return expires;
 	}
 
 	@Override
