@@ -17,18 +17,17 @@ public class ServiceConfig {
 
 	@Resource
 	private Environment environment;
-
 	@Resource
 	private ConnectionFactory rabbitMqConnectionFactory;
 
 	@Bean
-	public TransportFactory transportFactory() {
-		return new DefaultTransportFactory(rabbitMqConnectionFactory);
+	public ServiceRegistry serviceRegistry() {
+		return new DefaultServiceRegistry(localComponentRef(), transportFactory());
 	}
 
 	@Bean
-	public ServiceRegistry serviceRegistry() {
-		return new DefaultServiceRegistry(localComponentRef(), transportFactory());
+	public TransportFactory transportFactory() {
+		return new DefaultTransportFactory(rabbitMqConnectionFactory);
 	}
 
 	@Bean

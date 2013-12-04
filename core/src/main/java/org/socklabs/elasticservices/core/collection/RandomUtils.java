@@ -27,17 +27,17 @@ public class RandomUtils {
 		return list.get(RANDOM.nextInt(size));
 	}
 
+	public static boolean chance(int chance) {
+		final int challenge = randomInt(100);
+		return challenge < chance;
+	}
+
 	public static int randomInt(final int max) {
 		return randomInt(1, max);
 	}
 
 	public static int randomInt(final int min, final int max) {
 		return RANDOM.nextInt(max) + min;
-	}
-
-	public static boolean chance(int chance) {
-		final int challenge = randomInt(100);
-		return challenge < chance;
 	}
 
 }

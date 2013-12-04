@@ -7,7 +7,6 @@ import org.socklabs.elasticservices.core.service.MessageController;
  */
 public interface TransportConsumer {
 
-	void handleMessage(
-			final MessageController messageController, final byte[] rawMessage);
+	void handleMessage(final MessageController messageController, final byte[] rawMessage);
 
 }

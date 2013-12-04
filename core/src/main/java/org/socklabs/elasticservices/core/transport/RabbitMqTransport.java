@@ -27,17 +27,11 @@ import java.util.List;
 public class RabbitMqTransport extends AbstractTransport {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqTransport.class);
-
 	private static final BaseEncoding B16 = BaseEncoding.base16();
-
 	private final Channel channel;
-
 	private final List<TransportConsumer> consumers;
-
 	private final String exchange;
-
 	private final String routingKey;
-
 	private final String exchangeType;
 
 	public RabbitMqTransport(
@@ -89,16 +83,6 @@ public class RabbitMqTransport extends AbstractTransport {
 		}
 	}
 
-	@Override
-	public void addConsumer(final TransportConsumer consumer) {
-		consumers.add(consumer);
-	}
-
-	@Override
-	public String getRef() {
-		return "rabbitmq://" + exchange + "/" + routingKey;
-	}
-
 	private AMQP.BasicProperties buildBasicProperties(
 			final MessageController messageController, final ServiceProto.ContentType contentType) {
 		final AMQP.BasicProperties.Builder propertiesBuilder = new AMQP.BasicProperties.Builder();
@@ -123,10 +107,19 @@ public class RabbitMqTransport extends AbstractTransport {
 		return propertiesBuilder.build();
 	}
 
+	@Override
+	public void addConsumer(final TransportConsumer consumer) {
+		consumers.add(consumer);
+	}
+
+	@Override
+	public String getRef() {
+		return "rabbitmq://" + exchange + "/" + routingKey;
+	}
+
 	private static class FabricMessageConsumer implements Consumer {
 
 		private static final Logger LOGGER = LoggerFactory.getLogger(FabricMessageConsumer.class);
-
 		private final List<TransportConsumer> transportConsumers;
 
 		private FabricMessageConsumer(final List<TransportConsumer> transportConsumers) {
@@ -146,8 +139,7 @@ public class RabbitMqTransport extends AbstractTransport {
 		}
 
 		@Override
-		public void handleShutdownSignal(
-				final String consumerTag, final ShutdownSignalException sig) {
+		public void handleShutdownSignal(final String consumerTag, final ShutdownSignalException sig) {
 		}
 
 		@Override

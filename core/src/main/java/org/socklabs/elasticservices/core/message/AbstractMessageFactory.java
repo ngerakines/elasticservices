@@ -70,7 +70,8 @@ public abstract class AbstractMessageFactory implements MessageFactory {
 	protected abstract Optional<Message> getPrototype(final String messageClass);
 
 	private Optional<String> firstAttributeValue(
-			final List<ServiceProto.ContentType.Attribute> attributes, final String key) {
+			final List<ServiceProto.ContentType.Attribute> attributes,
+			final String key) {
 		if (attributes != null) {
 			final Optional<ServiceProto.ContentType.Attribute> attributeOptional = Iterables.tryFind(
 					attributes, new AttributeNamePredicate(key));

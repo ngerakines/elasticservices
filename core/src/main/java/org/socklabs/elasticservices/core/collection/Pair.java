@@ -3,16 +3,15 @@ package org.socklabs.elasticservices.core.collection;
 public class Pair<A, B> {
 
 	private final A a;
-
 	private final B b;
-
-	public static <A, B> Pair<A, B> create(final A a, final B b) {
-		return new Pair<>(a, b);
-	}
 
 	public Pair(final A a, final B b) {
 		this.a = a;
 		this.b = b;
+	}
+
+	public static <A, B> Pair<A, B> create(final A a, final B b) {
+		return new Pair<>(a, b);
 	}
 
 	public A getA() {
@@ -21,6 +20,13 @@ public class Pair<A, B> {
 
 	public B getB() {
 		return b;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = a.hashCode();
+		result = 31 * result + b.hashCode();
+		return result;
 	}
 
 	@Override
@@ -42,12 +48,5 @@ public class Pair<A, B> {
 		}
 
 		return true;
-	}
-
-	@Override
-	public int hashCode() {
-		int result = a.hashCode();
-		result = 31 * result + b.hashCode();
-		return result;
 	}
 }

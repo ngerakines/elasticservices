@@ -31,7 +31,9 @@ public class DefaultEdgeManager implements EdgeManager {
 
 	@Override
 	public Future<Message> execute(
-			final ServiceProto.ServiceRef destination, final AbstractMessage message, final Class messageClass) {
+			final ServiceProto.ServiceRef destination,
+			final AbstractMessage message,
+			final Class messageClass) {
 		final SettableFuture<Message> resultsFuture = SettableFuture.create();
 		final byte[] messageId = MessageUtils.randomMessageId(24);
 		final MessageController controller = new DefaultMessageController(

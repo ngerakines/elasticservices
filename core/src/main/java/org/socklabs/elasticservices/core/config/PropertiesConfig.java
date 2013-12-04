@@ -5,7 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
-@Configuration @PropertySource({"classpath:org/socklabs/elasticservices/core/default.properties"})
+@Configuration
+@PropertySource({"classpath:org/socklabs/elasticservices/core/default.properties"})
 public class PropertiesConfig {
 
 	@Bean

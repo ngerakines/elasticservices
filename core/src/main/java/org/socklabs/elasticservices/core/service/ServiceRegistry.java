@@ -30,7 +30,8 @@ public interface ServiceRegistry {
 	 * Called to do auto discovery via gossip of services associated with a component.
 	 */
 	void updateComponentServices(
-			final ServiceProto.ComponentRef componentRef, final Map<ServiceProto.ServiceRef, String> services);
+			final ServiceProto.ComponentRef componentRef,
+			final Map<ServiceProto.ServiceRef, String> services);
 
 	/**
 	 * Returns a list of all services known by the registry.
@@ -73,7 +74,6 @@ public interface ServiceRegistry {
 			final AbstractMessage message,
 			final ServiceProto.ContentType contentType);
 
-	void sendMessage(
-			final MessageController controller, final AbstractMessage message);
+	void sendMessage(final MessageController controller, final AbstractMessage message);
 
 }

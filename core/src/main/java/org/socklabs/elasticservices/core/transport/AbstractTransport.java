@@ -13,7 +13,8 @@ public abstract class AbstractTransport implements Transport {
 	}
 
 	protected <M extends com.google.protobuf.Message> byte[] rawMessageBytes(
-			final ServiceProto.ContentType contentType, final M message) {
+			final ServiceProto.ContentType contentType,
+			final M message) {
 		if (contentType.getValue().equals(ContentTypes.CONTENT_TYPE_JSON)) {
 			return JsonFormat.printToString(message).getBytes();
 		}

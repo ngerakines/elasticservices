@@ -179,8 +179,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	}
 
 	@Override
-	public synchronized void sendMessage(
-			final MessageController controller, final AbstractMessage message) {
+	public synchronized void sendMessage(final MessageController controller, final AbstractMessage message) {
 		final Optional<Transport> transportOptional = transportForService(controller.getDestination());
 		if (transportOptional.isPresent()) {
 			final Transport transport = transportOptional.get();
@@ -292,8 +291,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 		private final String serviceId;
 
-		private SiteIdServiceRefsFilter(
-				final String site, final String serviceId) {
+		private SiteIdServiceRefsFilter(final String site, final String serviceId) {
 			this.site = site;
 			this.serviceId = serviceId;
 		}
@@ -313,8 +311,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 		private final String serviceId;
 
-		private SiteClusterIdServiceRefsFilter(
-				final String site, final String cluster, final String serviceId) {
+		private SiteClusterIdServiceRefsFilter(final String site, final String cluster, final String serviceId) {
 			this.site = site;
 			this.cluster = cluster;
 			this.serviceId = serviceId;

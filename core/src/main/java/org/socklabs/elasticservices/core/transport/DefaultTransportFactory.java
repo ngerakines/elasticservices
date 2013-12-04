@@ -13,6 +13,7 @@ public class DefaultTransportFactory implements TransportFactory {
 
 	private final Optional<ConnectionFactory> connectionFactory;
 
+	@Deprecated
 	public DefaultTransportFactory() {
 		this.connectionFactory = Optional.absent();
 	}
@@ -36,7 +37,11 @@ public class DefaultTransportFactory implements TransportFactory {
 
 			try {
 				return new RabbitMqTransport(
-						connectionFactory.get().newConnection(), exchange, routingKey, "direct", false);
+						connectionFactory.get().newConnection(),
+						exchange,
+						routingKey,
+						"direct",
+						false);
 			} catch (final IOException e) {
 				throw new RuntimeException("Could not create AMQP transport.", e);
 			}

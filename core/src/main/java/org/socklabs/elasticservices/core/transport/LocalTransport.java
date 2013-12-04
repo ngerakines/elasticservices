@@ -55,8 +55,7 @@ public class LocalTransport implements Transport {
 		return controller.getContentType();
 	}
 
-	private <M extends Message> byte[] rawMessageBytes(
-			final ServiceProto.ContentType contentType, final M message) {
+	private <M extends Message> byte[] rawMessageBytes(final ServiceProto.ContentType contentType, final M message) {
 		if (contentType.getValue().equals(ContentTypes.CONTENT_TYPE_JSON)) {
 			return JsonFormat.printToString(message).getBytes();
 		}

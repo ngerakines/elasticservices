@@ -15,6 +15,8 @@ public abstract class AbstractDaemon implements Daemon {
 		new AnnotationConfigApplicationContext(modules());
 	}
 
+	protected abstract Class[] modules();
+
 	@Override
 	public void start() throws Exception {
 	}
@@ -27,7 +29,5 @@ public abstract class AbstractDaemon implements Daemon {
 	public void destroy() {
 
 	}
-
-	protected abstract Class[] modules();
 
 }
