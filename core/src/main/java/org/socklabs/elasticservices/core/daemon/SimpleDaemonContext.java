@@ -5,21 +5,21 @@ import org.apache.commons.daemon.DaemonController;
 
 public class SimpleDaemonContext implements DaemonContext {
 
-    private final String[] args;
-    private final DaemonController daemonController;
+	private final String[] args;
+	private final DaemonController daemonController;
 
-    public SimpleDaemonContext(final String[] args) {
-        this.args = args;
-        this.daemonController = new SimpleDaemonController();
-    }
+	public SimpleDaemonContext(final String[] args) {
+		this.args = args;
+		this.daemonController = new SimpleDaemonController();
+	}
 
-    @Override
-    public DaemonController getController() {
-        return daemonController;
-    }
+	@Override
+	public DaemonController getController() {
+		return daemonController;
+	}
 
-    @Override
-    public String[] getArguments() {
-        return args;
-    }
+	@Override
+	public String[] getArguments() {
+		return args;
+	}
 }

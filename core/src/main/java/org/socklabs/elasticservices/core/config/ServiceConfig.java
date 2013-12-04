@@ -15,30 +15,30 @@ import javax.annotation.Resource;
 @Configuration
 public class ServiceConfig {
 
-    @Resource
-    private Environment environment;
+	@Resource
+	private Environment environment;
 
-    @Resource
-    private ConnectionFactory rabbitMqConnectionFactory;
+	@Resource
+	private ConnectionFactory rabbitMqConnectionFactory;
 
-    @Bean
-    public TransportFactory transportFactory() {
-        return new DefaultTransportFactory(rabbitMqConnectionFactory);
-    }
+	@Bean
+	public TransportFactory transportFactory() {
+		return new DefaultTransportFactory(rabbitMqConnectionFactory);
+	}
 
-    @Bean
-    public ServiceRegistry serviceRegistry() {
-        return new DefaultServiceRegistry(localComponentRef(), transportFactory());
-    }
+	@Bean
+	public ServiceRegistry serviceRegistry() {
+		return new DefaultServiceRegistry(localComponentRef(), transportFactory());
+	}
 
-    @Bean
-    public ServiceProto.ComponentRef localComponentRef() {
-        return ServiceProto.ComponentRef
-                .newBuilder()
-                .setSite(environment.getRequiredProperty("component.site"))
-                .setCluster(environment.getRequiredProperty("component.cluster"))
-                .setComponentId(environment.getRequiredProperty("component.id"))
-                .build();
-    }
+	@Bean
+	public ServiceProto.ComponentRef localComponentRef() {
+		return ServiceProto.ComponentRef
+				.newBuilder()
+				.setSite(environment.getRequiredProperty("component.site"))
+				.setCluster(environment.getRequiredProperty("component.cluster"))
+				.setComponentId(environment.getRequiredProperty("component.id"))
+				.build();
+	}
 
 }

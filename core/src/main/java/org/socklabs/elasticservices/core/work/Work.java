@@ -5,16 +5,16 @@ package org.socklabs.elasticservices.core.work;
  */
 public interface Work {
 
-    public interface Phase {
+	public interface Phase {
 
-    }
+	}
 
-    String getId();
+	String getId();
 
-    void run();
+	void run();
 
-    void stop();
+	void stop();
 
-    Phase getPhase();
+	Phase getPhase();
 
 }

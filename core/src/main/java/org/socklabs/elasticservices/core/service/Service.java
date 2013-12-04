@@ -11,19 +11,19 @@ import java.util.List;
  */
 public interface Service {
 
-    /**
-     * Returns a service reference for the service.
-     */
-    ServiceProto.ServiceRef getServiceRef();
+	/**
+	 * Returns a service reference for the service.
+	 */
+	ServiceProto.ServiceRef getServiceRef();
 
-    /**
-     * Returns a list of message factories used by the service to compose messages.
-     */
-    List<MessageFactory> getMessageFactories();
+	/**
+	 * Returns a list of message factories used by the service to compose messages.
+	 */
+	List<MessageFactory> getMessageFactories();
 
-    /**
-     * The callback used to deliver messages to the service.
-     */
-    void handleMessage(final MessageController controller, final Message message);
+	/**
+	 * The callback used to deliver messages to the service.
+	 */
+	void handleMessage(final MessageController controller, final Message message);
 
 }

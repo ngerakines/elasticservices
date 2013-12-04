@@ -24,60 +24,53 @@ import java.io.IOException;
 @Configuration
 public class EdgeConfig {
 
-    @Resource
-    private Environment environment;
+	@Resource
+	private Environment environment;
 
-    @Resource
-    private ServiceProto.ComponentRef localComponentRef;
+	@Resource
+	private ServiceProto.ComponentRef localComponentRef;
 
-    @Resource
-    private ServiceRegistry serviceRegistry;
+	@Resource
+	private ServiceRegistry serviceRegistry;
 
-    @Resource
-    private TransportFactory transportFactory;
+	@Resource
+	private TransportFactory transportFactory;
 
-    @Resource
-    private ConnectionFactory connectionFactory;
+	@Resource
+	private ConnectionFactory connectionFactory;
 
-    @Bean
-    public ServiceProto.ServiceRef calcEdgeServiceRef() {
-        return ServiceProto.ServiceRef.newBuilder().setComponentRef(localComponentRef).setServiceId("calcEdge").build();
-    }
+	@Bean
+	public ServiceProto.ServiceRef calcEdgeServiceRef() {
+		return ServiceProto.ServiceRef.newBuilder().setComponentRef(localComponentRef).setServiceId("calcEdge").build();
+	}
 
-    @Bean
-    public Transport calcEdgeTransport() {
-        final String exchange = environment.getRequiredProperty("service.calcEdge.exchange");
-        final String routingKey = environment.getRequiredProperty("service.calcEdge.routing_key");
-        try {
-            return new RabbitMqTransport(
-                    connectionFactory.newConnection(),
-                    exchange,
-                    routingKey,
-                    "direct",
-                    true);
-        }
-        catch (final IOException e) {
-            throw new RuntimeException("Could not create AMQP transport for calc service.", e);
-        }
-    }
+	@Bean
+	public Transport calcEdgeTransport() {
+		final String exchange = environment.getRequiredProperty("service.calcEdge.exchange");
+		final String routingKey = environment.getRequiredProperty("service.calcEdge.routing_key");
+		try {
+			return new RabbitMqTransport(
+					connectionFactory.newConnection(), exchange, routingKey, "direct", true);
+		} catch (final IOException e) {
+			throw new RuntimeException("Could not create AMQP transport for calc service.", e);
+		}
+	}
 
-    @Bean
-    public Service calcEdgeService() {
-        return new CalcEdgeService(
-                calcEdgeServiceRef(),
-                edgeManager(),
-                ImmutableList.<MessageFactory>of(new CalcMessageFactory()));
-    }
+	@Bean
+	public Service calcEdgeService() {
+		return new CalcEdgeService(
+				calcEdgeServiceRef(), edgeManager(), ImmutableList.<MessageFactory>of(new CalcMessageFactory()));
+	}
 
-    @Bean(name = "calcEdgeManager")
-    public EdgeManager edgeManager() {
-        return new DefaultEdgeManager(calcEdgeServiceRef(), serviceRegistry);
-    }
+	@Bean(name = "calcEdgeManager")
+	public EdgeManager edgeManager() {
+		return new DefaultEdgeManager(calcEdgeServiceRef(), serviceRegistry);
+	}
 
-    @PostConstruct
-    public void registerService() {
-        serviceRegistry.registerService(calcEdgeService());
-        serviceRegistry.bindTransportToService(calcEdgeServiceRef(), calcEdgeTransport());
-    }
+	@PostConstruct
+	public void registerService() {
+		serviceRegistry.registerService(calcEdgeService());
+		serviceRegistry.bindTransportToService(calcEdgeServiceRef(), calcEdgeTransport());
+	}
 
 }

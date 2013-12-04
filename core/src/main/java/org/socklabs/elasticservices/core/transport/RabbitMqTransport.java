@@ -26,194 +26,185 @@ import java.util.List;
 
 public class RabbitMqTransport extends AbstractTransport {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqTransport.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqTransport.class);
 
-    private static final BaseEncoding B16 = BaseEncoding.base16();
+	private static final BaseEncoding B16 = BaseEncoding.base16();
 
-    private final Channel channel;
+	private final Channel channel;
 
-    private final List<TransportConsumer> consumers;
+	private final List<TransportConsumer> consumers;
 
-    private final String exchange;
+	private final String exchange;
 
-    private final String routingKey;
+	private final String routingKey;
 
-    private final String exchangeType;
+	private final String exchangeType;
 
-    public RabbitMqTransport(
-            final Connection connection,
-            final String exchange,
-            final String routingKey,
-            final String exchangeType,
-            final boolean forLocalServiceImpl
-    ) throws IOException {
+	public RabbitMqTransport(
+			final Connection connection,
+			final String exchange,
+			final String routingKey,
+			final String exchangeType,
+			final boolean forLocalServiceImpl) throws IOException {
 
-        this.exchange = exchange;
-        this.routingKey = routingKey;
-        this.exchangeType = exchangeType;
-        channel = connection.createChannel();
+		this.exchange = exchange;
+		this.routingKey = routingKey;
+		this.exchangeType = exchangeType;
+		channel = connection.createChannel();
 
-        consumers = Lists.newArrayList();
-        if (forLocalServiceImpl) {
-            final AMQP.Queue.DeclareOk queueDecl = channel.queueDeclare();
-            LOGGER.info("queue declared: {}", queueDecl);
+		consumers = Lists.newArrayList();
+		if (forLocalServiceImpl) {
+			final AMQP.Queue.DeclareOk queueDecl = channel.queueDeclare();
+			LOGGER.info("queue declared: {}", queueDecl);
 
-            final AMQP.Exchange.DeclareOk exchangeDeclOk = channel.exchangeDeclare(exchange,
-                    exchangeType,
-                    true,
-                    true,
-                    Maps.<String, Object>newHashMap());
-            LOGGER.info("exchange declared: {}", exchangeDeclOk);
+			final AMQP.Exchange.DeclareOk exchangeDeclOk = channel.exchangeDeclare(
+					exchange, exchangeType, true, true, Maps.<String, Object>newHashMap());
+			LOGGER.info("exchange declared: {}", exchangeDeclOk);
 
-            final AMQP.Queue.BindOk queueBindOk = channel.queueBind(queueDecl.getQueue(),
-                    exchange,
-                    "fanout".equals(exchangeType) ? "" : routingKey);
-            LOGGER.info("queue binding declared: {}", queueBindOk);
+			final AMQP.Queue.BindOk queueBindOk = channel.queueBind(
+					queueDecl.getQueue(), exchange, "fanout".equals(exchangeType) ? "" : routingKey);
+			LOGGER.info("queue binding declared: {}", queueBindOk);
 
-            final String consumerTag = channel.basicConsume(queueDecl.getQueue(),
-                    true,
-                    new FabricMessageConsumer(consumers));
-        }
-    }
+			final String consumerTag = channel.basicConsume(
+					queueDecl.getQueue(), true, new FabricMessageConsumer(consumers));
+			LOGGER.info("Received consumer tag {}", consumerTag);
+		}
+	}
 
-    @Override
-    public void send(final MessageController messageController, final AbstractMessage message) {
-        final ServiceProto.ContentType contentType = getContentType(messageController, message);
-        if (contentType == null) {
-            throw new RuntimeException("Could not get content type of message.");
-        }
-        try {
-            final byte[] messageBytes = rawMessageBytes(contentType, message);
-            final AMQP.BasicProperties basicProperties = buildBasicProperties(messageController,
-                    contentType);
-            channel.basicPublish(exchange,
-                    "fanout".equals(exchangeType) ? "" : routingKey,
-                    basicProperties,
-                    messageBytes);
-        } catch (final Exception e) {
-            // TODO[NKG]: Determine what should happen when a message can't be published.
-            LOGGER.error("Exception caught publishing message:", e);
-        }
-    }
+	@Override
+	public void send(final MessageController messageController, final AbstractMessage message) {
+		final ServiceProto.ContentType contentType = getContentType(messageController, message);
+		if (contentType == null) {
+			throw new RuntimeException("Could not get content type of message.");
+		}
+		try {
+			final byte[] messageBytes = rawMessageBytes(contentType, message);
+			final AMQP.BasicProperties basicProperties = buildBasicProperties(
+					messageController, contentType);
+			channel.basicPublish(
+					exchange, "fanout".equals(exchangeType) ? "" : routingKey, basicProperties, messageBytes);
+		} catch (final Exception e) {
+			// TODO[NKG]: Determine what should happen when a message can't be published.
+			LOGGER.error("Exception caught publishing message:", e);
+		}
+	}
 
-    @Override
-    public void addConsumer(final TransportConsumer consumer) {
-        consumers.add(consumer);
-    }
+	@Override
+	public void addConsumer(final TransportConsumer consumer) {
+		consumers.add(consumer);
+	}
 
-    @Override
-    public String getRef() {
-        return "rabbitmq://" + exchange + "/" + routingKey;
-    }
+	@Override
+	public String getRef() {
+		return "rabbitmq://" + exchange + "/" + routingKey;
+	}
 
-    private AMQP.BasicProperties buildBasicProperties(
-            final MessageController messageController, final ServiceProto.ContentType contentType
-    ) {
-        final AMQP.BasicProperties.Builder propertiesBuilder = new AMQP.BasicProperties.Builder();
-        propertiesBuilder.contentType(JsonFormat.printToString(contentType));
+	private AMQP.BasicProperties buildBasicProperties(
+			final MessageController messageController, final ServiceProto.ContentType contentType) {
+		final AMQP.BasicProperties.Builder propertiesBuilder = new AMQP.BasicProperties.Builder();
+		propertiesBuilder.contentType(JsonFormat.printToString(contentType));
 
-        final ServiceProto.ServiceRef serviceRef = messageController.getDestination();
-        propertiesBuilder.appId(JsonFormat.printToString(serviceRef));
+		final ServiceProto.ServiceRef serviceRef = messageController.getDestination();
+		propertiesBuilder.appId(JsonFormat.printToString(serviceRef));
 
-        final ServiceProto.ServiceRef senderServiceRef = messageController.getSender();
-        propertiesBuilder.replyTo(JsonFormat.printToString(senderServiceRef));
+		final ServiceProto.ServiceRef senderServiceRef = messageController.getSender();
+		propertiesBuilder.replyTo(JsonFormat.printToString(senderServiceRef));
 
-        final Optional<byte[]> optionalMessageId = messageController.getMessageId();
-        if (optionalMessageId.isPresent()) {
-            propertiesBuilder.messageId(B16.encode(optionalMessageId.get()));
-        }
+		final Optional<byte[]> optionalMessageId = messageController.getMessageId();
+		if (optionalMessageId.isPresent()) {
+			propertiesBuilder.messageId(B16.encode(optionalMessageId.get()));
+		}
 
-        final Optional<byte[]> optionalCorrelationId = messageController.getCorrelationId();
-        if (optionalCorrelationId.isPresent()) {
-            propertiesBuilder.correlationId(B16.encode(optionalCorrelationId.get()));
-        }
+		final Optional<byte[]> optionalCorrelationId = messageController.getCorrelationId();
+		if (optionalCorrelationId.isPresent()) {
+			propertiesBuilder.correlationId(B16.encode(optionalCorrelationId.get()));
+		}
 
-        return propertiesBuilder.build();
-    }
+		return propertiesBuilder.build();
+	}
 
-    private static class FabricMessageConsumer implements Consumer {
+	private static class FabricMessageConsumer implements Consumer {
 
-        private static final Logger log = LoggerFactory.getLogger(FabricMessageConsumer.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(FabricMessageConsumer.class);
 
-        private final List<TransportConsumer> transportConsumers;
+		private final List<TransportConsumer> transportConsumers;
 
-        private FabricMessageConsumer(final List<TransportConsumer> transportConsumers) {
-            this.transportConsumers = transportConsumers;
-        }
+		private FabricMessageConsumer(final List<TransportConsumer> transportConsumers) {
+			this.transportConsumers = transportConsumers;
+		}
 
-        @Override
-        public void handleConsumeOk(final String consumerTag) {
-        }
+		@Override
+		public void handleConsumeOk(final String consumerTag) {
+		}
 
-        @Override
-        public void handleCancelOk(final String consumerTag) {
-        }
+		@Override
+		public void handleCancelOk(final String consumerTag) {
+		}
 
-        @Override
-        public void handleCancel(final String consumerTag) throws IOException {
-        }
+		@Override
+		public void handleCancel(final String consumerTag) throws IOException {
+		}
 
-        @Override
-        public void handleShutdownSignal(
-                final String consumerTag, final ShutdownSignalException sig
-        ) {
-        }
+		@Override
+		public void handleShutdownSignal(
+				final String consumerTag, final ShutdownSignalException sig) {
+		}
 
-        @Override
-        public void handleRecoverOk(final String consumerTag) {
-        }
+		@Override
+		public void handleRecoverOk(final String consumerTag) {
+		}
 
-        @Override
-        public void handleDelivery(
-                final String consumerTag,
-                final Envelope envelope,
-                final AMQP.BasicProperties properties,
-                final byte[] body
-        ) throws IOException {
-            final MessageController messageController = buildMessageController(properties);
-            for (final TransportConsumer transportConsumer : transportConsumers) {
-                try {
-                    transportConsumer.handleMessage(messageController, body);
-                } catch (final Exception e) {
-                    log.error("Error giving message to transport consumer:", e);
-                }
-            }
-        }
+		@Override
+		public void handleDelivery(
+				final String consumerTag,
+				final Envelope envelope,
+				final AMQP.BasicProperties properties,
+				final byte[] body) throws IOException {
+			final MessageController messageController = buildMessageController(properties);
+			for (final TransportConsumer transportConsumer : transportConsumers) {
+				try {
+					transportConsumer.handleMessage(messageController, body);
+				} catch (final Exception e) {
+					LOGGER.error("Error giving message to transport consumer:", e);
+				}
+			}
+		}
 
-        private MessageController buildMessageController(final BasicProperties properties) {
-            final String rawContenType = properties.getContentType();
-            final Optional<Message> contentType = MessageUtils.fromJson(ServiceProto.ContentType
-                    .getDefaultInstance(), rawContenType);
+		private MessageController buildMessageController(final BasicProperties properties) {
+			final String rawContenType = properties.getContentType();
+			final Optional<Message> contentType = MessageUtils.fromJson(
+					ServiceProto.ContentType.getDefaultInstance(), rawContenType);
 
-            final String rawDestinationServiceRef = properties.getAppId();
-            final Optional<Message> destinationServiceRef = MessageUtils.fromJson(ServiceProto.ServiceRef
-                    .getDefaultInstance(), rawDestinationServiceRef);
+			final String rawDestinationServiceRef = properties.getAppId();
+			final Optional<Message> destinationServiceRef = MessageUtils.fromJson(
+					ServiceProto.ServiceRef.getDefaultInstance(), rawDestinationServiceRef);
 
-            final String rawSenderServiceRef = properties.getReplyTo();
-            final Optional<Message> senderServiceRef = MessageUtils.fromJson(ServiceProto.ServiceRef
-                    .getDefaultInstance(), rawSenderServiceRef);
+			final String rawSenderServiceRef = properties.getReplyTo();
+			final Optional<Message> senderServiceRef = MessageUtils.fromJson(
+					ServiceProto.ServiceRef.getDefaultInstance(), rawSenderServiceRef);
 
-            Optional<byte[]> optionalMessageId = Optional.absent();
-            Optional<byte[]> optionalCorrelationId = Optional.absent();
+			Optional<byte[]> optionalMessageId = Optional.absent();
+			Optional<byte[]> optionalCorrelationId = Optional.absent();
 
-            final String messageId = properties.getMessageId();
-            if (messageId != null && !messageId.isEmpty()) {
-                optionalMessageId = Optional.of(B16.decode(messageId));
-            }
+			final String messageId = properties.getMessageId();
+			if (messageId != null && !messageId.isEmpty()) {
+				optionalMessageId = Optional.of(B16.decode(messageId));
+			}
 
-            final String correlationId = properties.getCorrelationId();
-            if (correlationId != null && !correlationId.isEmpty()) {
-                optionalCorrelationId = Optional.of(B16.decode(correlationId));
-            }
+			final String correlationId = properties.getCorrelationId();
+			if (correlationId != null && !correlationId.isEmpty()) {
+				optionalCorrelationId = Optional.of(B16.decode(correlationId));
+			}
 
-            return new DefaultMessageController((ServiceProto.ServiceRef) senderServiceRef.get(),
-                    (ServiceProto.ServiceRef) destinationServiceRef.get(),
-                    (ServiceProto.ContentType) contentType.get(),
-                    optionalMessageId,
-                    optionalCorrelationId);
-        }
+			return new DefaultMessageController(
+					(ServiceProto.ServiceRef) senderServiceRef.get(),
+					(ServiceProto.ServiceRef) destinationServiceRef.get(),
+					(ServiceProto.ContentType) contentType.get(),
+					optionalMessageId,
+					optionalCorrelationId);
+		}
 
-    }
+	}
 
 }
 

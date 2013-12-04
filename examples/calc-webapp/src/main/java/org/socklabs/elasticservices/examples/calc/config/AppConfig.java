@@ -10,18 +10,16 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-@Configuration
-@EnableWebMvc
-@Import({
-        PropertiesConfig.class,
-        CalcPropertiesConfig.class,
-        CalcWebappPropertiesConfig.class,
-        RabbitMqConfig.class,
-        WorkConfig.class,
-        ServiceConfig.class,
-        GossipServiceConfig.class,
-        EdgeConfig.class,
-        BeanConfig.class})
+@Configuration @EnableWebMvc @Import({
+											 PropertiesConfig.class,
+											 CalcPropertiesConfig.class,
+											 CalcWebappPropertiesConfig.class,
+											 RabbitMqConfig.class,
+											 WorkConfig.class,
+											 ServiceConfig.class,
+											 GossipServiceConfig.class,
+											 EdgeConfig.class,
+											 BeanConfig.class})
 public class AppConfig {
 
 }

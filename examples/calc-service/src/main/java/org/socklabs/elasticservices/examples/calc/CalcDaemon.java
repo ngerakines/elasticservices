@@ -12,24 +12,23 @@ import org.socklabs.elasticservices.gossip.GossipServiceConfig;
 
 public class CalcDaemon extends AbstractDaemon {
 
-    public static void main(final String[] argv) throws Exception {
-        final DaemonContext daemonContext = new SimpleDaemonContext(argv);
-        final CalcDaemon pspDirector = new CalcDaemon();
-        pspDirector.init(daemonContext);
-        pspDirector.start();
-    }
+	public static void main(final String[] argv) throws Exception {
+		final DaemonContext daemonContext = new SimpleDaemonContext(argv);
+		final CalcDaemon pspDirector = new CalcDaemon();
+		pspDirector.init(daemonContext);
+		pspDirector.start();
+	}
 
-    @Override
-    protected Class[] modules() {
-        return new Class[]{
-                PropertiesConfig.class,
-                CalcPropertiesConfig.class,
-                RabbitMqConfig.class,
-                ServiceConfig.class,
-                WorkConfig.class,
-                GossipServiceConfig.class,
-                CalcServiceConfig.class
-        };
-    }
+	@Override
+	protected Class[] modules() {
+		return new Class[]{
+				PropertiesConfig.class,
+				CalcPropertiesConfig.class,
+				RabbitMqConfig.class,
+				ServiceConfig.class,
+				WorkConfig.class,
+				GossipServiceConfig.class,
+				CalcServiceConfig.class};
+	}
 
 }

@@ -9,8 +9,9 @@ import java.util.concurrent.Future;
 
 public interface EdgeManager {
 
-    Future<Message> execute(final ServiceProto.ServiceRef destination, final AbstractMessage message, final Class messageClass);
+	Future<Message> execute(
+			final ServiceProto.ServiceRef destination, final AbstractMessage message, final Class messageClass);
 
-    void handleMessage(MessageController controller, Message message);
+	void handleMessage(MessageController controller, Message message);
 
 }

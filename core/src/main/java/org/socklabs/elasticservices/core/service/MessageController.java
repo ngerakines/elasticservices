@@ -8,14 +8,14 @@ import org.socklabs.elasticservices.core.ServiceProto;
  */
 public interface MessageController {
 
-    ServiceProto.ServiceRef getDestination();
+	ServiceProto.ServiceRef getDestination();
 
-    ServiceProto.ServiceRef getSender();
+	ServiceProto.ServiceRef getSender();
 
-    ServiceProto.ContentType getContentType();
+	ServiceProto.ContentType getContentType();
 
-    Optional<byte[]> getMessageId();
+	Optional<byte[]> getMessageId();
 
-    Optional<byte[]> getCorrelationId();
+	Optional<byte[]> getCorrelationId();
 
 }

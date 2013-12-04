@@ -2,52 +2,52 @@ package org.socklabs.elasticservices.core.collection;
 
 public class Pair<A, B> {
 
-    private final A a;
+	private final A a;
 
-    private final B b;
+	private final B b;
 
-    public static <A, B> Pair<A, B> create(final A a, final B b) {
-        return new Pair<>(a, b);
-    }
+	public static <A, B> Pair<A, B> create(final A a, final B b) {
+		return new Pair<>(a, b);
+	}
 
-    public Pair(final A a, final B b) {
-        this.a = a;
-        this.b = b;
-    }
+	public Pair(final A a, final B b) {
+		this.a = a;
+		this.b = b;
+	}
 
-    public A getA() {
-        return a;
-    }
+	public A getA() {
+		return a;
+	}
 
-    public B getB() {
-        return b;
-    }
+	public B getB() {
+		return b;
+	}
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Pair)) {
-            return false;
-        }
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (!(o instanceof Pair)) {
+			return false;
+		}
 
-        final Pair pair = (Pair) o;
+		final Pair pair = (Pair) o;
 
-        if (!a.equals(pair.a)) {
-            return false;
-        }
-        if (!b.equals(pair.b)) {
-            return false;
-        }
+		if (!a.equals(pair.a)) {
+			return false;
+		}
+		if (!b.equals(pair.b)) {
+			return false;
+		}
 
-        return true;
-    }
+		return true;
+	}
 
-    @Override
-    public int hashCode() {
-        int result = a.hashCode();
-        result = 31 * result + b.hashCode();
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		int result = a.hashCode();
+		result = 31 * result + b.hashCode();
+		return result;
+	}
 }

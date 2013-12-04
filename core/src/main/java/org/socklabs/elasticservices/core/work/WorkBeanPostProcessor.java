@@ -11,24 +11,24 @@ will add it to the default work supervisor.
  */
 public class WorkBeanPostProcessor implements BeanPostProcessor {
 
-    private final WorkSupervisor workSupervisor;
+	private final WorkSupervisor workSupervisor;
 
-    public WorkBeanPostProcessor(final WorkSupervisor workSupervisor) {
-        this.workSupervisor = workSupervisor;
-    }
+	public WorkBeanPostProcessor(final WorkSupervisor workSupervisor) {
+		this.workSupervisor = workSupervisor;
+	}
 
-    @Override
-    public Object postProcessBeforeInitialization(final Object bean, final String name) throws BeansException {
-        return bean;
-    }
+	@Override
+	public Object postProcessBeforeInitialization(final Object bean, final String name) throws BeansException {
+		return bean;
+	}
 
-    @Override
-    public Object postProcessAfterInitialization(final Object bean, final String name) throws BeansException {
-        if (bean instanceof Work) {
-            final Work work = (Work) bean;
-            workSupervisor.addWork(work);
-        }
-        return bean;
-    }
+	@Override
+	public Object postProcessAfterInitialization(final Object bean, final String name) throws BeansException {
+		if (bean instanceof Work) {
+			final Work work = (Work) bean;
+			workSupervisor.addWork(work);
+		}
+		return bean;
+	}
 
 }

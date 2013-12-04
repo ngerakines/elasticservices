@@ -4,2001 +4,2169 @@
 package org.socklabs.elasticservices.gossip;
 
 public final class GossipServiceProto {
-  private GossipServiceProto() {}
-  public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistry registry) {
-  }
-  public interface ComponentServiceOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-    
-    // optional .org.socklabs.elasticservices.core.ServiceRef service_ref = 1;
-    boolean hasServiceRef();
-    org.socklabs.elasticservices.core.ServiceProto.ServiceRef getServiceRef();
-    org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder getServiceRefOrBuilder();
-    
-    // optional string transport_url = 2;
-    boolean hasTransportUrl();
-    String getTransportUrl();
-  }
-  public static final class ComponentService extends
-      com.google.protobuf.GeneratedMessage
-      implements ComponentServiceOrBuilder {
-    // Use ComponentService.newBuilder() to construct.
-    private ComponentService(Builder builder) {
-      super(builder);
-    }
-    private ComponentService(boolean noInit) {}
-    
-    private static final ComponentService defaultInstance;
-    public static ComponentService getDefaultInstance() {
-      return defaultInstance;
-    }
-    
-    public ComponentService getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-    
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor;
-    }
-    
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable;
-    }
-    
-    private int bitField0_;
-    // optional .org.socklabs.elasticservices.core.ServiceRef service_ref = 1;
-    public static final int SERVICE_REF_FIELD_NUMBER = 1;
-    private org.socklabs.elasticservices.core.ServiceProto.ServiceRef serviceRef_;
-    public boolean hasServiceRef() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    public org.socklabs.elasticservices.core.ServiceProto.ServiceRef getServiceRef() {
-      return serviceRef_;
-    }
-    public org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder getServiceRefOrBuilder() {
-      return serviceRef_;
-    }
-    
-    // optional string transport_url = 2;
-    public static final int TRANSPORT_URL_FIELD_NUMBER = 2;
-    private java.lang.Object transportUrl_;
-    public boolean hasTransportUrl() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    public String getTransportUrl() {
-      java.lang.Object ref = transportUrl_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
-          transportUrl_ = s;
-        }
-        return s;
-      }
-    }
-    private com.google.protobuf.ByteString getTransportUrlBytes() {
-      java.lang.Object ref = transportUrl_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
-        transportUrl_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    
-    private void initFields() {
-      serviceRef_ = org.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
-      transportUrl_ = "";
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-      
-      memoizedIsInitialized = 1;
-      return true;
-    }
-    
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(1, serviceRef_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getTransportUrlBytes());
-      }
-      getUnknownFields().writeTo(output);
-    }
-    
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-    
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, serviceRef_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getTransportUrlBytes());
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-    
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-    
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      Builder builder = newBuilder();
-      if (builder.mergeDelimitedFrom(input)) {
-        return builder.buildParsed();
-      } else {
-        return null;
-      }
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      Builder builder = newBuilder();
-      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
-        return builder.buildParsed();
-      } else {
-        return null;
-      }
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input, extensionRegistry)
-               .buildParsed();
-    }
-    
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-    
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor;
-      }
-      
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable;
-      }
-      
-      // Construct using org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-      
-      private Builder(BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getServiceRefFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-      
-      public Builder clear() {
-        super.clear();
-        if (serviceRefBuilder_ == null) {
-          serviceRef_ = org.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
-        } else {
-          serviceRefBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        transportUrl_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-      
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-      
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDescriptor();
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getDefaultInstanceForType() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance();
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService build() {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-      
-      private org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService buildParsed()
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(
-            result).asInvalidProtocolBufferException();
-        }
-        return result;
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService buildPartial() {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService result = new org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        if (serviceRefBuilder_ == null) {
-          result.serviceRef_ = serviceRef_;
-        } else {
-          result.serviceRef_ = serviceRefBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.transportUrl_ = transportUrl_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-      
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService) {
-          return mergeFrom((org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-      
-      public Builder mergeFrom(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService other) {
-        if (other == org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance()) return this;
-        if (other.hasServiceRef()) {
-          mergeServiceRef(other.getServiceRef());
-        }
-        if (other.hasTransportUrl()) {
-          setTransportUrl(other.getTransportUrl());
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-      
-      public final boolean isInitialized() {
-        return true;
-      }
-      
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder(
-            this.getUnknownFields());
-        while (true) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              this.setUnknownFields(unknownFields.build());
-              onChanged();
-              return this;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                this.setUnknownFields(unknownFields.build());
-                onChanged();
-                return this;
-              }
-              break;
-            }
-            case 10: {
-              org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder subBuilder = org.socklabs.elasticservices.core.ServiceProto.ServiceRef.newBuilder();
-              if (hasServiceRef()) {
-                subBuilder.mergeFrom(getServiceRef());
-              }
-              input.readMessage(subBuilder, extensionRegistry);
-              setServiceRef(subBuilder.buildPartial());
-              break;
-            }
-            case 18: {
-              bitField0_ |= 0x00000002;
-              transportUrl_ = input.readBytes();
-              break;
-            }
-          }
-        }
-      }
-      
-      private int bitField0_;
-      
-      // optional .org.socklabs.elasticservices.core.ServiceRef service_ref = 1;
-      private org.socklabs.elasticservices.core.ServiceProto.ServiceRef serviceRef_ = org.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          org.socklabs.elasticservices.core.ServiceProto.ServiceRef, org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder> serviceRefBuilder_;
-      public boolean hasServiceRef() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ServiceRef getServiceRef() {
-        if (serviceRefBuilder_ == null) {
-          return serviceRef_;
-        } else {
-          return serviceRefBuilder_.getMessage();
-        }
-      }
-      public Builder setServiceRef(org.socklabs.elasticservices.core.ServiceProto.ServiceRef value) {
-        if (serviceRefBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          serviceRef_ = value;
-          onChanged();
-        } else {
-          serviceRefBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder setServiceRef(
-          org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder builderForValue) {
-        if (serviceRefBuilder_ == null) {
-          serviceRef_ = builderForValue.build();
-          onChanged();
-        } else {
-          serviceRefBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder mergeServiceRef(org.socklabs.elasticservices.core.ServiceProto.ServiceRef value) {
-        if (serviceRefBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              serviceRef_ != org.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance()) {
-            serviceRef_ =
-              org.socklabs.elasticservices.core.ServiceProto.ServiceRef.newBuilder(serviceRef_).mergeFrom(value).buildPartial();
-          } else {
-            serviceRef_ = value;
-          }
-          onChanged();
-        } else {
-          serviceRefBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder clearServiceRef() {
-        if (serviceRefBuilder_ == null) {
-          serviceRef_ = org.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
-          onChanged();
-        } else {
-          serviceRefBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder getServiceRefBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getServiceRefFieldBuilder().getBuilder();
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder getServiceRefOrBuilder() {
-        if (serviceRefBuilder_ != null) {
-          return serviceRefBuilder_.getMessageOrBuilder();
-        } else {
-          return serviceRef_;
-        }
-      }
-      private com.google.protobuf.SingleFieldBuilder<
-          org.socklabs.elasticservices.core.ServiceProto.ServiceRef, org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder> 
-          getServiceRefFieldBuilder() {
-        if (serviceRefBuilder_ == null) {
-          serviceRefBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              org.socklabs.elasticservices.core.ServiceProto.ServiceRef, org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder>(
-                  serviceRef_,
-                  getParentForChildren(),
-                  isClean());
-          serviceRef_ = null;
-        }
-        return serviceRefBuilder_;
-      }
-      
-      // optional string transport_url = 2;
-      private java.lang.Object transportUrl_ = "";
-      public boolean hasTransportUrl() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      public String getTransportUrl() {
-        java.lang.Object ref = transportUrl_;
-        if (!(ref instanceof String)) {
-          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
-          transportUrl_ = s;
-          return s;
-        } else {
-          return (String) ref;
-        }
-      }
-      public Builder setTransportUrl(String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        transportUrl_ = value;
-        onChanged();
-        return this;
-      }
-      public Builder clearTransportUrl() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        transportUrl_ = getDefaultInstance().getTransportUrl();
-        onChanged();
-        return this;
-      }
-      void setTransportUrl(com.google.protobuf.ByteString value) {
-        bitField0_ |= 0x00000002;
-        transportUrl_ = value;
-        onChanged();
-      }
-      
-      // @@protoc_insertion_point(builder_scope:org.socklabs.elasticservices.gossip.ComponentService)
-    }
-    
-    static {
-      defaultInstance = new ComponentService(true);
-      defaultInstance.initFields();
-    }
-    
-    // @@protoc_insertion_point(class_scope:org.socklabs.elasticservices.gossip.ComponentService)
-  }
-  
-  public interface ComponentOnlineOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-    
-    // optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
-    boolean hasComponentRef();
-    org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef();
-    org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder();
-    
-    // repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
-    java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> 
-        getServicesList();
-    org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index);
-    int getServicesCount();
-    java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> 
-        getServicesOrBuilderList();
-    org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
-        int index);
-  }
-  public static final class ComponentOnline extends
-      com.google.protobuf.GeneratedMessage
-      implements ComponentOnlineOrBuilder {
-    // Use ComponentOnline.newBuilder() to construct.
-    private ComponentOnline(Builder builder) {
-      super(builder);
-    }
-    private ComponentOnline(boolean noInit) {}
-    
-    private static final ComponentOnline defaultInstance;
-    public static ComponentOnline getDefaultInstance() {
-      return defaultInstance;
-    }
-    
-    public ComponentOnline getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-    
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor;
-    }
-    
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_fieldAccessorTable;
-    }
-    
-    private int bitField0_;
-    // optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
-    public static final int COMPONENT_REF_FIELD_NUMBER = 1;
-    private org.socklabs.elasticservices.core.ServiceProto.ComponentRef componentRef_;
-    public boolean hasComponentRef() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    public org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef() {
-      return componentRef_;
-    }
-    public org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder() {
-      return componentRef_;
-    }
-    
-    // repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
-    public static final int SERVICES_FIELD_NUMBER = 2;
-    private java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> services_;
-    public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList() {
-      return services_;
-    }
-    public java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> 
-        getServicesOrBuilderList() {
-      return services_;
-    }
-    public int getServicesCount() {
-      return services_.size();
-    }
-    public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index) {
-      return services_.get(index);
-    }
-    public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
-        int index) {
-      return services_.get(index);
-    }
-    
-    private void initFields() {
-      componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
-      services_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-      
-      memoizedIsInitialized = 1;
-      return true;
-    }
-    
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(1, componentRef_);
-      }
-      for (int i = 0; i < services_.size(); i++) {
-        output.writeMessage(2, services_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-    
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-    
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, componentRef_);
-      }
-      for (int i = 0; i < services_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, services_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-    
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-    
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      Builder builder = newBuilder();
-      if (builder.mergeDelimitedFrom(input)) {
-        return builder.buildParsed();
-      } else {
-        return null;
-      }
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      Builder builder = newBuilder();
-      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
-        return builder.buildParsed();
-      } else {
-        return null;
-      }
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input, extensionRegistry)
-               .buildParsed();
-    }
-    
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-    
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnlineOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor;
-      }
-      
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_fieldAccessorTable;
-      }
-      
-      // Construct using org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-      
-      private Builder(BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getComponentRefFieldBuilder();
-          getServicesFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-      
-      public Builder clear() {
-        super.clear();
-        if (componentRefBuilder_ == null) {
-          componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
-        } else {
-          componentRefBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (servicesBuilder_ == null) {
-          services_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          servicesBuilder_.clear();
-        }
-        return this;
-      }
-      
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-      
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.getDescriptor();
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline getDefaultInstanceForType() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.getDefaultInstance();
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline build() {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-      
-      private org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline buildParsed()
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(
-            result).asInvalidProtocolBufferException();
-        }
-        return result;
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline buildPartial() {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline result = new org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        if (componentRefBuilder_ == null) {
-          result.componentRef_ = componentRef_;
-        } else {
-          result.componentRef_ = componentRefBuilder_.build();
-        }
-        if (servicesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            services_ = java.util.Collections.unmodifiableList(services_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.services_ = services_;
-        } else {
-          result.services_ = servicesBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-      
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline) {
-          return mergeFrom((org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-      
-      public Builder mergeFrom(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline other) {
-        if (other == org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.getDefaultInstance()) return this;
-        if (other.hasComponentRef()) {
-          mergeComponentRef(other.getComponentRef());
-        }
-        if (servicesBuilder_ == null) {
-          if (!other.services_.isEmpty()) {
-            if (services_.isEmpty()) {
-              services_ = other.services_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureServicesIsMutable();
-              services_.addAll(other.services_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.services_.isEmpty()) {
-            if (servicesBuilder_.isEmpty()) {
-              servicesBuilder_.dispose();
-              servicesBuilder_ = null;
-              services_ = other.services_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              servicesBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getServicesFieldBuilder() : null;
-            } else {
-              servicesBuilder_.addAllMessages(other.services_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-      
-      public final boolean isInitialized() {
-        return true;
-      }
-      
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder(
-            this.getUnknownFields());
-        while (true) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              this.setUnknownFields(unknownFields.build());
-              onChanged();
-              return this;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                this.setUnknownFields(unknownFields.build());
-                onChanged();
-                return this;
-              }
-              break;
-            }
-            case 10: {
-              org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder subBuilder = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.newBuilder();
-              if (hasComponentRef()) {
-                subBuilder.mergeFrom(getComponentRef());
-              }
-              input.readMessage(subBuilder, extensionRegistry);
-              setComponentRef(subBuilder.buildPartial());
-              break;
-            }
-            case 18: {
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder subBuilder = org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.newBuilder();
-              input.readMessage(subBuilder, extensionRegistry);
-              addServices(subBuilder.buildPartial());
-              break;
-            }
-          }
-        }
-      }
-      
-      private int bitField0_;
-      
-      // optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
-      private org.socklabs.elasticservices.core.ServiceProto.ComponentRef componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder> componentRefBuilder_;
-      public boolean hasComponentRef() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef() {
-        if (componentRefBuilder_ == null) {
-          return componentRef_;
-        } else {
-          return componentRefBuilder_.getMessage();
-        }
-      }
-      public Builder setComponentRef(org.socklabs.elasticservices.core.ServiceProto.ComponentRef value) {
-        if (componentRefBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          componentRef_ = value;
-          onChanged();
-        } else {
-          componentRefBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder setComponentRef(
-          org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder builderForValue) {
-        if (componentRefBuilder_ == null) {
-          componentRef_ = builderForValue.build();
-          onChanged();
-        } else {
-          componentRefBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder mergeComponentRef(org.socklabs.elasticservices.core.ServiceProto.ComponentRef value) {
-        if (componentRefBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              componentRef_ != org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance()) {
-            componentRef_ =
-              org.socklabs.elasticservices.core.ServiceProto.ComponentRef.newBuilder(componentRef_).mergeFrom(value).buildPartial();
-          } else {
-            componentRef_ = value;
-          }
-          onChanged();
-        } else {
-          componentRefBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder clearComponentRef() {
-        if (componentRefBuilder_ == null) {
-          componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
-          onChanged();
-        } else {
-          componentRefBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder getComponentRefBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getComponentRefFieldBuilder().getBuilder();
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder() {
-        if (componentRefBuilder_ != null) {
-          return componentRefBuilder_.getMessageOrBuilder();
-        } else {
-          return componentRef_;
-        }
-      }
-      private com.google.protobuf.SingleFieldBuilder<
-          org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder> 
-          getComponentRefFieldBuilder() {
-        if (componentRefBuilder_ == null) {
-          componentRefBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder>(
-                  componentRef_,
-                  getParentForChildren(),
-                  isClean());
-          componentRef_ = null;
-        }
-        return componentRefBuilder_;
-      }
-      
-      // repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
-      private java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> services_ =
-        java.util.Collections.emptyList();
-      private void ensureServicesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          services_ = new java.util.ArrayList<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService>(services_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-      
-      private com.google.protobuf.RepeatedFieldBuilder<
-          org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> servicesBuilder_;
-      
-      public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList() {
-        if (servicesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(services_);
-        } else {
-          return servicesBuilder_.getMessageList();
-        }
-      }
-      public int getServicesCount() {
-        if (servicesBuilder_ == null) {
-          return services_.size();
-        } else {
-          return servicesBuilder_.getCount();
-        }
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index) {
-        if (servicesBuilder_ == null) {
-          return services_.get(index);
-        } else {
-          return servicesBuilder_.getMessage(index);
-        }
-      }
-      public Builder setServices(
-          int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
-        if (servicesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureServicesIsMutable();
-          services_.set(index, value);
-          onChanged();
-        } else {
-          servicesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      public Builder setServices(
-          int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          services_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          servicesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      public Builder addServices(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
-        if (servicesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureServicesIsMutable();
-          services_.add(value);
-          onChanged();
-        } else {
-          servicesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      public Builder addServices(
-          int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
-        if (servicesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureServicesIsMutable();
-          services_.add(index, value);
-          onChanged();
-        } else {
-          servicesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      public Builder addServices(
-          org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          services_.add(builderForValue.build());
-          onChanged();
-        } else {
-          servicesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      public Builder addServices(
-          int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          services_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          servicesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      public Builder addAllServices(
-          java.lang.Iterable<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> values) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          super.addAll(values, services_);
-          onChanged();
-        } else {
-          servicesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      public Builder clearServices() {
-        if (servicesBuilder_ == null) {
-          services_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          servicesBuilder_.clear();
-        }
-        return this;
-      }
-      public Builder removeServices(int index) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          services_.remove(index);
-          onChanged();
-        } else {
-          servicesBuilder_.remove(index);
-        }
-        return this;
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder getServicesBuilder(
-          int index) {
-        return getServicesFieldBuilder().getBuilder(index);
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
-          int index) {
-        if (servicesBuilder_ == null) {
-          return services_.get(index);  } else {
-          return servicesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      public java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> 
-           getServicesOrBuilderList() {
-        if (servicesBuilder_ != null) {
-          return servicesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(services_);
-        }
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder addServicesBuilder() {
-        return getServicesFieldBuilder().addBuilder(
-            org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance());
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder addServicesBuilder(
-          int index) {
-        return getServicesFieldBuilder().addBuilder(
-            index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance());
-      }
-      public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder> 
-           getServicesBuilderList() {
-        return getServicesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> 
-          getServicesFieldBuilder() {
-        if (servicesBuilder_ == null) {
-          servicesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder>(
-                  services_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
-                  getParentForChildren(),
-                  isClean());
-          services_ = null;
-        }
-        return servicesBuilder_;
-      }
-      
-      // @@protoc_insertion_point(builder_scope:org.socklabs.elasticservices.gossip.ComponentOnline)
-    }
-    
-    static {
-      defaultInstance = new ComponentOnline(true);
-      defaultInstance.initFields();
-    }
-    
-    // @@protoc_insertion_point(class_scope:org.socklabs.elasticservices.gossip.ComponentOnline)
-  }
-  
-  public interface ComponentStatusOrBuilder
-      extends com.google.protobuf.MessageOrBuilder {
-    
-    // optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
-    boolean hasComponentRef();
-    org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef();
-    org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder();
-    
-    // repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
-    java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> 
-        getServicesList();
-    org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index);
-    int getServicesCount();
-    java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> 
-        getServicesOrBuilderList();
-    org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
-        int index);
-  }
-  public static final class ComponentStatus extends
-      com.google.protobuf.GeneratedMessage
-      implements ComponentStatusOrBuilder {
-    // Use ComponentStatus.newBuilder() to construct.
-    private ComponentStatus(Builder builder) {
-      super(builder);
-    }
-    private ComponentStatus(boolean noInit) {}
-    
-    private static final ComponentStatus defaultInstance;
-    public static ComponentStatus getDefaultInstance() {
-      return defaultInstance;
-    }
-    
-    public ComponentStatus getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-    
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor;
-    }
-    
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_fieldAccessorTable;
-    }
-    
-    private int bitField0_;
-    // optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
-    public static final int COMPONENT_REF_FIELD_NUMBER = 1;
-    private org.socklabs.elasticservices.core.ServiceProto.ComponentRef componentRef_;
-    public boolean hasComponentRef() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    public org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef() {
-      return componentRef_;
-    }
-    public org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder() {
-      return componentRef_;
-    }
-    
-    // repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
-    public static final int SERVICES_FIELD_NUMBER = 2;
-    private java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> services_;
-    public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList() {
-      return services_;
-    }
-    public java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> 
-        getServicesOrBuilderList() {
-      return services_;
-    }
-    public int getServicesCount() {
-      return services_.size();
-    }
-    public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index) {
-      return services_.get(index);
-    }
-    public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
-        int index) {
-      return services_.get(index);
-    }
-    
-    private void initFields() {
-      componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
-      services_ = java.util.Collections.emptyList();
-    }
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized != -1) return isInitialized == 1;
-      
-      memoizedIsInitialized = 1;
-      return true;
-    }
-    
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      getSerializedSize();
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(1, componentRef_);
-      }
-      for (int i = 0; i < services_.size(); i++) {
-        output.writeMessage(2, services_.get(i));
-      }
-      getUnknownFields().writeTo(output);
-    }
-    
-    private int memoizedSerializedSize = -1;
-    public int getSerializedSize() {
-      int size = memoizedSerializedSize;
-      if (size != -1) return size;
-    
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, componentRef_);
-      }
-      for (int i = 0; i < services_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, services_.get(i));
-      }
-      size += getUnknownFields().getSerializedSize();
-      memoizedSerializedSize = size;
-      return size;
-    }
-    
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-    
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return newBuilder().mergeFrom(data, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input, extensionRegistry)
-               .buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      Builder builder = newBuilder();
-      if (builder.mergeDelimitedFrom(input)) {
-        return builder.buildParsed();
-      } else {
-        return null;
-      }
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      Builder builder = newBuilder();
-      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
-        return builder.buildParsed();
-      } else {
-        return null;
-      }
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input).buildParsed();
-    }
-    public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return newBuilder().mergeFrom(input, extensionRegistry)
-               .buildParsed();
-    }
-    
-    public static Builder newBuilder() { return Builder.create(); }
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus prototype) {
-      return newBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() { return newBuilder(this); }
-    
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatusOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor;
-      }
-      
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_fieldAccessorTable;
-      }
-      
-      // Construct using org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-      
-      private Builder(BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
-          getComponentRefFieldBuilder();
-          getServicesFieldBuilder();
-        }
-      }
-      private static Builder create() {
-        return new Builder();
-      }
-      
-      public Builder clear() {
-        super.clear();
-        if (componentRefBuilder_ == null) {
-          componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
-        } else {
-          componentRefBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        if (servicesBuilder_ == null) {
-          services_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-        } else {
-          servicesBuilder_.clear();
-        }
-        return this;
-      }
-      
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
-      }
-      
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.getDescriptor();
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus getDefaultInstanceForType() {
-        return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.getDefaultInstance();
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus build() {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-      
-      private org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus buildParsed()
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(
-            result).asInvalidProtocolBufferException();
-        }
-        return result;
-      }
-      
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus buildPartial() {
-        org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus result = new org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        if (componentRefBuilder_ == null) {
-          result.componentRef_ = componentRef_;
-        } else {
-          result.componentRef_ = componentRefBuilder_.build();
-        }
-        if (servicesBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002)) {
-            services_ = java.util.Collections.unmodifiableList(services_);
-            bitField0_ = (bitField0_ & ~0x00000002);
-          }
-          result.services_ = services_;
-        } else {
-          result.services_ = servicesBuilder_.build();
-        }
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-      
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus) {
-          return mergeFrom((org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-      
-      public Builder mergeFrom(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus other) {
-        if (other == org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.getDefaultInstance()) return this;
-        if (other.hasComponentRef()) {
-          mergeComponentRef(other.getComponentRef());
-        }
-        if (servicesBuilder_ == null) {
-          if (!other.services_.isEmpty()) {
-            if (services_.isEmpty()) {
-              services_ = other.services_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-            } else {
-              ensureServicesIsMutable();
-              services_.addAll(other.services_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.services_.isEmpty()) {
-            if (servicesBuilder_.isEmpty()) {
-              servicesBuilder_.dispose();
-              servicesBuilder_ = null;
-              services_ = other.services_;
-              bitField0_ = (bitField0_ & ~0x00000002);
-              servicesBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
-                   getServicesFieldBuilder() : null;
-            } else {
-              servicesBuilder_.addAllMessages(other.services_);
-            }
-          }
-        }
-        this.mergeUnknownFields(other.getUnknownFields());
-        return this;
-      }
-      
-      public final boolean isInitialized() {
-        return true;
-      }
-      
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder(
-            this.getUnknownFields());
-        while (true) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              this.setUnknownFields(unknownFields.build());
-              onChanged();
-              return this;
-            default: {
-              if (!parseUnknownField(input, unknownFields,
-                                     extensionRegistry, tag)) {
-                this.setUnknownFields(unknownFields.build());
-                onChanged();
-                return this;
-              }
-              break;
-            }
-            case 10: {
-              org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder subBuilder = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.newBuilder();
-              if (hasComponentRef()) {
-                subBuilder.mergeFrom(getComponentRef());
-              }
-              input.readMessage(subBuilder, extensionRegistry);
-              setComponentRef(subBuilder.buildPartial());
-              break;
-            }
-            case 18: {
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder subBuilder = org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.newBuilder();
-              input.readMessage(subBuilder, extensionRegistry);
-              addServices(subBuilder.buildPartial());
-              break;
-            }
-          }
-        }
-      }
-      
-      private int bitField0_;
-      
-      // optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
-      private org.socklabs.elasticservices.core.ServiceProto.ComponentRef componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
-      private com.google.protobuf.SingleFieldBuilder<
-          org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder> componentRefBuilder_;
-      public boolean hasComponentRef() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef() {
-        if (componentRefBuilder_ == null) {
-          return componentRef_;
-        } else {
-          return componentRefBuilder_.getMessage();
-        }
-      }
-      public Builder setComponentRef(org.socklabs.elasticservices.core.ServiceProto.ComponentRef value) {
-        if (componentRefBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          componentRef_ = value;
-          onChanged();
-        } else {
-          componentRefBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder setComponentRef(
-          org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder builderForValue) {
-        if (componentRefBuilder_ == null) {
-          componentRef_ = builderForValue.build();
-          onChanged();
-        } else {
-          componentRefBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder mergeComponentRef(org.socklabs.elasticservices.core.ServiceProto.ComponentRef value) {
-        if (componentRefBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              componentRef_ != org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance()) {
-            componentRef_ =
-              org.socklabs.elasticservices.core.ServiceProto.ComponentRef.newBuilder(componentRef_).mergeFrom(value).buildPartial();
-          } else {
-            componentRef_ = value;
-          }
-          onChanged();
-        } else {
-          componentRefBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      public Builder clearComponentRef() {
-        if (componentRefBuilder_ == null) {
-          componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
-          onChanged();
-        } else {
-          componentRefBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder getComponentRefBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getComponentRefFieldBuilder().getBuilder();
-      }
-      public org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder() {
-        if (componentRefBuilder_ != null) {
-          return componentRefBuilder_.getMessageOrBuilder();
-        } else {
-          return componentRef_;
-        }
-      }
-      private com.google.protobuf.SingleFieldBuilder<
-          org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder> 
-          getComponentRefFieldBuilder() {
-        if (componentRefBuilder_ == null) {
-          componentRefBuilder_ = new com.google.protobuf.SingleFieldBuilder<
-              org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder>(
-                  componentRef_,
-                  getParentForChildren(),
-                  isClean());
-          componentRef_ = null;
-        }
-        return componentRefBuilder_;
-      }
-      
-      // repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
-      private java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> services_ =
-        java.util.Collections.emptyList();
-      private void ensureServicesIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          services_ = new java.util.ArrayList<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService>(services_);
-          bitField0_ |= 0x00000002;
-         }
-      }
-      
-      private com.google.protobuf.RepeatedFieldBuilder<
-          org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> servicesBuilder_;
-      
-      public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList() {
-        if (servicesBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(services_);
-        } else {
-          return servicesBuilder_.getMessageList();
-        }
-      }
-      public int getServicesCount() {
-        if (servicesBuilder_ == null) {
-          return services_.size();
-        } else {
-          return servicesBuilder_.getCount();
-        }
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index) {
-        if (servicesBuilder_ == null) {
-          return services_.get(index);
-        } else {
-          return servicesBuilder_.getMessage(index);
-        }
-      }
-      public Builder setServices(
-          int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
-        if (servicesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureServicesIsMutable();
-          services_.set(index, value);
-          onChanged();
-        } else {
-          servicesBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      public Builder setServices(
-          int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          services_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          servicesBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      public Builder addServices(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
-        if (servicesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureServicesIsMutable();
-          services_.add(value);
-          onChanged();
-        } else {
-          servicesBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      public Builder addServices(
-          int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
-        if (servicesBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureServicesIsMutable();
-          services_.add(index, value);
-          onChanged();
-        } else {
-          servicesBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      public Builder addServices(
-          org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          services_.add(builderForValue.build());
-          onChanged();
-        } else {
-          servicesBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      public Builder addServices(
-          int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          services_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          servicesBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      public Builder addAllServices(
-          java.lang.Iterable<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> values) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          super.addAll(values, services_);
-          onChanged();
-        } else {
-          servicesBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      public Builder clearServices() {
-        if (servicesBuilder_ == null) {
-          services_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000002);
-          onChanged();
-        } else {
-          servicesBuilder_.clear();
-        }
-        return this;
-      }
-      public Builder removeServices(int index) {
-        if (servicesBuilder_ == null) {
-          ensureServicesIsMutable();
-          services_.remove(index);
-          onChanged();
-        } else {
-          servicesBuilder_.remove(index);
-        }
-        return this;
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder getServicesBuilder(
-          int index) {
-        return getServicesFieldBuilder().getBuilder(index);
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
-          int index) {
-        if (servicesBuilder_ == null) {
-          return services_.get(index);  } else {
-          return servicesBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      public java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> 
-           getServicesOrBuilderList() {
-        if (servicesBuilder_ != null) {
-          return servicesBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(services_);
-        }
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder addServicesBuilder() {
-        return getServicesFieldBuilder().addBuilder(
-            org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance());
-      }
-      public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder addServicesBuilder(
-          int index) {
-        return getServicesFieldBuilder().addBuilder(
-            index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance());
-      }
-      public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder> 
-           getServicesBuilderList() {
-        return getServicesFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilder<
-          org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> 
-          getServicesFieldBuilder() {
-        if (servicesBuilder_ == null) {
-          servicesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder>(
-                  services_,
-                  ((bitField0_ & 0x00000002) == 0x00000002),
-                  getParentForChildren(),
-                  isClean());
-          services_ = null;
-        }
-        return servicesBuilder_;
-      }
-      
-      // @@protoc_insertion_point(builder_scope:org.socklabs.elasticservices.gossip.ComponentStatus)
-    }
-    
-    static {
-      defaultInstance = new ComponentStatus(true);
-      defaultInstance.initFields();
-    }
-    
-    // @@protoc_insertion_point(class_scope:org.socklabs.elasticservices.gossip.ComponentStatus)
-  }
-  
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_org_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor;
-  private static
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_fieldAccessorTable;
-  
-  public static com.google.protobuf.Descriptors.FileDescriptor
-      getDescriptor() {
-    return descriptor;
-  }
-  private static com.google.protobuf.Descriptors.FileDescriptor
-      descriptor;
-  static {
-    java.lang.String[] descriptorData = {
-      "\n0org/socklabs/elasticservices/gossip/go" +
-      "ssip.proto\022#org.socklabs.elasticservices" +
-      ".gossip\032/org/socklabs/elasticservices/co" +
-      "re/service.proto\"m\n\020ComponentService\022B\n\013" +
-      "service_ref\030\001 \001(\0132-.org.socklabs.elastic" +
-      "services.core.ServiceRef\022\025\n\rtransport_ur" +
-      "l\030\002 \001(\t\"\242\001\n\017ComponentOnline\022F\n\rcomponent" +
-      "_ref\030\001 \001(\0132/.org.socklabs.elasticservice" +
-      "s.core.ComponentRef\022G\n\010services\030\002 \003(\01325." +
-      "org.socklabs.elasticservices.gossip.Comp",
-      "onentService\"\242\001\n\017ComponentStatus\022F\n\rcomp" +
-      "onent_ref\030\001 \001(\0132/.org.socklabs.elasticse" +
-      "rvices.core.ComponentRef\022G\n\010services\030\002 \003" +
-      "(\01325.org.socklabs.elasticservices.gossip" +
-      ".ComponentServiceB;\n#org.socklabs.elasti" +
-      "cservices.gossipB\022GossipServiceProtoH\001"
-    };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-      new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
-        public com.google.protobuf.ExtensionRegistry assignDescriptors(
-            com.google.protobuf.Descriptors.FileDescriptor root) {
-          descriptor = root;
-          internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor =
-            getDescriptor().getMessageTypes().get(0);
-          internal_static_org_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor,
-              new java.lang.String[] { "ServiceRef", "TransportUrl", },
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.class,
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder.class);
-          internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor =
-            getDescriptor().getMessageTypes().get(1);
-          internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor,
-              new java.lang.String[] { "ComponentRef", "Services", },
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.class,
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.Builder.class);
-          internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor =
-            getDescriptor().getMessageTypes().get(2);
-          internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_fieldAccessorTable = new
-            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor,
-              new java.lang.String[] { "ComponentRef", "Services", },
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.class,
-              org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.Builder.class);
-          return null;
-        }
-      };
-    com.google.protobuf.Descriptors.FileDescriptor
-      .internalBuildGeneratedFileFrom(descriptorData,
-        new com.google.protobuf.Descriptors.FileDescriptor[] {
-          org.socklabs.elasticservices.core.ServiceProto.getDescriptor(),
-        }, assigner);
-  }
-  
-  // @@protoc_insertion_point(outer_class_scope)
+	private GossipServiceProto() {
+	}
+
+	public static void registerAllExtensions(
+			com.google.protobuf.ExtensionRegistry registry) {
+	}
+
+	public interface ComponentServiceOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// optional .org.socklabs.elasticservices.core.ServiceRef service_ref = 1;
+		boolean hasServiceRef();
+
+		org.socklabs.elasticservices.core.ServiceProto.ServiceRef getServiceRef();
+
+		org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder getServiceRefOrBuilder();
+
+		// optional string transport_url = 2;
+		boolean hasTransportUrl();
+
+		String getTransportUrl();
+	}
+
+	public static final class ComponentService extends com.google.protobuf.GeneratedMessage implements ComponentServiceOrBuilder {
+		// Use ComponentService.newBuilder() to construct.
+		private ComponentService(Builder builder) {
+			super(builder);
+		}
+
+		private ComponentService(boolean noInit) {
+		}
+
+		private static final ComponentService defaultInstance;
+
+		public static ComponentService getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public ComponentService getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable;
+		}
+
+		private int bitField0_;
+		// optional .org.socklabs.elasticservices.core.ServiceRef service_ref = 1;
+		public static final int SERVICE_REF_FIELD_NUMBER = 1;
+		private org.socklabs.elasticservices.core.ServiceProto.ServiceRef serviceRef_;
+
+		public boolean hasServiceRef() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		public org.socklabs.elasticservices.core.ServiceProto.ServiceRef getServiceRef() {
+			return serviceRef_;
+		}
+
+		public org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder getServiceRefOrBuilder() {
+			return serviceRef_;
+		}
+
+		// optional string transport_url = 2;
+		public static final int TRANSPORT_URL_FIELD_NUMBER = 2;
+		private java.lang.Object transportUrl_;
+
+		public boolean hasTransportUrl() {
+			return ((bitField0_ & 0x00000002) == 0x00000002);
+		}
+
+		public String getTransportUrl() {
+			java.lang.Object ref = transportUrl_;
+			if (ref instanceof String) {
+				return (String) ref;
+			} else {
+				com.google.protobuf.ByteString bs = (com.google.protobuf.ByteString) ref;
+				String s = bs.toStringUtf8();
+				if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+					transportUrl_ = s;
+				}
+				return s;
+			}
+		}
+
+		private com.google.protobuf.ByteString getTransportUrlBytes() {
+			java.lang.Object ref = transportUrl_;
+			if (ref instanceof String) {
+				com.google.protobuf.ByteString b = com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+				transportUrl_ = b;
+				return b;
+			} else {
+				return (com.google.protobuf.ByteString) ref;
+			}
+		}
+
+		private void initFields() {
+			serviceRef_ = org.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
+			transportUrl_ = "";
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1) {
+				return isInitialized == 1;
+			}
+
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeMessage(1, serviceRef_);
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				output.writeBytes(2, getTransportUrlBytes());
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1) {
+				return size;
+			}
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(1, serviceRef_);
+			}
+			if (((bitField0_ & 0x00000002) == 0x00000002)) {
+				size += com.google.protobuf.CodedOutputStream.computeBytesSize(2, getTransportUrlBytes());
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
+				com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
+				com.google.protobuf.ByteString data,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
+				byte[] data,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return newBuilder().mergeFrom(input).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
+				java.io.InputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return newBuilder().mergeFrom(input, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			Builder builder = newBuilder();
+			if (builder.mergeDelimitedFrom(input)) {
+				return builder.buildParsed();
+			} else {
+				return null;
+			}
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseDelimitedFrom(
+				java.io.InputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			Builder builder = newBuilder();
+			if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+				return builder.buildParsed();
+			} else {
+				return null;
+			}
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
+				com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return newBuilder().mergeFrom(input).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService parseFrom(
+				com.google.protobuf.CodedInputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return newBuilder().mergeFrom(input, extensionRegistry).buildParsed();
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(
+				com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable;
+			}
+
+			// Construct using org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+					getServiceRefFieldBuilder();
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				if (serviceRefBuilder_ == null) {
+					serviceRef_ = org.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
+				} else {
+					serviceRefBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000001);
+				transportUrl_ = "";
+				bitField0_ = (bitField0_ & ~0x00000002);
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDescriptor();
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getDefaultInstanceForType() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance();
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService build() {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			private org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService buildParsed() throws com.google.protobuf.InvalidProtocolBufferException {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(
+							result).asInvalidProtocolBufferException();
+				}
+				return result;
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService buildPartial() {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService result = new org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService(
+						this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				if (serviceRefBuilder_ == null) {
+					result.serviceRef_ = serviceRef_;
+				} else {
+					result.serviceRef_ = serviceRefBuilder_.build();
+				}
+				if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+					to_bitField0_ |= 0x00000002;
+				}
+				result.transportUrl_ = transportUrl_;
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService) {
+					return mergeFrom((org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService other) {
+				if (other == org.socklabs
+						.elasticservices
+						.gossip
+						.GossipServiceProto
+						.ComponentService
+						.getDefaultInstance()) {
+					return this;
+				}
+				if (other.hasServiceRef()) {
+					mergeServiceRef(other.getServiceRef());
+				}
+				if (other.hasTransportUrl()) {
+					setTransportUrl(other.getTransportUrl());
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				return true;
+			}
+
+			public Builder mergeFrom(
+					com.google.protobuf.CodedInputStream input,
+					com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google
+						.protobuf
+						.UnknownFieldSet
+						.newBuilder(
+								this.getUnknownFields());
+				while (true) {
+					int tag = input.readTag();
+					switch (tag) {
+						case 0:
+							this.setUnknownFields(unknownFields.build());
+							onChanged();
+							return this;
+						default: {
+							if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+								this.setUnknownFields(unknownFields.build());
+								onChanged();
+								return this;
+							}
+							break;
+						}
+						case 10: {
+							org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder subBuilder = org.socklabs
+									.elasticservices
+									.core
+									.ServiceProto
+									.ServiceRef
+									.newBuilder();
+							if (hasServiceRef()) {
+								subBuilder.mergeFrom(getServiceRef());
+							}
+							input.readMessage(subBuilder, extensionRegistry);
+							setServiceRef(subBuilder.buildPartial());
+							break;
+						}
+						case 18: {
+							bitField0_ |= 0x00000002;
+							transportUrl_ = input.readBytes();
+							break;
+						}
+					}
+				}
+			}
+
+			private int bitField0_;
+
+			// optional .org.socklabs.elasticservices.core.ServiceRef service_ref = 1;
+			private org.socklabs.elasticservices.core.ServiceProto.ServiceRef serviceRef_ = org.socklabs
+					.elasticservices
+					.core
+					.ServiceProto
+					.ServiceRef
+					.getDefaultInstance();
+			private com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ServiceRef, org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder> serviceRefBuilder_;
+
+			public boolean hasServiceRef() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ServiceRef getServiceRef() {
+				if (serviceRefBuilder_ == null) {
+					return serviceRef_;
+				} else {
+					return serviceRefBuilder_.getMessage();
+				}
+			}
+
+			public Builder setServiceRef(org.socklabs.elasticservices.core.ServiceProto.ServiceRef value) {
+				if (serviceRefBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					serviceRef_ = value;
+					onChanged();
+				} else {
+					serviceRefBuilder_.setMessage(value);
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder setServiceRef(
+					org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder builderForValue) {
+				if (serviceRefBuilder_ == null) {
+					serviceRef_ = builderForValue.build();
+					onChanged();
+				} else {
+					serviceRefBuilder_.setMessage(builderForValue.build());
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder mergeServiceRef(org.socklabs.elasticservices.core.ServiceProto.ServiceRef value) {
+				if (serviceRefBuilder_ == null) {
+					if (((bitField0_ & 0x00000001) == 0x00000001) && serviceRef_ != org.socklabs
+							.elasticservices
+							.core
+							.ServiceProto
+							.ServiceRef
+							.getDefaultInstance()) {
+						serviceRef_ = org.socklabs
+								.elasticservices
+								.core
+								.ServiceProto
+								.ServiceRef
+								.newBuilder(serviceRef_)
+								.mergeFrom(value)
+								.buildPartial();
+					} else {
+						serviceRef_ = value;
+					}
+					onChanged();
+				} else {
+					serviceRefBuilder_.mergeFrom(value);
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder clearServiceRef() {
+				if (serviceRefBuilder_ == null) {
+					serviceRef_ = org.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
+					onChanged();
+				} else {
+					serviceRefBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000001);
+				return this;
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder getServiceRefBuilder() {
+				bitField0_ |= 0x00000001;
+				onChanged();
+				return getServiceRefFieldBuilder().getBuilder();
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder getServiceRefOrBuilder() {
+				if (serviceRefBuilder_ != null) {
+					return serviceRefBuilder_.getMessageOrBuilder();
+				} else {
+					return serviceRef_;
+				}
+			}
+
+			private com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ServiceRef, org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder> getServiceRefFieldBuilder() {
+				if (serviceRefBuilder_ == null) {
+					serviceRefBuilder_ = new com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ServiceRef, org.socklabs.elasticservices.core.ServiceProto.ServiceRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder>(
+							serviceRef_, getParentForChildren(), isClean());
+					serviceRef_ = null;
+				}
+				return serviceRefBuilder_;
+			}
+
+			// optional string transport_url = 2;
+			private java.lang.Object transportUrl_ = "";
+
+			public boolean hasTransportUrl() {
+				return ((bitField0_ & 0x00000002) == 0x00000002);
+			}
+
+			public String getTransportUrl() {
+				java.lang.Object ref = transportUrl_;
+				if (!(ref instanceof String)) {
+					String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+					transportUrl_ = s;
+					return s;
+				} else {
+					return (String) ref;
+				}
+			}
+
+			public Builder setTransportUrl(String value) {
+				if (value == null) {
+					throw new NullPointerException();
+				}
+				bitField0_ |= 0x00000002;
+				transportUrl_ = value;
+				onChanged();
+				return this;
+			}
+
+			public Builder clearTransportUrl() {
+				bitField0_ = (bitField0_ & ~0x00000002);
+				transportUrl_ = getDefaultInstance().getTransportUrl();
+				onChanged();
+				return this;
+			}
+
+			void setTransportUrl(com.google.protobuf.ByteString value) {
+				bitField0_ |= 0x00000002;
+				transportUrl_ = value;
+				onChanged();
+			}
+
+			// @@protoc_insertion_point(builder_scope:org.socklabs.elasticservices.gossip.ComponentService)
+		}
+
+		static {
+			defaultInstance = new ComponentService(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:org.socklabs.elasticservices.gossip.ComponentService)
+	}
+
+	public interface ComponentOnlineOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
+		boolean hasComponentRef();
+
+		org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef();
+
+		org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder();
+
+		// repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
+		java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList();
+
+		org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index);
+
+		int getServicesCount();
+
+		java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> getServicesOrBuilderList();
+
+		org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
+				int index);
+	}
+
+	public static final class ComponentOnline extends com.google.protobuf.GeneratedMessage implements ComponentOnlineOrBuilder {
+		// Use ComponentOnline.newBuilder() to construct.
+		private ComponentOnline(Builder builder) {
+			super(builder);
+		}
+
+		private ComponentOnline(boolean noInit) {
+		}
+
+		private static final ComponentOnline defaultInstance;
+
+		public static ComponentOnline getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public ComponentOnline getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_fieldAccessorTable;
+		}
+
+		private int bitField0_;
+		// optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
+		public static final int COMPONENT_REF_FIELD_NUMBER = 1;
+		private org.socklabs.elasticservices.core.ServiceProto.ComponentRef componentRef_;
+
+		public boolean hasComponentRef() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		public org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef() {
+			return componentRef_;
+		}
+
+		public org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder() {
+			return componentRef_;
+		}
+
+		// repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
+		public static final int SERVICES_FIELD_NUMBER = 2;
+		private java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> services_;
+
+		public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList() {
+			return services_;
+		}
+
+		public java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> getServicesOrBuilderList() {
+			return services_;
+		}
+
+		public int getServicesCount() {
+			return services_.size();
+		}
+
+		public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index) {
+			return services_.get(index);
+		}
+
+		public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
+				int index) {
+			return services_.get(index);
+		}
+
+		private void initFields() {
+			componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
+			services_ = java.util.Collections.emptyList();
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1) {
+				return isInitialized == 1;
+			}
+
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeMessage(1, componentRef_);
+			}
+			for (int i = 0; i < services_.size(); i++) {
+				output.writeMessage(2, services_.get(i));
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1) {
+				return size;
+			}
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(1, componentRef_);
+			}
+			for (int i = 0; i < services_.size(); i++) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(2, services_.get(i));
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
+				com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
+				com.google.protobuf.ByteString data,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
+				byte[] data,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return newBuilder().mergeFrom(input).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
+				java.io.InputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return newBuilder().mergeFrom(input, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			Builder builder = newBuilder();
+			if (builder.mergeDelimitedFrom(input)) {
+				return builder.buildParsed();
+			} else {
+				return null;
+			}
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseDelimitedFrom(
+				java.io.InputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			Builder builder = newBuilder();
+			if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+				return builder.buildParsed();
+			} else {
+				return null;
+			}
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
+				com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return newBuilder().mergeFrom(input).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline parseFrom(
+				com.google.protobuf.CodedInputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return newBuilder().mergeFrom(input, extensionRegistry).buildParsed();
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(
+				com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnlineOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_fieldAccessorTable;
+			}
+
+			// Construct using org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+					getComponentRefFieldBuilder();
+					getServicesFieldBuilder();
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				if (componentRefBuilder_ == null) {
+					componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
+				} else {
+					componentRefBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000001);
+				if (servicesBuilder_ == null) {
+					services_ = java.util.Collections.emptyList();
+					bitField0_ = (bitField0_ & ~0x00000002);
+				} else {
+					servicesBuilder_.clear();
+				}
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.getDescriptor();
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline getDefaultInstanceForType() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.getDefaultInstance();
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline build() {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			private org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline buildParsed() throws com.google.protobuf.InvalidProtocolBufferException {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(
+							result).asInvalidProtocolBufferException();
+				}
+				return result;
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline buildPartial() {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline result = new org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline(
+						this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				if (componentRefBuilder_ == null) {
+					result.componentRef_ = componentRef_;
+				} else {
+					result.componentRef_ = componentRefBuilder_.build();
+				}
+				if (servicesBuilder_ == null) {
+					if (((bitField0_ & 0x00000002) == 0x00000002)) {
+						services_ = java.util.Collections.unmodifiableList(services_);
+						bitField0_ = (bitField0_ & ~0x00000002);
+					}
+					result.services_ = services_;
+				} else {
+					result.services_ = servicesBuilder_.build();
+				}
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline) {
+					return mergeFrom((org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline other) {
+				if (other == org.socklabs
+						.elasticservices
+						.gossip
+						.GossipServiceProto
+						.ComponentOnline
+						.getDefaultInstance()) {
+					return this;
+				}
+				if (other.hasComponentRef()) {
+					mergeComponentRef(other.getComponentRef());
+				}
+				if (servicesBuilder_ == null) {
+					if (!other.services_.isEmpty()) {
+						if (services_.isEmpty()) {
+							services_ = other.services_;
+							bitField0_ = (bitField0_ & ~0x00000002);
+						} else {
+							ensureServicesIsMutable();
+							services_.addAll(other.services_);
+						}
+						onChanged();
+					}
+				} else {
+					if (!other.services_.isEmpty()) {
+						if (servicesBuilder_.isEmpty()) {
+							servicesBuilder_.dispose();
+							servicesBuilder_ = null;
+							services_ = other.services_;
+							bitField0_ = (bitField0_ & ~0x00000002);
+							servicesBuilder_ = com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ? getServicesFieldBuilder() : null;
+						} else {
+							servicesBuilder_.addAllMessages(other.services_);
+						}
+					}
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				return true;
+			}
+
+			public Builder mergeFrom(
+					com.google.protobuf.CodedInputStream input,
+					com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google
+						.protobuf
+						.UnknownFieldSet
+						.newBuilder(
+								this.getUnknownFields());
+				while (true) {
+					int tag = input.readTag();
+					switch (tag) {
+						case 0:
+							this.setUnknownFields(unknownFields.build());
+							onChanged();
+							return this;
+						default: {
+							if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+								this.setUnknownFields(unknownFields.build());
+								onChanged();
+								return this;
+							}
+							break;
+						}
+						case 10: {
+							org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder subBuilder = org.socklabs
+									.elasticservices
+									.core
+									.ServiceProto
+									.ComponentRef
+									.newBuilder();
+							if (hasComponentRef()) {
+								subBuilder.mergeFrom(getComponentRef());
+							}
+							input.readMessage(subBuilder, extensionRegistry);
+							setComponentRef(subBuilder.buildPartial());
+							break;
+						}
+						case 18: {
+							org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder subBuilder = org
+									.socklabs
+									.elasticservices
+									.gossip
+									.GossipServiceProto
+									.ComponentService
+									.newBuilder();
+							input.readMessage(subBuilder, extensionRegistry);
+							addServices(subBuilder.buildPartial());
+							break;
+						}
+					}
+				}
+			}
+
+			private int bitField0_;
+
+			// optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
+			private org.socklabs.elasticservices.core.ServiceProto.ComponentRef componentRef_ = org.socklabs
+					.elasticservices
+					.core
+					.ServiceProto
+					.ComponentRef
+					.getDefaultInstance();
+			private com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder> componentRefBuilder_;
+
+			public boolean hasComponentRef() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef() {
+				if (componentRefBuilder_ == null) {
+					return componentRef_;
+				} else {
+					return componentRefBuilder_.getMessage();
+				}
+			}
+
+			public Builder setComponentRef(org.socklabs.elasticservices.core.ServiceProto.ComponentRef value) {
+				if (componentRefBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					componentRef_ = value;
+					onChanged();
+				} else {
+					componentRefBuilder_.setMessage(value);
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder setComponentRef(
+					org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder builderForValue) {
+				if (componentRefBuilder_ == null) {
+					componentRef_ = builderForValue.build();
+					onChanged();
+				} else {
+					componentRefBuilder_.setMessage(builderForValue.build());
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder mergeComponentRef(org.socklabs.elasticservices.core.ServiceProto.ComponentRef value) {
+				if (componentRefBuilder_ == null) {
+					if (((bitField0_ & 0x00000001) == 0x00000001) && componentRef_ != org.socklabs
+							.elasticservices
+							.core
+							.ServiceProto
+							.ComponentRef
+							.getDefaultInstance()) {
+						componentRef_ = org.socklabs
+								.elasticservices
+								.core
+								.ServiceProto
+								.ComponentRef
+								.newBuilder(componentRef_)
+								.mergeFrom(value)
+								.buildPartial();
+					} else {
+						componentRef_ = value;
+					}
+					onChanged();
+				} else {
+					componentRefBuilder_.mergeFrom(value);
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder clearComponentRef() {
+				if (componentRefBuilder_ == null) {
+					componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
+					onChanged();
+				} else {
+					componentRefBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000001);
+				return this;
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder getComponentRefBuilder() {
+				bitField0_ |= 0x00000001;
+				onChanged();
+				return getComponentRefFieldBuilder().getBuilder();
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder() {
+				if (componentRefBuilder_ != null) {
+					return componentRefBuilder_.getMessageOrBuilder();
+				} else {
+					return componentRef_;
+				}
+			}
+
+			private com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder> getComponentRefFieldBuilder() {
+				if (componentRefBuilder_ == null) {
+					componentRefBuilder_ = new com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder>(
+							componentRef_, getParentForChildren(), isClean());
+					componentRef_ = null;
+				}
+				return componentRefBuilder_;
+			}
+
+			// repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
+			private java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> services_ = java
+					.util
+					.Collections
+					.emptyList();
+
+			private void ensureServicesIsMutable() {
+				if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+					services_ = new java.util.ArrayList<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService>(
+							services_);
+					bitField0_ |= 0x00000002;
+				}
+			}
+
+			private com.google.protobuf.RepeatedFieldBuilder<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> servicesBuilder_;
+
+			public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList() {
+				if (servicesBuilder_ == null) {
+					return java.util.Collections.unmodifiableList(services_);
+				} else {
+					return servicesBuilder_.getMessageList();
+				}
+			}
+
+			public int getServicesCount() {
+				if (servicesBuilder_ == null) {
+					return services_.size();
+				} else {
+					return servicesBuilder_.getCount();
+				}
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index) {
+				if (servicesBuilder_ == null) {
+					return services_.get(index);
+				} else {
+					return servicesBuilder_.getMessage(index);
+				}
+			}
+
+			public Builder setServices(
+					int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
+				if (servicesBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureServicesIsMutable();
+					services_.set(index, value);
+					onChanged();
+				} else {
+					servicesBuilder_.setMessage(index, value);
+				}
+				return this;
+			}
+
+			public Builder setServices(
+					int index,
+					org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					services_.set(index, builderForValue.build());
+					onChanged();
+				} else {
+					servicesBuilder_.setMessage(index, builderForValue.build());
+				}
+				return this;
+			}
+
+			public Builder addServices(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
+				if (servicesBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureServicesIsMutable();
+					services_.add(value);
+					onChanged();
+				} else {
+					servicesBuilder_.addMessage(value);
+				}
+				return this;
+			}
+
+			public Builder addServices(
+					int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
+				if (servicesBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureServicesIsMutable();
+					services_.add(index, value);
+					onChanged();
+				} else {
+					servicesBuilder_.addMessage(index, value);
+				}
+				return this;
+			}
+
+			public Builder addServices(
+					org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					services_.add(builderForValue.build());
+					onChanged();
+				} else {
+					servicesBuilder_.addMessage(builderForValue.build());
+				}
+				return this;
+			}
+
+			public Builder addServices(
+					int index,
+					org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					services_.add(index, builderForValue.build());
+					onChanged();
+				} else {
+					servicesBuilder_.addMessage(index, builderForValue.build());
+				}
+				return this;
+			}
+
+			public Builder addAllServices(
+					java.lang.Iterable<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> values) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					super.addAll(values, services_);
+					onChanged();
+				} else {
+					servicesBuilder_.addAllMessages(values);
+				}
+				return this;
+			}
+
+			public Builder clearServices() {
+				if (servicesBuilder_ == null) {
+					services_ = java.util.Collections.emptyList();
+					bitField0_ = (bitField0_ & ~0x00000002);
+					onChanged();
+				} else {
+					servicesBuilder_.clear();
+				}
+				return this;
+			}
+
+			public Builder removeServices(int index) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					services_.remove(index);
+					onChanged();
+				} else {
+					servicesBuilder_.remove(index);
+				}
+				return this;
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder getServicesBuilder(
+					int index) {
+				return getServicesFieldBuilder().getBuilder(index);
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
+					int index) {
+				if (servicesBuilder_ == null) {
+					return services_.get(index);
+				} else {
+					return servicesBuilder_.getMessageOrBuilder(index);
+				}
+			}
+
+			public java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> getServicesOrBuilderList() {
+				if (servicesBuilder_ != null) {
+					return servicesBuilder_.getMessageOrBuilderList();
+				} else {
+					return java.util.Collections.unmodifiableList(services_);
+				}
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder addServicesBuilder() {
+				return getServicesFieldBuilder().addBuilder(
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance());
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder addServicesBuilder(
+					int index) {
+				return getServicesFieldBuilder().addBuilder(
+						index,
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance());
+			}
+
+			public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder> getServicesBuilderList() {
+				return getServicesFieldBuilder().getBuilderList();
+			}
+
+			private com.google.protobuf.RepeatedFieldBuilder<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> getServicesFieldBuilder() {
+				if (servicesBuilder_ == null) {
+					servicesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder>(
+							services_, ((bitField0_ & 0x00000002) == 0x00000002), getParentForChildren(), isClean());
+					services_ = null;
+				}
+				return servicesBuilder_;
+			}
+
+			// @@protoc_insertion_point(builder_scope:org.socklabs.elasticservices.gossip.ComponentOnline)
+		}
+
+		static {
+			defaultInstance = new ComponentOnline(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:org.socklabs.elasticservices.gossip.ComponentOnline)
+	}
+
+	public interface ComponentStatusOrBuilder extends com.google.protobuf.MessageOrBuilder {
+
+		// optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
+		boolean hasComponentRef();
+
+		org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef();
+
+		org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder();
+
+		// repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
+		java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList();
+
+		org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index);
+
+		int getServicesCount();
+
+		java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> getServicesOrBuilderList();
+
+		org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
+				int index);
+	}
+
+	public static final class ComponentStatus extends com.google.protobuf.GeneratedMessage implements ComponentStatusOrBuilder {
+		// Use ComponentStatus.newBuilder() to construct.
+		private ComponentStatus(Builder builder) {
+			super(builder);
+		}
+
+		private ComponentStatus(boolean noInit) {
+		}
+
+		private static final ComponentStatus defaultInstance;
+
+		public static ComponentStatus getDefaultInstance() {
+			return defaultInstance;
+		}
+
+		public ComponentStatus getDefaultInstanceForType() {
+			return defaultInstance;
+		}
+
+		public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+			return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor;
+		}
+
+		protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+			return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_fieldAccessorTable;
+		}
+
+		private int bitField0_;
+		// optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
+		public static final int COMPONENT_REF_FIELD_NUMBER = 1;
+		private org.socklabs.elasticservices.core.ServiceProto.ComponentRef componentRef_;
+
+		public boolean hasComponentRef() {
+			return ((bitField0_ & 0x00000001) == 0x00000001);
+		}
+
+		public org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef() {
+			return componentRef_;
+		}
+
+		public org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder() {
+			return componentRef_;
+		}
+
+		// repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
+		public static final int SERVICES_FIELD_NUMBER = 2;
+		private java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> services_;
+
+		public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList() {
+			return services_;
+		}
+
+		public java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> getServicesOrBuilderList() {
+			return services_;
+		}
+
+		public int getServicesCount() {
+			return services_.size();
+		}
+
+		public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index) {
+			return services_.get(index);
+		}
+
+		public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
+				int index) {
+			return services_.get(index);
+		}
+
+		private void initFields() {
+			componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
+			services_ = java.util.Collections.emptyList();
+		}
+
+		private byte memoizedIsInitialized = -1;
+
+		public final boolean isInitialized() {
+			byte isInitialized = memoizedIsInitialized;
+			if (isInitialized != -1) {
+				return isInitialized == 1;
+			}
+
+			memoizedIsInitialized = 1;
+			return true;
+		}
+
+		public void writeTo(com.google.protobuf.CodedOutputStream output) throws java.io.IOException {
+			getSerializedSize();
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				output.writeMessage(1, componentRef_);
+			}
+			for (int i = 0; i < services_.size(); i++) {
+				output.writeMessage(2, services_.get(i));
+			}
+			getUnknownFields().writeTo(output);
+		}
+
+		private int memoizedSerializedSize = -1;
+
+		public int getSerializedSize() {
+			int size = memoizedSerializedSize;
+			if (size != -1) {
+				return size;
+			}
+
+			size = 0;
+			if (((bitField0_ & 0x00000001) == 0x00000001)) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(1, componentRef_);
+			}
+			for (int i = 0; i < services_.size(); i++) {
+				size += com.google.protobuf.CodedOutputStream.computeMessageSize(2, services_.get(i));
+			}
+			size += getUnknownFields().getSerializedSize();
+			memoizedSerializedSize = size;
+			return size;
+		}
+
+		private static final long serialVersionUID = 0L;
+
+		@java.lang.Override
+		protected java.lang.Object writeReplace() throws java.io.ObjectStreamException {
+			return super.writeReplace();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
+				com.google.protobuf.ByteString data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
+				com.google.protobuf.ByteString data,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(byte[] data) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
+				byte[] data,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws com.google.protobuf.InvalidProtocolBufferException {
+			return newBuilder().mergeFrom(data, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(java.io.InputStream input) throws java.io.IOException {
+			return newBuilder().mergeFrom(input).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
+				java.io.InputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return newBuilder().mergeFrom(input, extensionRegistry).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseDelimitedFrom(java.io.InputStream input) throws java.io.IOException {
+			Builder builder = newBuilder();
+			if (builder.mergeDelimitedFrom(input)) {
+				return builder.buildParsed();
+			} else {
+				return null;
+			}
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseDelimitedFrom(
+				java.io.InputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			Builder builder = newBuilder();
+			if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+				return builder.buildParsed();
+			} else {
+				return null;
+			}
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
+				com.google.protobuf.CodedInputStream input) throws java.io.IOException {
+			return newBuilder().mergeFrom(input).buildParsed();
+		}
+
+		public static org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus parseFrom(
+				com.google.protobuf.CodedInputStream input,
+				com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+			return newBuilder().mergeFrom(input, extensionRegistry).buildParsed();
+		}
+
+		public static Builder newBuilder() {
+			return Builder.create();
+		}
+
+		public Builder newBuilderForType() {
+			return newBuilder();
+		}
+
+		public static Builder newBuilder(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus prototype) {
+			return newBuilder().mergeFrom(prototype);
+		}
+
+		public Builder toBuilder() {
+			return newBuilder(this);
+		}
+
+		@java.lang.Override
+		protected Builder newBuilderForType(
+				com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+			Builder builder = new Builder(parent);
+			return builder;
+		}
+
+		public static final class Builder extends com.google.protobuf.GeneratedMessage.Builder<Builder> implements org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatusOrBuilder {
+			public static final com.google.protobuf.Descriptors.Descriptor getDescriptor() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor;
+			}
+
+			protected com.google.protobuf.GeneratedMessage.FieldAccessorTable internalGetFieldAccessorTable() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_fieldAccessorTable;
+			}
+
+			// Construct using org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.newBuilder()
+			private Builder() {
+				maybeForceBuilderInitialization();
+			}
+
+			private Builder(BuilderParent parent) {
+				super(parent);
+				maybeForceBuilderInitialization();
+			}
+
+			private void maybeForceBuilderInitialization() {
+				if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+					getComponentRefFieldBuilder();
+					getServicesFieldBuilder();
+				}
+			}
+
+			private static Builder create() {
+				return new Builder();
+			}
+
+			public Builder clear() {
+				super.clear();
+				if (componentRefBuilder_ == null) {
+					componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
+				} else {
+					componentRefBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000001);
+				if (servicesBuilder_ == null) {
+					services_ = java.util.Collections.emptyList();
+					bitField0_ = (bitField0_ & ~0x00000002);
+				} else {
+					servicesBuilder_.clear();
+				}
+				return this;
+			}
+
+			public Builder clone() {
+				return create().mergeFrom(buildPartial());
+			}
+
+			public com.google.protobuf.Descriptors.Descriptor getDescriptorForType() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.getDescriptor();
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus getDefaultInstanceForType() {
+				return org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.getDefaultInstance();
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus build() {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(result);
+				}
+				return result;
+			}
+
+			private org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus buildParsed() throws com.google.protobuf.InvalidProtocolBufferException {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus result = buildPartial();
+				if (!result.isInitialized()) {
+					throw newUninitializedMessageException(
+							result).asInvalidProtocolBufferException();
+				}
+				return result;
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus buildPartial() {
+				org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus result = new org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus(
+						this);
+				int from_bitField0_ = bitField0_;
+				int to_bitField0_ = 0;
+				if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+					to_bitField0_ |= 0x00000001;
+				}
+				if (componentRefBuilder_ == null) {
+					result.componentRef_ = componentRef_;
+				} else {
+					result.componentRef_ = componentRefBuilder_.build();
+				}
+				if (servicesBuilder_ == null) {
+					if (((bitField0_ & 0x00000002) == 0x00000002)) {
+						services_ = java.util.Collections.unmodifiableList(services_);
+						bitField0_ = (bitField0_ & ~0x00000002);
+					}
+					result.services_ = services_;
+				} else {
+					result.services_ = servicesBuilder_.build();
+				}
+				result.bitField0_ = to_bitField0_;
+				onBuilt();
+				return result;
+			}
+
+			public Builder mergeFrom(com.google.protobuf.Message other) {
+				if (other instanceof org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus) {
+					return mergeFrom((org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus) other);
+				} else {
+					super.mergeFrom(other);
+					return this;
+				}
+			}
+
+			public Builder mergeFrom(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus other) {
+				if (other == org.socklabs
+						.elasticservices
+						.gossip
+						.GossipServiceProto
+						.ComponentStatus
+						.getDefaultInstance()) {
+					return this;
+				}
+				if (other.hasComponentRef()) {
+					mergeComponentRef(other.getComponentRef());
+				}
+				if (servicesBuilder_ == null) {
+					if (!other.services_.isEmpty()) {
+						if (services_.isEmpty()) {
+							services_ = other.services_;
+							bitField0_ = (bitField0_ & ~0x00000002);
+						} else {
+							ensureServicesIsMutable();
+							services_.addAll(other.services_);
+						}
+						onChanged();
+					}
+				} else {
+					if (!other.services_.isEmpty()) {
+						if (servicesBuilder_.isEmpty()) {
+							servicesBuilder_.dispose();
+							servicesBuilder_ = null;
+							services_ = other.services_;
+							bitField0_ = (bitField0_ & ~0x00000002);
+							servicesBuilder_ = com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ? getServicesFieldBuilder() : null;
+						} else {
+							servicesBuilder_.addAllMessages(other.services_);
+						}
+					}
+				}
+				this.mergeUnknownFields(other.getUnknownFields());
+				return this;
+			}
+
+			public final boolean isInitialized() {
+				return true;
+			}
+
+			public Builder mergeFrom(
+					com.google.protobuf.CodedInputStream input,
+					com.google.protobuf.ExtensionRegistryLite extensionRegistry) throws java.io.IOException {
+				com.google.protobuf.UnknownFieldSet.Builder unknownFields = com.google
+						.protobuf
+						.UnknownFieldSet
+						.newBuilder(
+								this.getUnknownFields());
+				while (true) {
+					int tag = input.readTag();
+					switch (tag) {
+						case 0:
+							this.setUnknownFields(unknownFields.build());
+							onChanged();
+							return this;
+						default: {
+							if (!parseUnknownField(input, unknownFields, extensionRegistry, tag)) {
+								this.setUnknownFields(unknownFields.build());
+								onChanged();
+								return this;
+							}
+							break;
+						}
+						case 10: {
+							org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder subBuilder = org.socklabs
+									.elasticservices
+									.core
+									.ServiceProto
+									.ComponentRef
+									.newBuilder();
+							if (hasComponentRef()) {
+								subBuilder.mergeFrom(getComponentRef());
+							}
+							input.readMessage(subBuilder, extensionRegistry);
+							setComponentRef(subBuilder.buildPartial());
+							break;
+						}
+						case 18: {
+							org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder subBuilder = org
+									.socklabs
+									.elasticservices
+									.gossip
+									.GossipServiceProto
+									.ComponentService
+									.newBuilder();
+							input.readMessage(subBuilder, extensionRegistry);
+							addServices(subBuilder.buildPartial());
+							break;
+						}
+					}
+				}
+			}
+
+			private int bitField0_;
+
+			// optional .org.socklabs.elasticservices.core.ComponentRef component_ref = 1;
+			private org.socklabs.elasticservices.core.ServiceProto.ComponentRef componentRef_ = org.socklabs
+					.elasticservices
+					.core
+					.ServiceProto
+					.ComponentRef
+					.getDefaultInstance();
+			private com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder> componentRefBuilder_;
+
+			public boolean hasComponentRef() {
+				return ((bitField0_ & 0x00000001) == 0x00000001);
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ComponentRef getComponentRef() {
+				if (componentRefBuilder_ == null) {
+					return componentRef_;
+				} else {
+					return componentRefBuilder_.getMessage();
+				}
+			}
+
+			public Builder setComponentRef(org.socklabs.elasticservices.core.ServiceProto.ComponentRef value) {
+				if (componentRefBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					componentRef_ = value;
+					onChanged();
+				} else {
+					componentRefBuilder_.setMessage(value);
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder setComponentRef(
+					org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder builderForValue) {
+				if (componentRefBuilder_ == null) {
+					componentRef_ = builderForValue.build();
+					onChanged();
+				} else {
+					componentRefBuilder_.setMessage(builderForValue.build());
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder mergeComponentRef(org.socklabs.elasticservices.core.ServiceProto.ComponentRef value) {
+				if (componentRefBuilder_ == null) {
+					if (((bitField0_ & 0x00000001) == 0x00000001) && componentRef_ != org.socklabs
+							.elasticservices
+							.core
+							.ServiceProto
+							.ComponentRef
+							.getDefaultInstance()) {
+						componentRef_ = org.socklabs
+								.elasticservices
+								.core
+								.ServiceProto
+								.ComponentRef
+								.newBuilder(componentRef_)
+								.mergeFrom(value)
+								.buildPartial();
+					} else {
+						componentRef_ = value;
+					}
+					onChanged();
+				} else {
+					componentRefBuilder_.mergeFrom(value);
+				}
+				bitField0_ |= 0x00000001;
+				return this;
+			}
+
+			public Builder clearComponentRef() {
+				if (componentRefBuilder_ == null) {
+					componentRef_ = org.socklabs.elasticservices.core.ServiceProto.ComponentRef.getDefaultInstance();
+					onChanged();
+				} else {
+					componentRefBuilder_.clear();
+				}
+				bitField0_ = (bitField0_ & ~0x00000001);
+				return this;
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder getComponentRefBuilder() {
+				bitField0_ |= 0x00000001;
+				onChanged();
+				return getComponentRefFieldBuilder().getBuilder();
+			}
+
+			public org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder getComponentRefOrBuilder() {
+				if (componentRefBuilder_ != null) {
+					return componentRefBuilder_.getMessageOrBuilder();
+				} else {
+					return componentRef_;
+				}
+			}
+
+			private com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder> getComponentRefFieldBuilder() {
+				if (componentRefBuilder_ == null) {
+					componentRefBuilder_ = new com.google.protobuf.SingleFieldBuilder<org.socklabs.elasticservices.core.ServiceProto.ComponentRef, org.socklabs.elasticservices.core.ServiceProto.ComponentRef.Builder, org.socklabs.elasticservices.core.ServiceProto.ComponentRefOrBuilder>(
+							componentRef_, getParentForChildren(), isClean());
+					componentRef_ = null;
+				}
+				return componentRefBuilder_;
+			}
+
+			// repeated .org.socklabs.elasticservices.gossip.ComponentService services = 2;
+			private java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> services_ = java
+					.util
+					.Collections
+					.emptyList();
+
+			private void ensureServicesIsMutable() {
+				if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+					services_ = new java.util.ArrayList<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService>(
+							services_);
+					bitField0_ |= 0x00000002;
+				}
+			}
+
+			private com.google.protobuf.RepeatedFieldBuilder<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> servicesBuilder_;
+
+			public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> getServicesList() {
+				if (servicesBuilder_ == null) {
+					return java.util.Collections.unmodifiableList(services_);
+				} else {
+					return servicesBuilder_.getMessageList();
+				}
+			}
+
+			public int getServicesCount() {
+				if (servicesBuilder_ == null) {
+					return services_.size();
+				} else {
+					return servicesBuilder_.getCount();
+				}
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService getServices(int index) {
+				if (servicesBuilder_ == null) {
+					return services_.get(index);
+				} else {
+					return servicesBuilder_.getMessage(index);
+				}
+			}
+
+			public Builder setServices(
+					int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
+				if (servicesBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureServicesIsMutable();
+					services_.set(index, value);
+					onChanged();
+				} else {
+					servicesBuilder_.setMessage(index, value);
+				}
+				return this;
+			}
+
+			public Builder setServices(
+					int index,
+					org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					services_.set(index, builderForValue.build());
+					onChanged();
+				} else {
+					servicesBuilder_.setMessage(index, builderForValue.build());
+				}
+				return this;
+			}
+
+			public Builder addServices(org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
+				if (servicesBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureServicesIsMutable();
+					services_.add(value);
+					onChanged();
+				} else {
+					servicesBuilder_.addMessage(value);
+				}
+				return this;
+			}
+
+			public Builder addServices(
+					int index, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService value) {
+				if (servicesBuilder_ == null) {
+					if (value == null) {
+						throw new NullPointerException();
+					}
+					ensureServicesIsMutable();
+					services_.add(index, value);
+					onChanged();
+				} else {
+					servicesBuilder_.addMessage(index, value);
+				}
+				return this;
+			}
+
+			public Builder addServices(
+					org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					services_.add(builderForValue.build());
+					onChanged();
+				} else {
+					servicesBuilder_.addMessage(builderForValue.build());
+				}
+				return this;
+			}
+
+			public Builder addServices(
+					int index,
+					org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder builderForValue) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					services_.add(index, builderForValue.build());
+					onChanged();
+				} else {
+					servicesBuilder_.addMessage(index, builderForValue.build());
+				}
+				return this;
+			}
+
+			public Builder addAllServices(
+					java.lang.Iterable<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService> values) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					super.addAll(values, services_);
+					onChanged();
+				} else {
+					servicesBuilder_.addAllMessages(values);
+				}
+				return this;
+			}
+
+			public Builder clearServices() {
+				if (servicesBuilder_ == null) {
+					services_ = java.util.Collections.emptyList();
+					bitField0_ = (bitField0_ & ~0x00000002);
+					onChanged();
+				} else {
+					servicesBuilder_.clear();
+				}
+				return this;
+			}
+
+			public Builder removeServices(int index) {
+				if (servicesBuilder_ == null) {
+					ensureServicesIsMutable();
+					services_.remove(index);
+					onChanged();
+				} else {
+					servicesBuilder_.remove(index);
+				}
+				return this;
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder getServicesBuilder(
+					int index) {
+				return getServicesFieldBuilder().getBuilder(index);
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder getServicesOrBuilder(
+					int index) {
+				if (servicesBuilder_ == null) {
+					return services_.get(index);
+				} else {
+					return servicesBuilder_.getMessageOrBuilder(index);
+				}
+			}
+
+			public java.util.List<? extends org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> getServicesOrBuilderList() {
+				if (servicesBuilder_ != null) {
+					return servicesBuilder_.getMessageOrBuilderList();
+				} else {
+					return java.util.Collections.unmodifiableList(services_);
+				}
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder addServicesBuilder() {
+				return getServicesFieldBuilder().addBuilder(
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance());
+			}
+
+			public org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder addServicesBuilder(
+					int index) {
+				return getServicesFieldBuilder().addBuilder(
+						index,
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.getDefaultInstance());
+			}
+
+			public java.util.List<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder> getServicesBuilderList() {
+				return getServicesFieldBuilder().getBuilderList();
+			}
+
+			private com.google.protobuf.RepeatedFieldBuilder<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder> getServicesFieldBuilder() {
+				if (servicesBuilder_ == null) {
+					servicesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder, org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentServiceOrBuilder>(
+							services_, ((bitField0_ & 0x00000002) == 0x00000002), getParentForChildren(), isClean());
+					services_ = null;
+				}
+				return servicesBuilder_;
+			}
+
+			// @@protoc_insertion_point(builder_scope:org.socklabs.elasticservices.gossip.ComponentStatus)
+		}
+
+		static {
+			defaultInstance = new ComponentStatus(true);
+			defaultInstance.initFields();
+		}
+
+		// @@protoc_insertion_point(class_scope:org.socklabs.elasticservices.gossip.ComponentStatus)
+	}
+
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_org_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable;
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_fieldAccessorTable;
+	private static com.google.protobuf.Descriptors.Descriptor internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor;
+	private static com.google.protobuf.GeneratedMessage.FieldAccessorTable internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_fieldAccessorTable;
+
+	public static com.google.protobuf.Descriptors.FileDescriptor getDescriptor() {
+		return descriptor;
+	}
+
+	private static com.google.protobuf.Descriptors.FileDescriptor descriptor;
+
+	static {
+		java.lang.String[] descriptorData = {
+				"\n0org/socklabs/elasticservices/gossip/go" +
+						"ssip.proto\022#org.socklabs.elasticservices" +
+						".gossip\032/org/socklabs/elasticservices/co" +
+						"re/service.proto\"m\n\020ComponentService\022B\n\013" +
+						"service_ref\030\001 \001(\0132-.org.socklabs.elastic" +
+						"services.core.ServiceRef\022\025\n\rtransport_ur" +
+						"l\030\002 \001(\t\"\242\001\n\017ComponentOnline\022F\n\rcomponent" +
+						"_ref\030\001 \001(\0132/.org.socklabs.elasticservice" +
+						"s.core.ComponentRef\022G\n\010services\030\002 \003(\01325." +
+						"org.socklabs.elasticservices.gossip.Comp",
+				"onentService\"\242\001\n\017ComponentStatus\022F\n\rcomp" +
+						"onent_ref\030\001 \001(\0132/.org.socklabs.elasticse" +
+						"rvices.core.ComponentRef\022G\n\010services\030\002 \003" +
+						"(\01325.org.socklabs.elasticservices.gossip" +
+						".ComponentServiceB;\n#org.socklabs.elasti" +
+						"cservices.gossipB\022GossipServiceProtoH\001"};
+		com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner = new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
+			public com.google.protobuf.ExtensionRegistry assignDescriptors(
+					com.google.protobuf.Descriptors.FileDescriptor root) {
+				descriptor = root;
+				internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor = getDescriptor().getMessageTypes()
+						.get(0);
+				internal_static_org_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+						internal_static_org_socklabs_elasticservices_gossip_ComponentService_descriptor,
+						new java.lang.String[]{"ServiceRef", "TransportUrl",},
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.class,
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder.class);
+				internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor = getDescriptor().getMessageTypes()
+						.get(1);
+				internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+						internal_static_org_socklabs_elasticservices_gossip_ComponentOnline_descriptor,
+						new java.lang.String[]{"ComponentRef", "Services",},
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.class,
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentOnline.Builder.class);
+				internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor = getDescriptor().getMessageTypes()
+						.get(2);
+				internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_fieldAccessorTable = new com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+						internal_static_org_socklabs_elasticservices_gossip_ComponentStatus_descriptor,
+						new java.lang.String[]{"ComponentRef", "Services",},
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.class,
+						org.socklabs.elasticservices.gossip.GossipServiceProto.ComponentStatus.Builder.class);
+				return null;
+			}
+		};
+		com.google.protobuf.Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(
+				descriptorData, new com.google.protobuf.Descriptors.FileDescriptor[]{
+				org.socklabs.elasticservices.core.ServiceProto.getDescriptor(),}, assigner);
+	}
+
+	// @@protoc_insertion_point(outer_class_scope)
 }

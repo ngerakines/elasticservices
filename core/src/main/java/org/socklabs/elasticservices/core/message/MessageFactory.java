@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface MessageFactory {
 
-    List<String> supportedMessagePackages();
+	List<String> supportedMessagePackages();
 
-    Optional<Message> get(final MessageController controller, final byte[] rawMessage);
+	Optional<Message> get(final MessageController controller, final byte[] rawMessage);
 
 }

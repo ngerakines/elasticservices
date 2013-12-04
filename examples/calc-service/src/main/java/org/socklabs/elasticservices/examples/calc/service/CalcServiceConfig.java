@@ -19,52 +19,47 @@ import java.io.IOException;
 @Configuration
 public class CalcServiceConfig {
 
-    @Resource
-    private Environment environment;
+	@Resource
+	private Environment environment;
 
-    @Resource
-    private ServiceProto.ComponentRef localComponentRef;
+	@Resource
+	private ServiceProto.ComponentRef localComponentRef;
 
-    @Resource
-    private ServiceRegistry serviceRegistry;
+	@Resource
+	private ServiceRegistry serviceRegistry;
 
-    @Resource
-    private TransportFactory transportFactory;
+	@Resource
+	private TransportFactory transportFactory;
 
-    @Resource
-    private ConnectionFactory connectionFactory;
+	@Resource
+	private ConnectionFactory connectionFactory;
 
-    @Bean
-    public ServiceProto.ServiceRef calcServiceRef() {
-        return ServiceProto.ServiceRef.newBuilder().setComponentRef(localComponentRef).setServiceId("calc").build();
-    }
+	@Bean
+	public ServiceProto.ServiceRef calcServiceRef() {
+		return ServiceProto.ServiceRef.newBuilder().setComponentRef(localComponentRef).setServiceId("calc").build();
+	}
 
-    @Bean
-    public Transport calcTransport() {
-        final String exchange = environment.getRequiredProperty("service.calc.exchange");
-        final String routingKey = environment.getRequiredProperty("service.calc.routing_key");
-        try {
-            return new RabbitMqTransport(
-                    connectionFactory.newConnection(),
-                    exchange,
-                    routingKey,
-                    "direct",
-                    true);
-        }
-        catch (final IOException e) {
-            throw new RuntimeException("Could not create AMQP transport for calc service.", e);
-        }
-    }
+	@Bean
+	public Transport calcTransport() {
+		final String exchange = environment.getRequiredProperty("service.calc.exchange");
+		final String routingKey = environment.getRequiredProperty("service.calc.routing_key");
+		try {
+			return new RabbitMqTransport(
+					connectionFactory.newConnection(), exchange, routingKey, "direct", true);
+		} catch (final IOException e) {
+			throw new RuntimeException("Could not create AMQP transport for calc service.", e);
+		}
+	}
 
-    @Bean
-    public Service calcService() {
-        return new CalcService(calcServiceRef(), serviceRegistry);
-    }
+	@Bean
+	public Service calcService() {
+		return new CalcService(calcServiceRef(), serviceRegistry);
+	}
 
-    @PostConstruct
-    public void registerService() {
-        serviceRegistry.registerService(calcService());
-        serviceRegistry.bindTransportToService(calcServiceRef(), calcTransport());
-    }
+	@PostConstruct
+	public void registerService() {
+		serviceRegistry.registerService(calcService());
+		serviceRegistry.bindTransportToService(calcServiceRef(), calcTransport());
+	}
 
 }
