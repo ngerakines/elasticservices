@@ -2,6 +2,7 @@ package org.socklabs.elasticservices.core.edge;
 
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Message;
+import org.joda.time.DateTime;
 import org.socklabs.elasticservices.core.ServiceProto;
 import org.socklabs.elasticservices.core.service.MessageController;
 
@@ -14,6 +15,8 @@ public interface EdgeManager {
 			final AbstractMessage message,
 			final Class messageClass);
 
-	void handleMessage(MessageController controller, Message message);
+	void handleMessage(final MessageController controller, final Message message);
+
+	public void clear(final DateTime clearPoint);
 
 }

@@ -20,8 +20,7 @@ public class BroadcastWork extends AbstractWork implements Work {
 
 	private final ServiceRegistry serviceRegistry;
 
-	public BroadcastWork(
-			final ServiceProto.ServiceRef gossipServiceRef, final ServiceRegistry serviceRegistry) {
+	public BroadcastWork(final ServiceProto.ServiceRef gossipServiceRef, final ServiceRegistry serviceRegistry) {
 		super();
 		this.gossipServiceRef = gossipServiceRef;
 		this.serviceRegistry = serviceRegistry;

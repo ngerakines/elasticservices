@@ -2,15 +2,17 @@ package org.socklabs.elasticservices.examples.calc.config;
 
 import com.google.common.collect.ImmutableList;
 import com.rabbitmq.client.ConnectionFactory;
+import org.joda.time.Duration;
 import org.socklabs.elasticservices.core.ServiceProto;
 import org.socklabs.elasticservices.core.edge.DefaultEdgeManager;
 import org.socklabs.elasticservices.core.edge.EdgeManager;
+import org.socklabs.elasticservices.core.edge.StaleEdgeFutureRemoverWork;
 import org.socklabs.elasticservices.core.message.MessageFactory;
 import org.socklabs.elasticservices.core.service.Service;
 import org.socklabs.elasticservices.core.service.ServiceRegistry;
 import org.socklabs.elasticservices.core.transport.RabbitMqTransport;
 import org.socklabs.elasticservices.core.transport.Transport;
-import org.socklabs.elasticservices.core.transport.TransportFactory;
+import org.socklabs.elasticservices.core.work.Work;
 import org.socklabs.elasticservices.examples.calc.CalcEdgeService;
 import org.socklabs.elasticservices.examples.calc.service.CalcMessageFactory;
 import org.springframework.context.annotation.Bean;
@@ -34,9 +36,6 @@ public class EdgeConfig {
 	private ServiceRegistry serviceRegistry;
 
 	@Resource
-	private TransportFactory transportFactory;
-
-	@Resource
 	private ConnectionFactory connectionFactory;
 
 	@Bean
@@ -49,8 +48,7 @@ public class EdgeConfig {
 		final String exchange = environment.getRequiredProperty("service.calcEdge.exchange");
 		final String routingKey = environment.getRequiredProperty("service.calcEdge.routing_key");
 		try {
-			return new RabbitMqTransport(
-					connectionFactory.newConnection(), exchange, routingKey, "direct", true);
+			return new RabbitMqTransport(connectionFactory.newConnection(), exchange, routingKey, "direct", true);
 		} catch (final IOException e) {
 			throw new RuntimeException("Could not create AMQP transport for calc service.", e);
 		}
@@ -59,12 +57,23 @@ public class EdgeConfig {
 	@Bean
 	public Service calcEdgeService() {
 		return new CalcEdgeService(
-				calcEdgeServiceRef(), edgeManager(), ImmutableList.<MessageFactory>of(new CalcMessageFactory()));
+				calcEdgeServiceRef(),
+				edgeManager(),
+				ImmutableList.<MessageFactory>of(new CalcMessageFactory()));
 	}
 
 	@Bean(name = "calcEdgeManager")
 	public EdgeManager edgeManager() {
 		return new DefaultEdgeManager(calcEdgeServiceRef(), serviceRegistry);
+	}
+
+	@Bean
+	public Work staleEdgeFutureRemoverWork() {
+		return new StaleEdgeFutureRemoverWork(
+				"service:calc:edge:cleanup",
+				edgeManager(),
+				60,
+				Duration.standardMinutes(5));
 	}
 
 	@PostConstruct
