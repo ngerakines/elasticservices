@@ -24,6 +24,7 @@ import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.MessageUtils;
 import com.socklabs.elasticservices.core.service.DefaultMessageController;
 import com.socklabs.elasticservices.core.service.MessageController;
+import com.socklabs.servo.ext.CollectionSizeCallable;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
 
 public class RabbitMqTransport extends AbstractTransport {
 
@@ -84,7 +84,7 @@ public class RabbitMqTransport extends AbstractTransport {
 		DefaultMonitorRegistry.getInstance().register(
 				new BasicGauge<>(
 						consumersSizeMonitorConfig,
-						new ListSizeCallable(this.consumers)));
+						new CollectionSizeCallable(this.consumers)));
 
 		channel = connection.createChannel();
 
@@ -286,18 +286,6 @@ public class RabbitMqTransport extends AbstractTransport {
 					expiresOptional);
 		}
 
-	}
-
-	private static class ListSizeCallable implements Callable<Integer> {
-		private final List<?> consumers;
-
-		private ListSizeCallable(final List<?> consumers) {
-			this.consumers = consumers;
-		}
-
-		@Override public Integer call() throws Exception {
-			return consumers.size();
-		}
 	}
 
 }

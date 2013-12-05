@@ -5,7 +5,10 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Message;
-import org.joda.time.DateTime;
+import com.netflix.servo.DefaultMonitorRegistry;
+import com.netflix.servo.monitor.BasicGauge;
+import com.netflix.servo.monitor.Gauge;
+import com.netflix.servo.monitor.MonitorConfig;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.collection.Pair;
 import com.socklabs.elasticservices.core.message.ContentTypes;
@@ -14,6 +17,8 @@ import com.socklabs.elasticservices.core.message.MessageUtils;
 import com.socklabs.elasticservices.core.service.DefaultMessageController;
 import com.socklabs.elasticservices.core.service.MessageController;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
+import com.socklabs.servo.ext.MapSizeCallable;
+import org.joda.time.DateTime;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -28,10 +33,18 @@ public class DefaultEdgeManager implements EdgeManager {
 
 	private final ConcurrentMap<Integer, Pair<SettableFuture<Message>, DateTime>> resultsFutures;
 
-	public DefaultEdgeManager(final ServiceProto.ServiceRef serviceRef, final ServiceRegistry serviceRegistry) {
+	public DefaultEdgeManager(
+			final ServiceProto.ServiceRef serviceRef,
+			final ServiceRegistry serviceRegistry) {
 		this.serviceRef = serviceRef;
 		this.serviceRegistry = serviceRegistry;
 		this.resultsFutures = Maps.newConcurrentMap();
+
+		final String waitingResultsGaugeId = MessageUtils.serviceRefToString(serviceRef) + ".waitingResults";
+		final Gauge resultsFuturesGauge = new BasicGauge<>(
+				MonitorConfig.builder(waitingResultsGaugeId).build(),
+				new MapSizeCallable(resultsFutures));
+		DefaultMonitorRegistry.getInstance().register(resultsFuturesGauge);
 	}
 
 	@Override
@@ -48,8 +61,8 @@ public class DefaultEdgeManager implements EdgeManager {
 				ContentTypes.fromJsonClass(messageClass),
 				Optional.of(messageId),
 				Optional.<byte[]>absent(),
-				expirationOptional.isPresent() ? Optional.of(
-						expirationOptional.get().getExpiration()) : Optional.<DateTime>absent());
+				expirationOptional.isPresent() ?
+						Optional.of(expirationOptional.get().getExpiration()) : Optional.<DateTime>absent());
 		resultsFutures.putIfAbsent(Arrays.hashCode(messageId), new Pair<>(resultsFuture, DateTime.now()));
 		serviceRegistry.sendMessage(controller, message);
 		return resultsFuture;
@@ -60,8 +73,7 @@ public class DefaultEdgeManager implements EdgeManager {
 		final Optional<byte[]> messageId = controller.getCorrelationId();
 		if (messageId.isPresent()) {
 			final Pair<SettableFuture<Message>, DateTime> resultsFuturePair = resultsFutures.get(
-					Arrays.hashCode(
-							messageId.get()));
+					Arrays.hashCode(messageId.get()));
 			if (resultsFuturePair != null) {
 				final SettableFuture<Message> resultsFuture = resultsFuturePair.getA();
 				resultsFuture.set(message);

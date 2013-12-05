@@ -40,7 +40,6 @@ public class DefaultWorkSupervisor implements WorkSupervisor, DisposableBean {
 
 	public void addWork(final Work work) {
 		try {
-			LOGGER.info("Read lock");
 			lock.readLock().lock();
 			if (hasShutdown.get()) {
 				// NKG: Prevent any work from being added once the work supervisor has been asked to shutdown.
@@ -50,19 +49,16 @@ public class DefaultWorkSupervisor implements WorkSupervisor, DisposableBean {
 				preStartWork.add(work);
 			} else {
 				try {
-					LOGGER.info("Write lock");
 					lock.readLock().unlock();
 					lock.writeLock().lock();
 					final Future workFuture = workThreadPool.submit(new WorkRunnable(work));
 					activeWork.put(work.getId(), Pair.create(work, workFuture));
 				} finally {
-					LOGGER.info("Write unlock");
 					lock.readLock().lock();
 					lock.writeLock().unlock();
 				}
 			}
 		} finally {
-			LOGGER.info("Read unlock");
 			lock.readLock().unlock();
 		}
 	}
@@ -112,7 +108,7 @@ public class DefaultWorkSupervisor implements WorkSupervisor, DisposableBean {
 
 		@Override
 		public void run() {
-			LOGGER.info("Starting work {}", work);
+			LOGGER.debug("Starting work {}", work);
 			work.run();
 		}
 	}
