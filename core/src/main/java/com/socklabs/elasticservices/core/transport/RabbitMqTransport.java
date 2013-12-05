@@ -8,6 +8,11 @@ import com.google.common.primitives.Longs;
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Message;
 import com.googlecode.protobuf.format.JsonFormat;
+import com.netflix.servo.DefaultMonitorRegistry;
+import com.netflix.servo.monitor.BasicCounter;
+import com.netflix.servo.monitor.BasicGauge;
+import com.netflix.servo.monitor.Counter;
+import com.netflix.servo.monitor.MonitorConfig;
 import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.BasicProperties;
 import com.rabbitmq.client.Channel;
@@ -15,17 +20,18 @@ import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.Consumer;
 import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.ShutdownSignalException;
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.MessageUtils;
 import com.socklabs.elasticservices.core.service.DefaultMessageController;
 import com.socklabs.elasticservices.core.service.MessageController;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 
 public class RabbitMqTransport extends AbstractTransport {
 
@@ -37,6 +43,9 @@ public class RabbitMqTransport extends AbstractTransport {
 	private final String routingKey;
 	private final String exchangeType;
 
+	private final Counter sendCount;
+	private final Counter sendFailureCount;
+
 	public RabbitMqTransport(
 			final Connection connection,
 			final String exchange,
@@ -47,9 +56,38 @@ public class RabbitMqTransport extends AbstractTransport {
 		this.exchange = exchange;
 		this.routingKey = routingKey;
 		this.exchangeType = exchangeType;
+		this.consumers = Lists.newArrayList();
+
+		this.sendCount = new BasicCounter(
+				MonitorConfig.builder("sendCount").withTag(
+						"transport",
+						getRef()).build());
+		this.sendFailureCount = new BasicCounter(
+				MonitorConfig.builder("sendFailureCount").withTag(
+						"transport",
+						getRef()).build());
+		final Counter deliveryCount = new BasicCounter(
+				MonitorConfig.builder("deliveryCount").withTag(
+						"transport",
+						getRef()).build());
+		final Counter deliveryFailureCount = new BasicCounter(
+				MonitorConfig.builder("deliveryFailureCount").withTag(
+						"transport",
+						getRef()).build());
+		DefaultMonitorRegistry.getInstance().register(this.sendCount);
+		DefaultMonitorRegistry.getInstance().register(this.sendFailureCount);
+		DefaultMonitorRegistry.getInstance().register(deliveryCount);
+		DefaultMonitorRegistry.getInstance().register(deliveryFailureCount);
+		final MonitorConfig consumersSizeMonitorConfig = MonitorConfig.builder("consumers").withTag(
+				"transport",
+				getRef()).build();
+		DefaultMonitorRegistry.getInstance().register(
+				new BasicGauge<>(
+						consumersSizeMonitorConfig,
+						new ListSizeCallable(this.consumers)));
+
 		channel = connection.createChannel();
 
-		consumers = Lists.newArrayList();
 		if (forLocalServiceImpl) {
 			final AMQP.Queue.DeclareOk queueDecl = channel.queueDeclare();
 			LOGGER.info("queue declared: {}", queueDecl);
@@ -67,15 +105,17 @@ public class RabbitMqTransport extends AbstractTransport {
 			final String consumerTag = channel.basicConsume(
 					queueDecl.getQueue(),
 					true,
-					new FabricMessageConsumer(consumers));
+					new FabricMessageConsumer(consumers, deliveryCount, deliveryFailureCount));
 			LOGGER.info("Received consumer tag {}", consumerTag);
 		}
 	}
 
 	@Override
 	public void send(final MessageController messageController, final AbstractMessage message) {
+		sendCount.increment();
 		final ServiceProto.ContentType contentType = getContentType(messageController, message);
 		if (contentType == null) {
+			sendFailureCount.increment();
 			throw new RuntimeException("Could not get content type of message.");
 		}
 		try {
@@ -87,7 +127,7 @@ public class RabbitMqTransport extends AbstractTransport {
 					basicProperties,
 					messageBytes);
 		} catch (final Exception e) {
-			// TODO[NKG]: Determine what should happen when a message can't be published.
+			sendFailureCount.increment();
 			LOGGER.error("Exception caught publishing message:", e);
 		}
 	}
@@ -148,9 +188,16 @@ public class RabbitMqTransport extends AbstractTransport {
 
 		private static final Logger LOGGER = LoggerFactory.getLogger(FabricMessageConsumer.class);
 		private final List<TransportConsumer> transportConsumers;
+		private final Counter deliveryCount;
+		private final Counter deliveryFailureCount;
 
-		private FabricMessageConsumer(final List<TransportConsumer> transportConsumers) {
+		private FabricMessageConsumer(
+				final List<TransportConsumer> transportConsumers,
+				final Counter deliveryCount,
+				final Counter deliveryFailureCount) {
 			this.transportConsumers = transportConsumers;
+			this.deliveryCount = deliveryCount;
+			this.deliveryFailureCount = deliveryFailureCount;
 		}
 
 		@Override
@@ -179,11 +226,13 @@ public class RabbitMqTransport extends AbstractTransport {
 				final Envelope envelope,
 				final AMQP.BasicProperties properties,
 				final byte[] body) throws IOException {
+			deliveryCount.increment();
 			final MessageController messageController = buildMessageController(properties);
 			for (final TransportConsumer transportConsumer : transportConsumers) {
 				try {
 					transportConsumer.handleMessage(messageController, body);
 				} catch (final Exception e) {
+					deliveryFailureCount.increment();
 					LOGGER.error("Error giving message to transport consumer:", e);
 				}
 			}
@@ -222,10 +271,10 @@ public class RabbitMqTransport extends AbstractTransport {
 			final Map<String, Object> headers = properties.getHeaders();
 			if (headers != null) {
 				final Long millis = Longs.tryParse(headers.get("expires").toString());
-					if (millis != null) {
-						final DateTime expires = new DateTime(millis);
-						expiresOptional = Optional.of(expires);
-					}
+				if (millis != null) {
+					final DateTime expires = new DateTime(millis);
+					expiresOptional = Optional.of(expires);
+				}
 			}
 
 			return new DefaultMessageController(
@@ -237,6 +286,18 @@ public class RabbitMqTransport extends AbstractTransport {
 					expiresOptional);
 		}
 
+	}
+
+	private static class ListSizeCallable implements Callable<Integer> {
+		private final List<?> consumers;
+
+		private ListSizeCallable(final List<?> consumers) {
+			this.consumers = consumers;
+		}
+
+		@Override public Integer call() throws Exception {
+			return consumers.size();
+		}
 	}
 
 }
