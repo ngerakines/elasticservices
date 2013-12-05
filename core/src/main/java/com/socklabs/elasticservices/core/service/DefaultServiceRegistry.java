@@ -13,8 +13,6 @@ import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.collection.CollectionUtils;
 import com.socklabs.elasticservices.core.message.MessageFactory;
@@ -22,6 +20,10 @@ import com.socklabs.elasticservices.core.message.MessageUtils;
 import com.socklabs.elasticservices.core.transport.Transport;
 import com.socklabs.elasticservices.core.transport.TransportConsumer;
 import com.socklabs.elasticservices.core.transport.TransportFactory;
+import com.socklabs.servo.ext.CounterCacheCompositeMonitor;
+import com.socklabs.servo.ext.KeyIncrementable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.util.Comparator;
@@ -55,6 +57,9 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 	private final Set<ServiceProto.ServiceRef> serviceRefs;
 
+	private final KeyIncrementable<String> senderCounters;
+	private final KeyIncrementable<String> destinationCounters;
+
 	public DefaultServiceRegistry(
 			final ServiceProto.ComponentRef componentRef,
 			final TransportFactory transportFactory) {
@@ -66,6 +71,9 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 		this.transportServiceBindings = HashMultimap.create();
 		this.serviceRefs = Sets.newHashSet();
 		this.transportRefsByServiceRef = ArrayListMultimap.create();
+
+		this.senderCounters = new CounterCacheCompositeMonitor<>("senderCounters");
+		this.destinationCounters = new CounterCacheCompositeMonitor<>("destinationCounters");
 	}
 
 	@Override
@@ -194,6 +202,8 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 	@Override
 	public synchronized void sendMessage(final MessageController controller, final AbstractMessage message) {
+		senderCounters.incr(MessageUtils.serviceRefToString(controller.getSender()));
+		destinationCounters.incr(MessageUtils.serviceRefToString(controller.getDestination()));
 		final Optional<Transport> transportOptional = transportForService(controller.getDestination());
 		if (transportOptional.isPresent()) {
 			final Transport transport = transportOptional.get();
