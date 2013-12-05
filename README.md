@@ -39,7 +39,7 @@ synchronous projects, like HTTP edges, can engage asynchronous services.
 
 # Building
 
-This project uses the org.socklabs:maven-protobuff plugin which can be found
+This project uses the com.socklabs:maven-protobuff plugin which can be found
 here:
 
 	https://github.com/ngerakines/maven-protobuf

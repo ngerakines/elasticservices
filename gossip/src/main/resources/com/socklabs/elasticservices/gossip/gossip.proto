@@ -1,0 +1,24 @@
+import "com/socklabs/elasticservices/core/service.proto";
+
+package com.socklabs.elasticservices.gossip;
+
+option optimize_for = SPEED;
+
+option java_package = "com.socklabs.elasticservices.gossip";
+
+option java_outer_classname = "GossipServiceProto";
+
+message ComponentService {
+	optional com.socklabs.elasticservices.core.ServiceRef service_ref = 1;
+	optional string transport_url = 2;
+}
+
+message ComponentOnline {
+	optional com.socklabs.elasticservices.core.ComponentRef component_ref = 1;
+	repeated ComponentService services = 2;
+}
+
+message ComponentStatus {
+	optional com.socklabs.elasticservices.core.ComponentRef component_ref = 1;
+	repeated ComponentService services = 2;
+}

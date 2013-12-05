@@ -1,0 +1,30 @@
+package com.socklabs.elasticservices.core;
+
+option java_package = "com.socklabs.elasticservices.core";
+
+option java_outer_classname = "ServiceProto";
+
+option java_generic_services = false;
+
+option optimize_for = SPEED;
+
+message ComponentRef {
+	optional string site = 1;
+	optional string cluster = 2;
+	optional string component_id = 3;
+}
+
+message ServiceRef {
+	optional ComponentRef component_ref = 1;
+	optional string service_id = 2;
+}
+
+message ContentType {
+	optional string value = 1;
+	repeated Attribute attribute = 2;
+
+	message Attribute {
+		optional string key = 1;
+		optional string value = 2;
+	}
+}

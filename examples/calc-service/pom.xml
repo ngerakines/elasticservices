@@ -72,11 +72,8 @@
 								<phase>generate-sources</phase>
 								<configuration>
 									<verbose>true</verbose>
-									<!-- <protoc>${protoc}</protoc> -->
 									<protoSources>
-										<protoSource>
-											src/main/resources/org/socklabs/elasticservices/examples/calc/calc.proto
-										</protoSource>
+										<protoSource>src/main/resources/com/socklabs/elasticservices/examples/calc/calc.proto</protoSource>
 									</protoSources>
 								</configuration>
 								<goals>
