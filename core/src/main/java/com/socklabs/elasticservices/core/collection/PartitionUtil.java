@@ -8,7 +8,7 @@ import java.util.List;
 public class PartitionUtil {
 
 	public static ServiceProto.ServiceRef random(final List<ServiceProto.ServiceRef> serviceRefs) {
-		Preconditions.checkArgument(serviceRefs.size() > 0);
+		Preconditions.checkArgument(serviceRefs.size() > 0, "One or more services required to select from.");
 		return RandomUtils.randomFromListOf(serviceRefs);
 	}
 

@@ -37,7 +37,8 @@ public class IndexApiController {
 	@Resource(name = "calcEdgeManager")
 	private EdgeManager edgeManager;
 
-	@ResponseBody @RequestMapping(value = "/calc", method = RequestMethod.GET)
+	@ResponseBody
+	@RequestMapping(value = "/calc", method = RequestMethod.GET)
 	public String handleQuery(final HttpServletRequest request) {
 		final CalcServiceProto.Add.Builder addBuilder = CalcServiceProto.Add.newBuilder();
 		for (final Map.Entry<String, String[]> entry : request.getParameterMap().entrySet()) {
