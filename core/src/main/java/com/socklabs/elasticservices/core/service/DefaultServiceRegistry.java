@@ -212,6 +212,21 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 		}
 	}
 
+	@Override public void reply(
+			final MessageController inboundMessageController,
+			final ServiceProto.ServiceRef senderServiceRef,
+			final AbstractMessage message,
+			final ServiceProto.ContentType contentType) {
+
+		final MessageController outboundController = new DefaultMessageController(
+				senderServiceRef,
+				inboundMessageController.getSender(),
+				contentType,
+				Optional.of(MessageUtils.randomMessageId(24)),
+				inboundMessageController.getMessageId());
+		sendMessage(outboundController, message);
+	}
+
 	private void dispatchMessage(final MessageController messageController, final byte[] rawMessage) {
 		LOGGER.debug("Dispatching message {}", messageController.getContentType().getValue());
 		final ServiceProto.ServiceRef serviceRef = destinationOf(messageController);

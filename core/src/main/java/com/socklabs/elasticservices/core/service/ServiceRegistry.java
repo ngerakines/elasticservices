@@ -76,4 +76,10 @@ public interface ServiceRegistry {
 
 	void sendMessage(final MessageController controller, final AbstractMessage message);
 
+	void reply(
+			final MessageController inboundMessageController,
+			final ServiceProto.ServiceRef senderServiceRef,
+			final AbstractMessage message,
+			final ServiceProto.ContentType contentType);
+
 }

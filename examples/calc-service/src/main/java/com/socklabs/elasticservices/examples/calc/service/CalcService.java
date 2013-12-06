@@ -3,16 +3,14 @@ package com.socklabs.elasticservices.examples.calc.service;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
-import org.joda.time.DateTime;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.ContentTypes;
 import com.socklabs.elasticservices.core.message.MessageFactory;
-import com.socklabs.elasticservices.core.message.MessageUtils;
-import com.socklabs.elasticservices.core.service.DefaultMessageController;
 import com.socklabs.elasticservices.core.service.MessageController;
 import com.socklabs.elasticservices.core.service.Service;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
+import org.joda.time.DateTime;
 
 import java.util.List;
 
@@ -56,15 +54,13 @@ public class CalcService implements Service {
 			for (final Integer value : ((CalcServiceProto.Add) message).getValuesList()) {
 				sum += value;
 			}
-			final CalcServiceProto.Result result = CalcServiceProto.Result.newBuilder().setValue(sum).build();
-
-			final MessageController outboundController = new DefaultMessageController(
+			final CalcServiceProto.Result result =
+					CalcServiceProto.Result.newBuilder().setValue(sum).build();
+			serviceRegistry.reply(
+					controller,
 					serviceRef,
-					controller.getSender(),
-					ContentTypes.fromJsonClass(CalcServiceProto.Result.class),
-					Optional.of(MessageUtils.randomMessageId(24)),
-					controller.getMessageId());
-			serviceRegistry.sendMessage(outboundController, result);
+					result,
+					ContentTypes.fromJsonClass(CalcServiceProto.Result.class));
 		}
 	}
 
