@@ -48,7 +48,7 @@ public class DefaultEdgeManager implements EdgeManager {
 	}
 
 	@Override
-	public Future<Message> execute(
+	public Future<Message> sendAndReceive(
 			final ServiceProto.ServiceRef destination,
 			final AbstractMessage message,
 			final Class messageClass,
@@ -66,6 +66,24 @@ public class DefaultEdgeManager implements EdgeManager {
 		resultsFutures.putIfAbsent(Arrays.hashCode(messageId), new Pair<>(resultsFuture, DateTime.now()));
 		serviceRegistry.sendMessage(controller, message);
 		return resultsFuture;
+	}
+
+	@Override
+	public void send(
+			final ServiceProto.ServiceRef destination,
+			final AbstractMessage message,
+			final Class messageClass,
+			final Optional<Expiration> expirationOptional) {
+		final byte[] messageId = MessageUtils.randomMessageId(24);
+		final MessageController controller = new DefaultMessageController(
+				serviceRef,
+				destination,
+				ContentTypes.fromJsonClass(messageClass),
+				Optional.of(messageId),
+				Optional.<byte[]>absent(),
+				expirationOptional.isPresent() ?
+						Optional.of(expirationOptional.get().getExpiration()) : Optional.<DateTime>absent());
+		serviceRegistry.sendMessage(controller, message);
 	}
 
 	@Override

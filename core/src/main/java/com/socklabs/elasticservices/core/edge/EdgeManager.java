@@ -12,7 +12,13 @@ import java.util.concurrent.Future;
 
 public interface EdgeManager {
 
-	Future<Message> execute(
+	Future<Message> sendAndReceive(
+			final ServiceProto.ServiceRef destination,
+			final AbstractMessage message,
+			final Class messageClass,
+			final Optional<Expiration> expirationOptional);
+
+	void send(
 			final ServiceProto.ServiceRef destination,
 			final AbstractMessage message,
 			final Class messageClass,

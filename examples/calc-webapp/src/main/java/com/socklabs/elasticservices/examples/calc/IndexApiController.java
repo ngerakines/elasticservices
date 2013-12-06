@@ -49,7 +49,7 @@ public class IndexApiController {
 			}
 		}
 		final ServiceProto.ServiceRef serviceRef = selectDestination();
-		final Future<Message> resultfuture = edgeManager.execute(
+		final Future<Message> resultfuture = edgeManager.sendAndReceive(
 				serviceRef,
 				addBuilder.build(),
 				CalcServiceProto.Add.class,
