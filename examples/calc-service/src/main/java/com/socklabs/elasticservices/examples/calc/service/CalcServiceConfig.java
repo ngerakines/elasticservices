@@ -7,7 +7,6 @@ import com.socklabs.elasticservices.core.service.Service;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.RabbitMqTransport;
 import com.socklabs.elasticservices.core.transport.Transport;
-import com.socklabs.elasticservices.core.transport.TransportFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -29,9 +28,6 @@ public class CalcServiceConfig {
 	private ServiceRegistry serviceRegistry;
 
 	@Resource
-	private TransportFactory transportFactory;
-
-	@Resource
 	private ConnectionFactory connectionFactory;
 
 	@Bean
@@ -45,7 +41,11 @@ public class CalcServiceConfig {
 		final String routingKey = environment.getRequiredProperty("service.calc.routing_key");
 		try {
 			return new RabbitMqTransport(
-					connectionFactory.newConnection(), exchange, routingKey, "direct", true);
+					connectionFactory.newConnection(),
+					exchange,
+					routingKey,
+					"direct",
+					true);
 		} catch (final IOException e) {
 			throw new RuntimeException("Could not create AMQP transport for calc service.", e);
 		}

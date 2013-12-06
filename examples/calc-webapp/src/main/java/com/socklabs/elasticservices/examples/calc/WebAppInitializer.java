@@ -24,7 +24,8 @@ public class WebAppInitializer implements WebApplicationInitializer {
 		context.register(AppConfig.class);
 
 		FilterRegistration.Dynamic characterEncodingFilter = servletContext.addFilter(
-				"characterEncodingFilter", new CharacterEncodingFilter());
+				"characterEncodingFilter",
+				new CharacterEncodingFilter());
 		characterEncodingFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 		characterEncodingFilter.setInitParameter("encoding", "UTF-8");
 		characterEncodingFilter.setInitParameter("forceEncoding", "true");

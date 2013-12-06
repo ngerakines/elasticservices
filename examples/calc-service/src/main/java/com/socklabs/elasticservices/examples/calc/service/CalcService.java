@@ -22,8 +22,7 @@ public class CalcService implements Service {
 
 	private final MessageFactory calcMessageFactory;
 
-	public CalcService(
-			final ServiceProto.ServiceRef serviceRef, final ServiceRegistry serviceRegistry) {
+	public CalcService(final ServiceProto.ServiceRef serviceRef, final ServiceRegistry serviceRegistry) {
 		this.serviceRef = serviceRef;
 		this.serviceRegistry = serviceRegistry;
 

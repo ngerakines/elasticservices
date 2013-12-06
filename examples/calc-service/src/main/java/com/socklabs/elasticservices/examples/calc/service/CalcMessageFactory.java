@@ -9,9 +9,7 @@ import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
 public class CalcMessageFactory extends AbstractMessageFactory {
 
 	public CalcMessageFactory() {
-		super(
-				Lists.newArrayList(
-						CalcServiceProto.Add.class.getName(), CalcServiceProto.Result.class.getName()));
+		super(Lists.newArrayList(CalcServiceProto.Add.class.getName(), CalcServiceProto.Result.class.getName()));
 	}
 
 	@Override
