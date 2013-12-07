@@ -1,16 +1,12 @@
 package com.socklabs.elasticservices.core.edge;
 
+import com.socklabs.elasticservices.core.work.AbstractWork;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.socklabs.elasticservices.core.work.AbstractWork;
 
 import java.util.concurrent.TimeUnit;
 
 public class StaleEdgeFutureRemoverWork extends AbstractWork {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(StaleEdgeFutureRemoverWork.class);
 
 	private final String id;
 	private final EdgeManager edgeManager;
