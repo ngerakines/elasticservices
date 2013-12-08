@@ -2,6 +2,8 @@ package com.socklabs.elasticservices.gossip;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
+import com.socklabs.elasticservices.core.misc.Ref;
+import com.socklabs.elasticservices.core.misc.RefUtils;
 import com.socklabs.elasticservices.core.service.Service;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.RabbitMqTransport;
@@ -36,12 +38,17 @@ public class GossipServiceConfig {
 	}
 
 	@Bean
+	public Ref gossipTransportRef() {
+		return RefUtils.rabbitMqTransportRef(
+				environment.getRequiredProperty("service.gossip.exchange"),
+				environment.getRequiredProperty("service.gossip.routing_key"),
+				"fanout");
+	}
+
+	@Bean
 	public Transport gossipTransport() {
-		final String exchange = environment.getRequiredProperty("service.gossip.exchange");
-		final String routingKey = environment.getRequiredProperty("service.gossip.routing_key");
 		try {
-			return new RabbitMqTransport(
-					connectionFactory.newConnection(), exchange, routingKey, "fanout", true);
+			return new RabbitMqTransport(connectionFactory.newConnection(), gossipTransportRef());
 		} catch (final IOException e) {
 			throw new RuntimeException("Could not create AMQP transport for gossip service.", e);
 		}
@@ -59,8 +66,8 @@ public class GossipServiceConfig {
 
 	@PostConstruct
 	public void registerService() {
-		serviceRegistry.registerService(gossipService());
-		serviceRegistry.bindTransportToService(gossipServiceRef(), gossipTransport());
+		serviceRegistry.registerService(gossipService(), gossipTransport());
+		serviceRegistry.initTransportClient(gossipServiceRef(), gossipTransportRef());
 	}
 
 }

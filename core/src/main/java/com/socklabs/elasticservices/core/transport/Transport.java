@@ -1,6 +1,7 @@
 package com.socklabs.elasticservices.core.transport;
 
 import com.google.protobuf.AbstractMessage;
+import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.service.MessageController;
 
 /**
@@ -15,6 +16,6 @@ public interface Transport {
 	/** Add a local transport consumer to receive any messages sent to the transport. */
 	void addConsumer(final TransportConsumer consumer);
 
-	String getRef();
+	Ref getRef();
 
 }

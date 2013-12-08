@@ -14,6 +14,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.ContentTypes;
+import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.service.MessageController;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -32,18 +33,18 @@ public class RabbitMqTransportClient implements TransportClient {
 	private final Counter sendCount;
 	private final Counter sendFailureCount;
 
-	public RabbitMqTransportClient(final String ref, final Connection connection) throws IOException {
-		this.transportRef = new RabbitMqTransportRef(ref);
+	public RabbitMqTransportClient(final Ref ref, final Connection connection) throws IOException {
 		this.channel = connection.createChannel();
 
 		this.sendCount = new BasicCounter(
 				MonitorConfig.builder("sendCount").withTag(
 						"transport",
-						ref).build());
+						ref.toString()).build());
 		this.sendFailureCount = new BasicCounter(
 				MonitorConfig.builder("sendFailureCount").withTag(
 						"transport",
-						ref).build());
+						ref.toString()).build());
+		this.transportRef = new RabbitMqTransportRef(ref);
 		DefaultMonitorRegistry.getInstance().register(this.sendCount);
 		DefaultMonitorRegistry.getInstance().register(this.sendFailureCount);
 	}
@@ -51,7 +52,7 @@ public class RabbitMqTransportClient implements TransportClient {
 	@Override
 	public void send(final MessageController messageController, final AbstractMessage message) {
 		sendCount.increment();
-		final ServiceProto.ContentType contentType = getContentType(messageController, message);
+		final ServiceProto.ContentType contentType = getContentType(messageController);
 		if (contentType == null) {
 			sendFailureCount.increment();
 			throw new RuntimeException("Could not get content type of message.");
@@ -70,6 +71,9 @@ public class RabbitMqTransportClient implements TransportClient {
 		}
 	}
 
+	@Override public Ref getRef() {
+		return transportRef.getRef();
+	}
 
 	private AMQP.BasicProperties buildBasicProperties(
 			final MessageController messageController,
@@ -114,8 +118,7 @@ public class RabbitMqTransportClient implements TransportClient {
 	}
 
 	private ServiceProto.ContentType getContentType(
-			final MessageController controller,
-			final com.google.protobuf.Message message) {
+			final MessageController controller) {
 		return controller.getContentType();
 	}
 

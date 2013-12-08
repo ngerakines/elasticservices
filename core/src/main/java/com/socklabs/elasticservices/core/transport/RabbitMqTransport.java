@@ -21,6 +21,7 @@ import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.ShutdownSignalException;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.MessageUtils;
+import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.service.DefaultMessageController;
 import com.socklabs.elasticservices.core.service.MessageController;
 import com.socklabs.servo.ext.CollectionSizeCallable;
@@ -38,35 +39,28 @@ public class RabbitMqTransport extends AbstractTransport {
 	private static final BaseEncoding B16 = BaseEncoding.base16();
 	private final Channel channel;
 	private final List<TransportConsumer> consumers;
-	private final String exchange;
-	private final String routingKey;
-	private final String exchangeType;
+	private final RabbitMqTransportRef transportRef;
 
 	public RabbitMqTransport(
 			final Connection connection,
-			final String exchange,
-			final String routingKey,
-			final String exchangeType,
-			final boolean forLocalServiceImpl) throws IOException {
+			final Ref transportRef) throws IOException {
 
-		this.exchange = exchange;
-		this.routingKey = routingKey;
-		this.exchangeType = exchangeType;
+		this.transportRef = new RabbitMqTransportRef(transportRef);
 		this.consumers = Lists.newArrayList();
 
 		final Counter deliveryCount = new BasicCounter(
 				MonitorConfig.builder("deliveryCount").withTag(
 						"transport",
-						getRef()).build());
+						getRef().toString()).build());
 		final Counter deliveryFailureCount = new BasicCounter(
 				MonitorConfig.builder("deliveryFailureCount").withTag(
 						"transport",
-						getRef()).build());
+						getRef().toString()).build());
 		DefaultMonitorRegistry.getInstance().register(deliveryCount);
 		DefaultMonitorRegistry.getInstance().register(deliveryFailureCount);
-		final MonitorConfig consumersSizeMonitorConfig = MonitorConfig.builder("consumers").withTag(
-				"transport",
-				getRef()).build();
+		final MonitorConfig consumersSizeMonitorConfig = MonitorConfig.builder("consumers")
+				.withTag("transport", getRef().toString())
+				.build();
 		DefaultMonitorRegistry.getInstance().register(
 				new BasicGauge<>(
 						consumersSizeMonitorConfig,
@@ -74,26 +68,28 @@ public class RabbitMqTransport extends AbstractTransport {
 
 		channel = connection.createChannel();
 
-		if (forLocalServiceImpl) {
-			final AMQP.Queue.DeclareOk queueDecl = channel.queueDeclare();
-			LOGGER.info("queue declared: {}", queueDecl);
+		final AMQP.Queue.DeclareOk queueDecl = channel.queueDeclare();
+		LOGGER.info("queue declared: {}", queueDecl);
 
-			final AMQP.Exchange.DeclareOk exchangeDeclOk = channel.exchangeDeclare(
-					exchange, exchangeType, true, true, Maps.<String, Object>newHashMap());
-			LOGGER.info("exchange declared: {}", exchangeDeclOk);
+		final AMQP.Exchange.DeclareOk exchangeDeclOk = channel.exchangeDeclare(
+				this.transportRef.getExchange(),
+				this.transportRef.getType(),
+				true,
+				true,
+				Maps.<String, Object>newHashMap());
+		LOGGER.info("exchange declared: {}", exchangeDeclOk);
 
-			final AMQP.Queue.BindOk queueBindOk = channel.queueBind(
-					queueDecl.getQueue(),
-					exchange,
-					"fanout".equals(exchangeType) ? "" : routingKey);
-			LOGGER.info("queue binding declared: {}", queueBindOk);
+		final AMQP.Queue.BindOk queueBindOk = channel.queueBind(
+				queueDecl.getQueue(),
+				this.transportRef.getExchange(),
+				"fanout".equals(this.transportRef.getType()) ? "" : this.transportRef.getRoutingKey());
+		LOGGER.info("queue binding declared: {}", queueBindOk);
 
-			final String consumerTag = channel.basicConsume(
-					queueDecl.getQueue(),
-					true,
-					new FabricMessageConsumer(consumers, deliveryCount, deliveryFailureCount));
-			LOGGER.info("Received consumer tag {}", consumerTag);
-		}
+		final String consumerTag = channel.basicConsume(
+				queueDecl.getQueue(),
+				true,
+				new FabricMessageConsumer(consumers, deliveryCount, deliveryFailureCount));
+		LOGGER.info("Received consumer tag {}", consumerTag);
 	}
 
 	@Override
@@ -107,8 +103,8 @@ public class RabbitMqTransport extends AbstractTransport {
 	}
 
 	@Override
-	public String getRef() {
-		return "rabbitmq://" + exchange + "/" + routingKey;
+	public Ref getRef() {
+		return transportRef.getRef();
 	}
 
 	private static class FabricMessageConsumer implements Consumer {

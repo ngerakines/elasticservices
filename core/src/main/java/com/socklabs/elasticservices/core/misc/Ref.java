@@ -12,7 +12,7 @@ import java.util.List;
 public class Ref {
 
 	private static final Splitter GROUP_SPLITTER = Splitter.on(";").omitEmptyStrings().trimResults();
-	private static final Splitter KV_SPLITTER = Splitter.on("=").omitEmptyStrings().trimResults().limit(1);
+	private static final Splitter KV_SPLITTER = Splitter.on("=").omitEmptyStrings().trimResults().limit(2);
 
 	private final String id;
 	private final ImmutableList<Pair<String, Optional<String>>> values;
@@ -61,6 +61,26 @@ public class Ref {
 			}
 		}
 		return sb.toString();
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if (this == o) { return true; }
+		if (o == null || getClass() != o.getClass()) { return false; }
+
+		final Ref ref = (Ref) o;
+
+		if (!id.equals(ref.id)) { return false; }
+		if (!values.equals(ref.values)) { return false; }
+
+		return true;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id.hashCode();
+		result = 31 * result + values.hashCode();
+		return result;
 	}
 
 	public static Builder builderFromUri(final String uri) {

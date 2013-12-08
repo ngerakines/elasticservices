@@ -2,6 +2,8 @@ package com.socklabs.elasticservices.examples.calc.config;
 
 import com.google.common.collect.ImmutableList;
 import com.rabbitmq.client.ConnectionFactory;
+import com.socklabs.elasticservices.core.misc.Ref;
+import com.socklabs.elasticservices.core.misc.RefUtils;
 import org.joda.time.Duration;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.edge.DefaultEdgeManager;
@@ -44,11 +46,17 @@ public class EdgeConfig {
 	}
 
 	@Bean
+	public Ref calcEdgeServiceTransportRef() {
+		return RefUtils.rabbitMqTransportRef(
+				environment.getRequiredProperty("service.calcEdge.exchange"),
+				environment.getRequiredProperty("service.calcEdge.routing_key"),
+				"direct");
+	}
+
+	@Bean
 	public Transport calcEdgeTransport() {
-		final String exchange = environment.getRequiredProperty("service.calcEdge.exchange");
-		final String routingKey = environment.getRequiredProperty("service.calcEdge.routing_key");
 		try {
-			return new RabbitMqTransport(connectionFactory.newConnection(), exchange, routingKey, "direct", true);
+			return new RabbitMqTransport(connectionFactory.newConnection(), calcEdgeServiceTransportRef());
 		} catch (final IOException e) {
 			throw new RuntimeException("Could not create AMQP transport for calc service.", e);
 		}
@@ -78,8 +86,7 @@ public class EdgeConfig {
 
 	@PostConstruct
 	public void registerService() {
-		serviceRegistry.registerService(calcEdgeService());
-		serviceRegistry.bindTransportToService(calcEdgeServiceRef(), calcEdgeTransport());
+		serviceRegistry.registerService(calcEdgeService(), calcEdgeTransport());
 	}
 
 }

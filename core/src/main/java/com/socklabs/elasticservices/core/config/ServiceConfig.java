@@ -4,7 +4,9 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.service.DefaultServiceRegistry;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
+import com.socklabs.elasticservices.core.transport.DefaultTransportClientFactory;
 import com.socklabs.elasticservices.core.transport.DefaultTransportFactory;
+import com.socklabs.elasticservices.core.transport.TransportClientFactory;
 import com.socklabs.elasticservices.core.transport.TransportFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,12 +24,17 @@ public class ServiceConfig {
 
 	@Bean
 	public ServiceRegistry serviceRegistry() {
-		return new DefaultServiceRegistry(localComponentRef(), transportFactory());
+		return new DefaultServiceRegistry(localComponentRef(), transportClientFactory());
 	}
 
 	@Bean
 	public TransportFactory transportFactory() {
 		return new DefaultTransportFactory(rabbitMqConnectionFactory);
+	}
+
+	@Bean
+	public TransportClientFactory transportClientFactory() {
+		return new DefaultTransportClientFactory(rabbitMqConnectionFactory);
 	}
 
 	@Bean

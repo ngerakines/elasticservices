@@ -1,14 +1,14 @@
 package com.socklabs.elasticservices.gossip;
 
 import com.google.common.base.Optional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.ContentTypes;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
-import com.socklabs.elasticservices.core.transport.Transport;
+import com.socklabs.elasticservices.core.transport.TransportClient;
 import com.socklabs.elasticservices.core.work.AbstractWork;
 import com.socklabs.elasticservices.core.work.Work;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -73,9 +73,9 @@ public class BroadcastWork extends AbstractWork implements Work {
 			final GossipServiceProto.ComponentService.Builder componentServiceBuilder = GossipServiceProto.ComponentService
 					.newBuilder();
 			componentServiceBuilder.setServiceRef(serviceRef);
-			final Optional<Transport> transportOptional = serviceRegistry.transportForService(serviceRef);
-			if (transportOptional.isPresent()) {
-				componentServiceBuilder.setTransportUrl(transportOptional.get().getRef());
+			final Optional<TransportClient> transportClientOptional = serviceRegistry.transportClientForService(serviceRef);
+			if (transportClientOptional.isPresent()) {
+				componentServiceBuilder.setTransportUrl(transportClientOptional.get().getRef().toString());
 			}
 			builder.addServices(componentServiceBuilder);
 		}
@@ -91,9 +91,9 @@ public class BroadcastWork extends AbstractWork implements Work {
 			final GossipServiceProto.ComponentService.Builder componentServiceBuilder = GossipServiceProto.ComponentService
 					.newBuilder();
 			componentServiceBuilder.setServiceRef(serviceRef);
-			final Optional<Transport> transportOptional = serviceRegistry.transportForService(serviceRef);
-			if (transportOptional.isPresent()) {
-				componentServiceBuilder.setTransportUrl(transportOptional.get().getRef());
+			final Optional<TransportClient> transportClientOptional = serviceRegistry.transportClientForService(serviceRef);
+			if (transportClientOptional.isPresent()) {
+				componentServiceBuilder.setTransportUrl(transportClientOptional.get().getRef().toString());
 			}
 			builder.addServices(componentServiceBuilder);
 		}

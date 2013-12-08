@@ -1,10 +1,8 @@
 package com.socklabs.elasticservices.core.service;
 
 import com.google.common.base.Optional;
-import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -17,9 +15,11 @@ import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.collection.CollectionUtils;
 import com.socklabs.elasticservices.core.message.MessageFactory;
 import com.socklabs.elasticservices.core.message.MessageUtils;
+import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.transport.Transport;
+import com.socklabs.elasticservices.core.transport.TransportClient;
+import com.socklabs.elasticservices.core.transport.TransportClientFactory;
 import com.socklabs.elasticservices.core.transport.TransportConsumer;
-import com.socklabs.elasticservices.core.transport.TransportFactory;
 import com.socklabs.servo.ext.CounterCacheCompositeMonitor;
 import com.socklabs.servo.ext.KeyIncrementable;
 import org.slf4j.Logger;
@@ -37,7 +37,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServiceRegistry.class);
 
 	// Used to create transports when services are discovered through gossip.
-	private final TransportFactory transportFactory;
+	private final TransportClientFactory transportClientFactory;
 
 	private final ServiceProto.ComponentRef componentRef;
 
@@ -46,38 +46,39 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	private final ConcurrentMap<ServiceProto.ServiceRef, Service> services;
 
 	// Simple mapping of service ref to transport, used to send messages to services
-	private final Multimap<ServiceProto.ServiceRef, String> transportRefsByServiceRef;
+	private final Map<ServiceProto.ServiceRef, Ref> transportRefsByServiceRef;
 
 	// An index of message factory by class/package.
 	private final Multimap<String, MessageFactory> messageFactories;
 
-	private final Multimap<String, ServiceProto.ServiceRef> transportServiceBindings;
-
-	private final Map<String, Transport> transports;
+	private final Map<Ref, TransportClient> transportClients;
 
 	private final Set<ServiceProto.ServiceRef> serviceRefs;
+	private final Multimap<ServiceProto.ServiceRef, Transport> serviceTransports;
 
 	private final KeyIncrementable<String> senderCounters;
 	private final KeyIncrementable<String> destinationCounters;
 
 	public DefaultServiceRegistry(
 			final ServiceProto.ComponentRef componentRef,
-			final TransportFactory transportFactory) {
+			final TransportClientFactory transportClientFactory) {
 		this.componentRef = componentRef;
-		this.transportFactory = transportFactory;
+		this.transportClientFactory = transportClientFactory;
+
 		this.services = Maps.newConcurrentMap();
-		this.transports = Maps.newConcurrentMap();
 		this.messageFactories = ArrayListMultimap.create();
-		this.transportServiceBindings = HashMultimap.create();
+		this.serviceTransports = ArrayListMultimap.create();
+
 		this.serviceRefs = Sets.newHashSet();
-		this.transportRefsByServiceRef = ArrayListMultimap.create();
+		this.transportRefsByServiceRef = Maps.newHashMap();
+		this.transportClients = Maps.newHashMap();
 
 		this.senderCounters = new CounterCacheCompositeMonitor<>("senderCounters");
 		this.destinationCounters = new CounterCacheCompositeMonitor<>("destinationCounters");
 	}
 
 	@Override
-	public synchronized void registerService(final Service service) {
+	public synchronized void registerService(final Service service, final Transport... transports) {
 		if (null != (services.putIfAbsent(service.getServiceRef(), service))) {
 			throw new RuntimeException("Service with service ref already registered.");
 		}
@@ -87,60 +88,49 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 				messageFactories.put(factoryPackage, messageFactory);
 			}
 		}
+		for (final Transport transport : transports) {
+			transport.addConsumer(new ServiceRegistryTransportConsumer(this));
+			serviceTransports.put(service.getServiceRef(), transport);
+			transportRefsByServiceRef.put(service.getServiceRef(), transport.getRef());
+			serviceRefs.add(service.getServiceRef());
+		}
 	}
 
 	@Override
-	public synchronized void bindTransportToService(
-			final ServiceProto.ServiceRef serviceRef,
-			final Transport transport) {
-		Preconditions.checkArgument(serviceRefs.contains(serviceRef));
-		final String transportRef = transport.getRef();
-		if (transportServiceBindings.containsEntry(transportRef, serviceRef)) {
-			LOGGER.error(
-					"Attempted to bind transport {} to service-ref {} when binding already exists.",
-					transport.getRef(),
-					serviceRef);
-			return;
+	public synchronized Optional<TransportClient> transportClientForService(final ServiceProto.ServiceRef serviceRef) {
+		LOGGER.debug("Requested transport client for serviceRef {}.", MessageUtils.serviceRefToString(serviceRef));
+		final Ref transportRef = transportRefsByServiceRef.get(serviceRef);
+		if (transportRef == null) {
+			return Optional.absent();
 		}
-		transports.put(transportRef, transport);
-		transportServiceBindings.put(transportRef, serviceRef);
-		transportRefsByServiceRef.put(serviceRef, transportRef);
-		transport.addConsumer(new ServiceRegistryTransportConsumer(this));
-	}
-
-	private Transport getOrCreateTransport(final String transportRef) {
-		if (transports.containsKey(transportRef)) {
-			return transports.get(transportRef);
+		final TransportClient existingTransportClient = transportClients.get(transportRef);
+		if (existingTransportClient != null) {
+			return Optional.of(existingTransportClient);
 		}
-		final Transport transport = transportFactory.get(transportRef);
-		if (transport != null) {
-			transports.put(transportRef, transport);
-		}
-		return transport;
-	}
-
-	@Override
-	public synchronized Optional<Transport> transportForService(final ServiceProto.ServiceRef serviceRef) {
-		final List<String> transportRefs = ImmutableList.copyOf(transportRefsByServiceRef.get(serviceRef));
-		if (transportRefs.size() > 0) {
-			final String transportRef = transportRefs.get(0);
-			final Transport transport = getOrCreateTransport(transportRef);
-			if (transport != null) {
-				return Optional.of(transport);
-			}
+		final Optional<TransportClient> transportClientOptional = transportClientFactory.get(transportRef);
+		if (transportClientOptional.isPresent()) {
+			LOGGER.debug("Storing transport client for ref {}.", transportRef.toString());
+			transportClients.put(transportRef, transportClientOptional.get());
+			return transportClientOptional;
 		}
 		return Optional.absent();
 	}
 
 	@Override
-	public synchronized void updateComponentServices(
+	public void updateComponentServices(
 			final ServiceProto.ComponentRef componentRef,
 			final Map<ServiceProto.ServiceRef, String> services) {
 		LOGGER.debug("Updating service information from gossip.");
 		for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entrySet()) {
-			transportRefsByServiceRef.put(entry.getKey(), entry.getValue());
-			serviceRefs.add(entry.getKey());
+			LOGGER.debug("Received transport ref uri {} for {}", entry.getValue(), MessageUtils.serviceRefToString(entry.getKey()));
+			initTransportClient(entry.getKey(), Ref.builderFromUri(entry.getValue()).build());
 		}
+	}
+
+	@Override
+	public synchronized void initTransportClient(final ServiceProto.ServiceRef serviceRef, final Ref ref) {
+		transportRefsByServiceRef.put(serviceRef, ref);
+		serviceRefs.add(serviceRef);
 	}
 
 	@Override
@@ -204,11 +194,11 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	public synchronized void sendMessage(final MessageController controller, final AbstractMessage message) {
 		senderCounters.incr(MessageUtils.serviceRefToString(controller.getSender()));
 		destinationCounters.incr(MessageUtils.serviceRefToString(controller.getDestination()));
-		final Optional<Transport> transportOptional = transportForService(controller.getDestination());
-		if (transportOptional.isPresent()) {
-			final Transport transport = transportOptional.get();
+		final Optional<TransportClient> transportClientOptional = transportClientForService(controller.getDestination());
+		if (transportClientOptional.isPresent()) {
+			final TransportClient transportClient = transportClientOptional.get();
 			LOGGER.debug("Sending message ({}) to {}", message.getClass().getName(), MessageUtils.serviceRefToString(controller.getDestination()));
-			transport.send(controller, message);
+			transportClient.send(controller, message);
 		}
 	}
 

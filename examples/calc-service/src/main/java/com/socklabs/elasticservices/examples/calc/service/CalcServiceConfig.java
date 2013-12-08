@@ -3,6 +3,8 @@ package com.socklabs.elasticservices.examples.calc.service;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
+import com.socklabs.elasticservices.core.misc.Ref;
+import com.socklabs.elasticservices.core.misc.RefUtils;
 import com.socklabs.elasticservices.core.service.Service;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.RabbitMqTransport;
@@ -36,16 +38,19 @@ public class CalcServiceConfig {
 	}
 
 	@Bean
+	public Ref calcServiceTransportRef() {
+		return RefUtils.rabbitMqTransportRef(
+				environment.getRequiredProperty("service.calc.exchange"),
+				environment.getRequiredProperty("service.calc.routing_key"),
+				"direct");
+	}
+
+	@Bean
 	public Transport calcTransport() {
-		final String exchange = environment.getRequiredProperty("service.calc.exchange");
-		final String routingKey = environment.getRequiredProperty("service.calc.routing_key");
 		try {
 			return new RabbitMqTransport(
 					connectionFactory.newConnection(),
-					exchange,
-					routingKey,
-					"direct",
-					true);
+					calcServiceTransportRef());
 		} catch (final IOException e) {
 			throw new RuntimeException("Could not create AMQP transport for calc service.", e);
 		}
@@ -58,8 +63,7 @@ public class CalcServiceConfig {
 
 	@PostConstruct
 	public void registerService() {
-		serviceRegistry.registerService(calcService());
-		serviceRegistry.bindTransportToService(calcServiceRef(), calcTransport());
+		serviceRegistry.registerService(calcService(), calcTransport());
 	}
 
 }

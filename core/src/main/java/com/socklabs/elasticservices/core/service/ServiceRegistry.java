@@ -3,7 +3,9 @@ package com.socklabs.elasticservices.core.service;
 import com.google.common.base.Optional;
 import com.google.protobuf.AbstractMessage;
 import com.socklabs.elasticservices.core.ServiceProto;
+import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.transport.Transport;
+import com.socklabs.elasticservices.core.transport.TransportClient;
 
 import java.util.List;
 import java.util.Map;
@@ -13,18 +15,12 @@ public interface ServiceRegistry {
 	/**
 	 * Register a local service implementation.
 	 */
-	void registerService(final Service service);
+	void registerService(final Service service, final Transport... transports);
 
 	/**
-	 * Binds incoming messages of a given transport to be processed by the
-	 * service implementation associated with the provided service ref.
+	 * Get, if it exists, a transport client associated with a given serviceref.
 	 */
-	void bindTransportToService(final ServiceProto.ServiceRef serviceRef, final Transport transport);
-
-	/**
-	 * Get, if it exists, a transport associated with a given serviceref.
-	 */
-	Optional<Transport> transportForService(final ServiceProto.ServiceRef serviceRef);
+	Optional<TransportClient> transportClientForService(final ServiceProto.ServiceRef serviceRef);
 
 	/**
 	 * Called to do auto discovery via gossip of services associated with a component.
@@ -32,6 +28,8 @@ public interface ServiceRegistry {
 	void updateComponentServices(
 			final ServiceProto.ComponentRef componentRef,
 			final Map<ServiceProto.ServiceRef, String> services);
+
+	void initTransportClient(final ServiceProto.ServiceRef serviceRef, final Ref ref);
 
 	/**
 	 * Returns a list of all services known by the registry.
