@@ -18,8 +18,9 @@ public class DefaultTransportClientFactory implements TransportClientFactory {
 		this.connectionFactory = connectionFactory;
 	}
 
-	@Override public Optional<TransportClient> get(final Ref ref) {
-		LOGGER.debug("transport client requested for ref {}.", ref.toString());
+	@Override
+	public Optional<TransportClient> get(final Ref ref) {
+		LOGGER.debug("Transport client requested for ref {}.", ref.toString());
 		if ("rabbitmq".equals(ref.getId())) {
 			try {
 				final TransportClient transportClient = new RabbitMqTransportClient(

@@ -5,7 +5,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.io.BaseEncoding;
 import com.google.common.primitives.Longs;
-import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Message;
 import com.netflix.servo.DefaultMonitorRegistry;
 import com.netflix.servo.monitor.BasicCounter;
@@ -33,11 +32,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class RabbitMqTransport extends AbstractTransport {
+public class RabbitMqTransport implements Transport {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqTransport.class);
 	private static final BaseEncoding B16 = BaseEncoding.base16();
-	private final Channel channel;
 	private final List<TransportConsumer> consumers;
 	private final RabbitMqTransportRef transportRef;
 
@@ -66,7 +64,7 @@ public class RabbitMqTransport extends AbstractTransport {
 						consumersSizeMonitorConfig,
 						new CollectionSizeCallable(this.consumers)));
 
-		channel = connection.createChannel();
+		final Channel channel = connection.createChannel();
 
 		final AMQP.Queue.DeclareOk queueDecl = channel.queueDeclare();
 		LOGGER.info("queue declared: {}", queueDecl);
@@ -90,11 +88,6 @@ public class RabbitMqTransport extends AbstractTransport {
 				true,
 				new FabricMessageConsumer(consumers, deliveryCount, deliveryFailureCount));
 		LOGGER.info("Received consumer tag {}", consumerTag);
-	}
-
-	@Override
-	public void send(final MessageController messageController, final AbstractMessage message) {
-
 	}
 
 	@Override

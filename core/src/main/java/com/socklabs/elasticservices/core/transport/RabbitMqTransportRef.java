@@ -7,14 +7,11 @@ import com.socklabs.elasticservices.core.misc.Ref;
 * Created by ngerakines on 12/7/13.
 */
 class RabbitMqTransportRef {
+
 	private final Ref ref;
 	private final String exchange;
 	private final String routingKey;
 	private final String type;
-
-	RabbitMqTransportRef(final String url) {
-		this(Ref.builderFromUri(url).build());
-	}
 
 	RabbitMqTransportRef(final Ref ref) {
 		Preconditions.checkArgument(ref.getValue("exchange").isPresent(), "exchange missing");

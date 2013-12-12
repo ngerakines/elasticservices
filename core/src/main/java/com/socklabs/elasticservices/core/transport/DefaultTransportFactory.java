@@ -2,10 +2,14 @@ package com.socklabs.elasticservices.core.transport;
 
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.misc.Ref;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class DefaultTransportFactory implements TransportFactory {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTransportFactory.class);
 
 	private final ConnectionFactory connectionFactory;
 
@@ -16,6 +20,7 @@ public class DefaultTransportFactory implements TransportFactory {
 
 	@Override
 	public Transport get(final Ref transportRef) {
+		LOGGER.debug("Transport requested for ref {}.", transportRef.toString());
 		if ("rabbitmq".equals(transportRef.getId())) {
 			try {
 				return new RabbitMqTransport(
