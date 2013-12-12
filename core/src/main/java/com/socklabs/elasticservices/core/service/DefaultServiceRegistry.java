@@ -3,6 +3,7 @@ package com.socklabs.elasticservices.core.service;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -44,6 +45,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	// Simple mapping of service ref to service implementation, used for
 	// routing from transports.
 	private final ConcurrentMap<ServiceProto.ServiceRef, Service> services;
+	private final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags;
 
 	// Simple mapping of service ref to transport, used to send messages to services
 	private final Map<ServiceProto.ServiceRef, Ref> transportRefsByServiceRef;
@@ -69,6 +71,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 		this.messageFactories = ArrayListMultimap.create();
 		this.serviceTransports = ArrayListMultimap.create();
 
+		this.serviceFlags = HashMultimap.create();
 		this.serviceRefs = Sets.newHashSet();
 		this.transportRefsByServiceRef = Maps.newHashMap();
 		this.transportClients = Maps.newHashMap();
@@ -82,6 +85,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 		if (null != (services.putIfAbsent(service.getServiceRef(), service))) {
 			throw new RuntimeException("Service with service ref already registered.");
 		}
+		service.setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
 		serviceRefs.add(service.getServiceRef());
 		for (final MessageFactory messageFactory : service.getMessageFactories()) {
 			for (final String factoryPackage : messageFactory.supportedMessagePackages()) {
@@ -119,10 +123,14 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	@Override
 	public void updateComponentServices(
 			final ServiceProto.ComponentRef componentRef,
-			final Map<ServiceProto.ServiceRef, String> services) {
+			final Map<ServiceProto.ServiceRef, String> services,
+			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags) {
 		LOGGER.debug("Updating service information from gossip.");
 		for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entrySet()) {
-			LOGGER.debug("Received transport ref uri {} for {}", entry.getValue(), MessageUtils.serviceRefToString(entry.getKey()));
+			LOGGER.debug(
+					"Received transport ref uri {} for {}",
+					entry.getValue(),
+					MessageUtils.serviceRefToString(entry.getKey()));
 			initTransportClient(entry.getKey(), Ref.builderFromUri(entry.getValue()).build());
 		}
 	}
@@ -178,6 +186,15 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	}
 
 	@Override
+	public List<Integer> getServiceFlags(final ServiceProto.ServiceRef serviceRef) {
+		final Service service = services.get(serviceRef);
+		if (service != null) {
+			return service.getFlags();
+		}
+		return ImmutableList.copyOf(serviceFlags.get(serviceRef));
+	}
+
+	@Override
 	public synchronized void sendMessage(
 			final ServiceProto.ServiceRef destinationServiceRef,
 			final ServiceProto.ServiceRef senderServiceRef,
@@ -197,12 +214,15 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 		final Optional<TransportClient> transportClientOptional = transportClientForService(controller.getDestination());
 		if (transportClientOptional.isPresent()) {
 			final TransportClient transportClient = transportClientOptional.get();
-			LOGGER.debug("Sending message ({}) to {}", message.getClass().getName(), MessageUtils.serviceRefToString(controller.getDestination()));
+			LOGGER.debug(
+					"Sending message ({}) to {}", message.getClass().getName(), MessageUtils.serviceRefToString(
+					controller.getDestination()));
 			transportClient.send(controller, message);
 		}
 	}
 
-	@Override public void reply(
+	@Override
+	public void reply(
 			final MessageController inboundMessageController,
 			final ServiceProto.ServiceRef senderServiceRef,
 			final AbstractMessage message,

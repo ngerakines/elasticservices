@@ -28,3 +28,8 @@ message ContentType {
 		optional string value = 2;
 	}
 }
+
+enum ServiceFlags {
+	ACTIVE = -1;
+	MAINTENANCE = -2;
+}

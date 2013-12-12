@@ -11,6 +11,7 @@ option java_outer_classname = "GossipServiceProto";
 message ComponentService {
 	optional com.socklabs.elasticservices.core.ServiceRef service_ref = 1;
 	optional string transport_url = 2;
+	repeated int32 flag = 3;
 }
 
 message ComponentOnline {

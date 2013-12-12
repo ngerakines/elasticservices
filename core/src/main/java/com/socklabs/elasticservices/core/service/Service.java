@@ -26,4 +26,13 @@ public interface Service {
 	 */
 	void handleMessage(final MessageController controller, final Message message);
 
+	/**
+	 * Returns a list of flags that can be used to describe the state of the service.
+	 */
+	List<Integer> getFlags();
+
+	void setFlag(final int flag);
+
+	void removeFlag(final int flag);
+
 }

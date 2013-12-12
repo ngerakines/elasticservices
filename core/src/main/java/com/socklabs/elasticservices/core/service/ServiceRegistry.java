@@ -1,6 +1,7 @@
 package com.socklabs.elasticservices.core.service;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Multimap;
 import com.google.protobuf.AbstractMessage;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.misc.Ref;
@@ -13,7 +14,8 @@ import java.util.Map;
 public interface ServiceRegistry {
 
 	/**
-	 * Register a local service implementation.
+	 * Register a local service implementation. When a service is registered
+	 * with this method, the "ACTIVE" flag is set for the service.
 	 */
 	void registerService(final Service service, final Transport... transports);
 
@@ -27,7 +29,8 @@ public interface ServiceRegistry {
 	 */
 	void updateComponentServices(
 			final ServiceProto.ComponentRef componentRef,
-			final Map<ServiceProto.ServiceRef, String> services);
+			final Map<ServiceProto.ServiceRef, String> services,
+			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags);
 
 	void initTransportClient(final ServiceProto.ServiceRef serviceRef, final Ref ref);
 
@@ -61,6 +64,8 @@ public interface ServiceRegistry {
 	 * site and cluster.
 	 */
 	List<ServiceProto.ServiceRef> getServices(final String site, final String cluster, final String id);
+
+	List<Integer> getServiceFlags(final ServiceProto.ServiceRef serviceRef);
 
 	/**
 	 * Sends a message to the destination, ensuring the destination, sender

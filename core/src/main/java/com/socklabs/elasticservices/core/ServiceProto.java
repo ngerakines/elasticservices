@@ -8,6 +8,75 @@ public final class ServiceProto {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public enum ServiceFlags
+      implements com.google.protobuf.ProtocolMessageEnum {
+    ACTIVE(0, -1),
+    MAINTENANCE(1, -2),
+    ;
+    
+    public static final int ACTIVE_VALUE = -1;
+    public static final int MAINTENANCE_VALUE = -2;
+    
+    
+    public final int getNumber() { return value; }
+    
+    public static ServiceFlags valueOf(int value) {
+      switch (value) {
+        case -1: return ACTIVE;
+        case -2: return MAINTENANCE;
+        default: return null;
+      }
+    }
+    
+    public static com.google.protobuf.Internal.EnumLiteMap<ServiceFlags>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<ServiceFlags>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<ServiceFlags>() {
+            public ServiceFlags findValueByNumber(int number) {
+              return ServiceFlags.valueOf(number);
+            }
+          };
+    
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.socklabs.elasticservices.core.ServiceProto.getDescriptor().getEnumTypes().get(0);
+    }
+    
+    private static final ServiceFlags[] VALUES = {
+      ACTIVE, MAINTENANCE, 
+    };
+    
+    public static ServiceFlags valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+    
+    private final int index;
+    private final int value;
+    
+    private ServiceFlags(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+    
+    // @@protoc_insertion_point(enum_scope:com.socklabs.elasticservices.core.ServiceFlags)
+  }
+  
   public interface ComponentRefOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
@@ -2245,8 +2314,10 @@ public final class ServiceProto {
       "alue\030\001 \001(\t\022K\n\tattribute\030\002 \003(\01328.com.sock" +
       "labs.elasticservices.core.ContentType.At" +
       "tribute\032\'\n\tAttribute\022\013\n\003key\030\001 \001(\t\022\r\n\005val",
-      "ue\030\002 \001(\tB6\n!com.socklabs.elasticservices" +
-      ".coreB\014ServiceProtoH\001\210\001\000"
+      "ue\030\002 \001(\t*=\n\014ServiceFlags\022\023\n\006ACTIVE\020\377\377\377\377\377" +
+      "\377\377\377\377\001\022\030\n\013MAINTENANCE\020\376\377\377\377\377\377\377\377\377\001B6\n!com.s" +
+      "ocklabs.elasticservices.coreB\014ServicePro" +
+      "toH\001\210\001\000"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

@@ -19,6 +19,11 @@ public final class GossipServiceProto {
     // optional string transport_url = 2;
     boolean hasTransportUrl();
     String getTransportUrl();
+    
+    // repeated int32 flag = 3;
+    java.util.List<java.lang.Integer> getFlagList();
+    int getFlagCount();
+    int getFlag(int index);
   }
   public static final class ComponentService extends
       com.google.protobuf.GeneratedMessage
@@ -94,9 +99,24 @@ public final class GossipServiceProto {
       }
     }
     
+    // repeated int32 flag = 3;
+    public static final int FLAG_FIELD_NUMBER = 3;
+    private java.util.List<java.lang.Integer> flag_;
+    public java.util.List<java.lang.Integer>
+        getFlagList() {
+      return flag_;
+    }
+    public int getFlagCount() {
+      return flag_.size();
+    }
+    public int getFlag(int index) {
+      return flag_.get(index);
+    }
+    
     private void initFields() {
       serviceRef_ = com.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
       transportUrl_ = "";
+      flag_ = java.util.Collections.emptyList();;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -116,6 +136,9 @@ public final class GossipServiceProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(2, getTransportUrlBytes());
       }
+      for (int i = 0; i < flag_.size(); i++) {
+        output.writeInt32(3, flag_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -132,6 +155,15 @@ public final class GossipServiceProto {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(2, getTransportUrlBytes());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < flag_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(flag_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getFlagList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -266,6 +298,8 @@ public final class GossipServiceProto {
         bitField0_ = (bitField0_ & ~0x00000001);
         transportUrl_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        flag_ = java.util.Collections.emptyList();;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
       
@@ -316,6 +350,11 @@ public final class GossipServiceProto {
           to_bitField0_ |= 0x00000002;
         }
         result.transportUrl_ = transportUrl_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          flag_ = java.util.Collections.unmodifiableList(flag_);
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.flag_ = flag_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -337,6 +376,16 @@ public final class GossipServiceProto {
         }
         if (other.hasTransportUrl()) {
           setTransportUrl(other.getTransportUrl());
+        }
+        if (!other.flag_.isEmpty()) {
+          if (flag_.isEmpty()) {
+            flag_ = other.flag_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureFlagIsMutable();
+            flag_.addAll(other.flag_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -381,6 +430,20 @@ public final class GossipServiceProto {
             case 18: {
               bitField0_ |= 0x00000002;
               transportUrl_ = input.readBytes();
+              break;
+            }
+            case 24: {
+              ensureFlagIsMutable();
+              flag_.add(input.readInt32());
+              break;
+            }
+            case 26: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              while (input.getBytesUntilLimit() > 0) {
+                addFlag(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
           }
@@ -513,6 +576,51 @@ public final class GossipServiceProto {
         bitField0_ |= 0x00000002;
         transportUrl_ = value;
         onChanged();
+      }
+      
+      // repeated int32 flag = 3;
+      private java.util.List<java.lang.Integer> flag_ = java.util.Collections.emptyList();;
+      private void ensureFlagIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          flag_ = new java.util.ArrayList<java.lang.Integer>(flag_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      public java.util.List<java.lang.Integer>
+          getFlagList() {
+        return java.util.Collections.unmodifiableList(flag_);
+      }
+      public int getFlagCount() {
+        return flag_.size();
+      }
+      public int getFlag(int index) {
+        return flag_.get(index);
+      }
+      public Builder setFlag(
+          int index, int value) {
+        ensureFlagIsMutable();
+        flag_.set(index, value);
+        onChanged();
+        return this;
+      }
+      public Builder addFlag(int value) {
+        ensureFlagIsMutable();
+        flag_.add(value);
+        onChanged();
+        return this;
+      }
+      public Builder addAllFlag(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureFlagIsMutable();
+        super.addAll(values, flag_);
+        onChanged();
+        return this;
+      }
+      public Builder clearFlag() {
+        flag_ = java.util.Collections.emptyList();;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
       }
       
       // @@protoc_insertion_point(builder_scope:com.socklabs.elasticservices.gossip.ComponentService)
@@ -1947,19 +2055,20 @@ public final class GossipServiceProto {
       "\n0com/socklabs/elasticservices/gossip/go" +
       "ssip.proto\022#com.socklabs.elasticservices" +
       ".gossip\032/com/socklabs/elasticservices/co" +
-      "re/service.proto\"m\n\020ComponentService\022B\n\013" +
+      "re/service.proto\"{\n\020ComponentService\022B\n\013" +
       "service_ref\030\001 \001(\0132-.com.socklabs.elastic" +
       "services.core.ServiceRef\022\025\n\rtransport_ur" +
-      "l\030\002 \001(\t\"\242\001\n\017ComponentOnline\022F\n\rcomponent" +
-      "_ref\030\001 \001(\0132/.com.socklabs.elasticservice" +
-      "s.core.ComponentRef\022G\n\010services\030\002 \003(\01325." +
-      "com.socklabs.elasticservices.gossip.Comp",
-      "onentService\"\242\001\n\017ComponentStatus\022F\n\rcomp" +
-      "onent_ref\030\001 \001(\0132/.com.socklabs.elasticse" +
-      "rvices.core.ComponentRef\022G\n\010services\030\002 \003" +
-      "(\01325.com.socklabs.elasticservices.gossip" +
-      ".ComponentServiceB;\n#com.socklabs.elasti" +
-      "cservices.gossipB\022GossipServiceProtoH\001"
+      "l\030\002 \001(\t\022\014\n\004flag\030\003 \003(\005\"\242\001\n\017ComponentOnlin" +
+      "e\022F\n\rcomponent_ref\030\001 \001(\0132/.com.socklabs." +
+      "elasticservices.core.ComponentRef\022G\n\010ser" +
+      "vices\030\002 \003(\01325.com.socklabs.elasticservic",
+      "es.gossip.ComponentService\"\242\001\n\017Component" +
+      "Status\022F\n\rcomponent_ref\030\001 \001(\0132/.com.sock" +
+      "labs.elasticservices.core.ComponentRef\022G" +
+      "\n\010services\030\002 \003(\01325.com.socklabs.elastics" +
+      "ervices.gossip.ComponentServiceB;\n#com.s" +
+      "ocklabs.elasticservices.gossipB\022GossipSe" +
+      "rviceProtoH\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1971,7 +2080,7 @@ public final class GossipServiceProto {
           internal_static_com_socklabs_elasticservices_gossip_ComponentService_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_socklabs_elasticservices_gossip_ComponentService_descriptor,
-              new java.lang.String[] { "ServiceRef", "TransportUrl", },
+              new java.lang.String[] { "ServiceRef", "TransportUrl", "Flag", },
               com.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.class,
               com.socklabs.elasticservices.gossip.GossipServiceProto.ComponentService.Builder.class);
           internal_static_com_socklabs_elasticservices_gossip_ComponentOnline_descriptor =

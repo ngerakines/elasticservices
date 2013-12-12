@@ -4,14 +4,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.MessageFactory;
+import com.socklabs.elasticservices.core.service.AbstractService;
 import com.socklabs.elasticservices.core.service.MessageController;
-import com.socklabs.elasticservices.core.service.Service;
 
 import java.util.List;
 
-public abstract class AbstractEdgeService implements Service {
+public abstract class AbstractEdgeService extends AbstractService {
 
-	private final ServiceProto.ServiceRef serviceRef;
 	private final EdgeManager edgeManager;
 	private final ImmutableList<MessageFactory> messageFactories;
 
@@ -19,14 +18,9 @@ public abstract class AbstractEdgeService implements Service {
 			final ServiceProto.ServiceRef serviceRef,
 			final EdgeManager edgeManager,
 			final List<MessageFactory> messageFactories) {
-		this.serviceRef = serviceRef;
+		super(serviceRef);
 		this.edgeManager = edgeManager;
 		this.messageFactories = ImmutableList.copyOf(messageFactories);
-	}
-
-	@Override
-	public ServiceProto.ServiceRef getServiceRef() {
-		return serviceRef;
 	}
 
 	@Override

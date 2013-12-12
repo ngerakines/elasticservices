@@ -74,6 +74,7 @@ public class BroadcastWork extends AbstractWork implements Work {
 			final GossipServiceProto.ComponentService.Builder componentServiceBuilder =
 					GossipServiceProto.ComponentService.newBuilder();
 			componentServiceBuilder.setServiceRef(serviceRef);
+			componentServiceBuilder.addAllFlag(serviceRegistry.getServiceFlags(serviceRef));
 			final Optional<TransportClient> transportClientOptional =
 					serviceRegistry.transportClientForService(serviceRef);
 			if (transportClientOptional.isPresent()) {
@@ -93,6 +94,7 @@ public class BroadcastWork extends AbstractWork implements Work {
 			final GossipServiceProto.ComponentService.Builder componentServiceBuilder =
 					GossipServiceProto.ComponentService.newBuilder();
 			componentServiceBuilder.setServiceRef(serviceRef);
+			componentServiceBuilder.addAllFlag(serviceRegistry.getServiceFlags(serviceRef));
 			final Optional<TransportClient> transportClientOptional = serviceRegistry.transportClientForService(
 					serviceRef);
 			if (transportClientOptional.isPresent()) {

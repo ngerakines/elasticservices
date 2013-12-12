@@ -6,32 +6,25 @@ import com.google.protobuf.Message;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.ContentTypes;
 import com.socklabs.elasticservices.core.message.MessageFactory;
+import com.socklabs.elasticservices.core.service.AbstractService;
 import com.socklabs.elasticservices.core.service.MessageController;
-import com.socklabs.elasticservices.core.service.Service;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
 import org.joda.time.DateTime;
 
 import java.util.List;
 
-public class CalcService implements Service {
-
-	private final ServiceProto.ServiceRef serviceRef;
+public class CalcService extends AbstractService {
 
 	private final ServiceRegistry serviceRegistry;
 
 	private final MessageFactory calcMessageFactory;
 
 	public CalcService(final ServiceProto.ServiceRef serviceRef, final ServiceRegistry serviceRegistry) {
-		this.serviceRef = serviceRef;
+		super(serviceRef);
 		this.serviceRegistry = serviceRegistry;
 
 		this.calcMessageFactory = new CalcMessageFactory();
-	}
-
-	@Override
-	public ServiceProto.ServiceRef getServiceRef() {
-		return serviceRef;
 	}
 
 	@Override
@@ -57,7 +50,7 @@ public class CalcService implements Service {
 					CalcServiceProto.Result.newBuilder().setValue(sum).build();
 			serviceRegistry.reply(
 					controller,
-					serviceRef,
+					getServiceRef(),
 					result,
 					ContentTypes.fromJsonClass(CalcServiceProto.Result.class));
 		}
