@@ -12,6 +12,10 @@ import com.socklabs.elasticservices.gossip.GossipServiceConfig;
 
 public class CalcDaemon extends AbstractDaemon {
 
+	static {
+		System.setProperty("archaius.dynamicPropertyFactory.registerConfigWithJMX", "true");
+	}
+
 	public static void main(final String[] argv) throws Exception {
 		final DaemonContext daemonContext = new SimpleDaemonContext(argv);
 		final CalcDaemon pspDirector = new CalcDaemon();

@@ -9,6 +9,8 @@ import com.socklabs.elasticservices.core.service.Service;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.RabbitMqTransport;
 import com.socklabs.elasticservices.core.transport.Transport;
+import com.socklabs.feature.DefaultToggleFeature;
+import com.socklabs.feature.ToggleFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -58,7 +60,12 @@ public class CalcServiceConfig {
 
 	@Bean
 	public Service calcService() {
-		return new CalcService(calcServiceRef(), serviceRegistry);
+		return new CalcService(calcServiceRef(), serviceRegistry, subtractEnabledFeature());
+	}
+
+	@Bean
+	public ToggleFeature subtractEnabledFeature() {
+		return new DefaultToggleFeature("calc.subtract");
 	}
 
 	@PostConstruct

@@ -394,6 +394,392 @@ public final class CalcServiceProto {
     // @@protoc_insertion_point(class_scope:com.socklabs.elasticservices.examples.calc.Add)
   }
   
+  public interface SubtractOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // repeated int32 values = 1;
+    java.util.List<java.lang.Integer> getValuesList();
+    int getValuesCount();
+    int getValues(int index);
+  }
+  public static final class Subtract extends
+      com.google.protobuf.GeneratedMessage
+      implements SubtractOrBuilder {
+    // Use Subtract.newBuilder() to construct.
+    private Subtract(Builder builder) {
+      super(builder);
+    }
+    private Subtract(boolean noInit) {}
+    
+    private static final Subtract defaultInstance;
+    public static Subtract getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public Subtract getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.socklabs.elasticservices.examples.calc.CalcServiceProto.internal_static_com_socklabs_elasticservices_examples_calc_Subtract_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.socklabs.elasticservices.examples.calc.CalcServiceProto.internal_static_com_socklabs_elasticservices_examples_calc_Subtract_fieldAccessorTable;
+    }
+    
+    // repeated int32 values = 1;
+    public static final int VALUES_FIELD_NUMBER = 1;
+    private java.util.List<java.lang.Integer> values_;
+    public java.util.List<java.lang.Integer>
+        getValuesList() {
+      return values_;
+    }
+    public int getValuesCount() {
+      return values_.size();
+    }
+    public int getValues(int index) {
+      return values_.get(index);
+    }
+    
+    private void initFields() {
+      values_ = java.util.Collections.emptyList();;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < values_.size(); i++) {
+        output.writeInt32(1, values_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < values_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(values_.get(i));
+        }
+        size += dataSize;
+        size += 1 * getValuesList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.socklabs.elasticservices.examples.calc.CalcServiceProto.SubtractOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.socklabs.elasticservices.examples.calc.CalcServiceProto.internal_static_com_socklabs_elasticservices_examples_calc_Subtract_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.socklabs.elasticservices.examples.calc.CalcServiceProto.internal_static_com_socklabs_elasticservices_examples_calc_Subtract_fieldAccessorTable;
+      }
+      
+      // Construct using com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        values_ = java.util.Collections.emptyList();;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract.getDescriptor();
+      }
+      
+      public com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract getDefaultInstanceForType() {
+        return com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract.getDefaultInstance();
+      }
+      
+      public com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract build() {
+        com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract buildPartial() {
+        com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract result = new com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          values_ = java.util.Collections.unmodifiableList(values_);
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.values_ = values_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract) {
+          return mergeFrom((com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract other) {
+        if (other == com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract.getDefaultInstance()) return this;
+        if (!other.values_.isEmpty()) {
+          if (values_.isEmpty()) {
+            values_ = other.values_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureValuesIsMutable();
+            values_.addAll(other.values_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              ensureValuesIsMutable();
+              values_.add(input.readInt32());
+              break;
+            }
+            case 10: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              while (input.getBytesUntilLimit() > 0) {
+                addValues(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // repeated int32 values = 1;
+      private java.util.List<java.lang.Integer> values_ = java.util.Collections.emptyList();;
+      private void ensureValuesIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          values_ = new java.util.ArrayList<java.lang.Integer>(values_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      public java.util.List<java.lang.Integer>
+          getValuesList() {
+        return java.util.Collections.unmodifiableList(values_);
+      }
+      public int getValuesCount() {
+        return values_.size();
+      }
+      public int getValues(int index) {
+        return values_.get(index);
+      }
+      public Builder setValues(
+          int index, int value) {
+        ensureValuesIsMutable();
+        values_.set(index, value);
+        onChanged();
+        return this;
+      }
+      public Builder addValues(int value) {
+        ensureValuesIsMutable();
+        values_.add(value);
+        onChanged();
+        return this;
+      }
+      public Builder addAllValues(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureValuesIsMutable();
+        super.addAll(values, values_);
+        onChanged();
+        return this;
+      }
+      public Builder clearValues() {
+        values_ = java.util.Collections.emptyList();;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:com.socklabs.elasticservices.examples.calc.Subtract)
+    }
+    
+    static {
+      defaultInstance = new Subtract(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:com.socklabs.elasticservices.examples.calc.Subtract)
+  }
+  
   public interface ResultOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
@@ -738,6 +1124,11 @@ public final class CalcServiceProto {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_com_socklabs_elasticservices_examples_calc_Add_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_socklabs_elasticservices_examples_calc_Subtract_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_socklabs_elasticservices_examples_calc_Subtract_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_com_socklabs_elasticservices_examples_calc_Result_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -754,9 +1145,10 @@ public final class CalcServiceProto {
       "\n5com/socklabs/elasticservices/examples/" +
       "calc/calc.proto\022*com.socklabs.elasticser" +
       "vices.examples.calc\"\025\n\003Add\022\016\n\006values\030\001 \003" +
-      "(\005\"\027\n\006Result\022\r\n\005value\030\001 \001(\005B@\n*com.sockl" +
-      "abs.elasticservices.examples.calcB\020CalcS" +
-      "erviceProtoH\001"
+      "(\005\"\032\n\010Subtract\022\016\n\006values\030\001 \003(\005\"\027\n\006Result" +
+      "\022\r\n\005value\030\001 \001(\005B@\n*com.socklabs.elastics" +
+      "ervices.examples.calcB\020CalcServiceProtoH" +
+      "\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -771,8 +1163,16 @@ public final class CalcServiceProto {
               new java.lang.String[] { "Values", },
               com.socklabs.elasticservices.examples.calc.CalcServiceProto.Add.class,
               com.socklabs.elasticservices.examples.calc.CalcServiceProto.Add.Builder.class);
-          internal_static_com_socklabs_elasticservices_examples_calc_Result_descriptor =
+          internal_static_com_socklabs_elasticservices_examples_calc_Subtract_descriptor =
             getDescriptor().getMessageTypes().get(1);
+          internal_static_com_socklabs_elasticservices_examples_calc_Subtract_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_com_socklabs_elasticservices_examples_calc_Subtract_descriptor,
+              new java.lang.String[] { "Values", },
+              com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract.class,
+              com.socklabs.elasticservices.examples.calc.CalcServiceProto.Subtract.Builder.class);
+          internal_static_com_socklabs_elasticservices_examples_calc_Result_descriptor =
+            getDescriptor().getMessageTypes().get(2);
           internal_static_com_socklabs_elasticservices_examples_calc_Result_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_com_socklabs_elasticservices_examples_calc_Result_descriptor,

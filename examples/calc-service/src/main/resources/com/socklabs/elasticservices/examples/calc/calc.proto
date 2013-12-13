@@ -10,6 +10,10 @@ message Add {
 	repeated int32 values = 1;
 }
 
+message Subtract {
+	repeated int32 values = 1;
+}
+
 message Result {
 	optional int32 value = 1;
 }
