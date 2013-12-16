@@ -2,6 +2,8 @@ package com.socklabs.elasticservices.core.work;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 /*
 NKG: This is where some magic is taking place. Here I've created a bean post

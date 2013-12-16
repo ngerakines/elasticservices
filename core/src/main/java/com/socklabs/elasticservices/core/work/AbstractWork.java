@@ -13,7 +13,11 @@ public abstract class AbstractWork implements Work {
 	private final AtomicBoolean shutdown = new AtomicBoolean(false);
 
 	public AbstractWork() {
-		this.phase = new AtomicReference<Phase>(StandardPhase.CREATED);
+		this(StandardPhase.CREATED);
+	}
+
+	public AbstractWork(final Phase phase) {
+		this.phase = new AtomicReference<>(phase);
 	}
 
 	@Override

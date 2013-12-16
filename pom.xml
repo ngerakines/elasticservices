@@ -177,6 +177,7 @@
 		<module>core</module>
 		<module>gossip</module>
 		<module>http</module>
+		<module>work</module>
 		<module>examples/calc-service</module>
 		<module>examples/calc-webapp</module>
 	</modules>

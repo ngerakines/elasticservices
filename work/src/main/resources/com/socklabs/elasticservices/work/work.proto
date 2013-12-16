@@ -1,0 +1,22 @@
+package com.socklabs.elasticservices.work;
+
+option optimize_for = SPEED;
+
+option java_package = "com.socklabs.elasticservices.work";
+
+option java_outer_classname = "WorkServiceProto";
+
+
+message WorkInfo {
+	optional string id = 1;
+	optional string phase = 2;
+	optional bool is_shutting_down = 3;
+}
+
+message ListRequest {
+	repeated string id = 1;
+}
+
+message ListResponse {
+	repeated WorkInfo work_info = 1;
+}
