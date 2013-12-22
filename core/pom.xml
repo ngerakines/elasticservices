@@ -126,7 +126,6 @@
 	<reporting>
 		<plugins>
 			<plugin>
-				<!-- Generate Javadoc for Reflow Tools only (the others do not have Java sources) -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<configuration>
