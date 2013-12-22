@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Elastic Services">
+	<skin>
+		<groupId>lt.velykis.maven.skins</groupId>
+		<artifactId>reflow-maven-skin</artifactId>
+		<version>1.0.0</version>
+	</skin>
+	<custom>
+		<reflowSkin>
+			<theme>bootswatch-spacelab</theme>
+			<brand>
+				<name>Elastic Services</name>
+				<href>http://elasticseriv.es/</href>
+			</brand>
+			<slogan>A framework for creating self coordinating asynchronous services.</slogan>
+			<titleTemplate>%2$s | %1$s</titleTemplate>
+			<toc>top</toc>
+			<topNav>reports</topNav>
+			<bottomNav>
+				<column>Main</column>
+				<column>Documentation</column>
+				<column>reports</column>
+			</bottomNav>
+			<pages>
+				<index>
+					<shortTitle>Welcome</shortTitle>
+					<breadcrumbs>false</breadcrumbs>
+					<toc>true</toc>
+					<sections>
+						<body />
+						<sidebar />
+						<columns>3</columns>
+					</sections>
+				</index>
+				<overview>
+					<breadcrumbs>false</breadcrumbs>
+					<toc>false</toc>
+				</overview>
+				<features>
+					<breadcrumbs>false</breadcrumbs>
+					<toc>false</toc>
+				</features>
+				<misc>
+					<breadcrumbs>false</breadcrumbs>
+					<toc>false</toc>
+				</misc>
+				<contribute>
+					<breadcrumbs>false</breadcrumbs>
+				</contribute>
+				<!-- Disable source highlighting for Maven reports -->
+				<source-repository>
+					<highlightJs>false</highlightJs>
+				</source-repository>
+				<issue-tracking>
+					<highlightJs>false</highlightJs>
+					<toc>false</toc>
+				</issue-tracking>
+				<license>
+					<highlightJs>false</highlightJs>
+					<toc>false</toc>
+				</license>
+				<!-- Disable ToC for some Maven reports -->
+				<project-info>
+					<toc>false</toc>
+				</project-info>
+				<dependencies>
+					<tocTopMax>4</tocTopMax>
+				</dependencies>
+			</pages>
+		</reflowSkin>
+	</custom>
+	<body>
+		<links>
+			<item name="GitHub project" href="https://github.com/ngerakines/elasticservices" />
+		</links>
+
+		<breadcrumbs>
+			<item name="Elastic Services" href="/" />
+		</breadcrumbs>
+
+		<menu name="Main" inherit="top">
+			<item name="Home" href="./" />
+			<item name="GitHub" href="https://github.com/ngerakines/elasticservices" />
+			<item name="Release notes" href="changes-report.html" />
+		</menu>
+		<menu name="Documentation" inherit="bottom">
+			<item name="Overview" href="overview.html" />
+			<item name="Features" href="features.html" />
+			<item name="Other" href="misc.html" />
+		</menu>
+		<menu name="Contribute" inherit="bottom">
+			<item name="Contribute" href="contribute.html" />
+			<item name="Issues" href="https://github.com/ngerakines/elasticservices/issues" />
+			<item name="Fork on GitHub" href="https://github.com/ngerakines/elasticservices" />
+		</menu>
+		<menu name="Maven documentation" ref="reports" inherit="bottom" />
+	</body>
+</project>

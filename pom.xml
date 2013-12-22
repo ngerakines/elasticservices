@@ -39,6 +39,14 @@
 		</developer>
 	</developers>
 
+	<distributionManagement>
+		<site>
+			<id>${project.artifactId}-site</id>
+			<!--<url>${project.baseUri}</url>-->
+			<url>file://${project.parent.basedir}/target/site/${project.version}</url>
+		</site>
+	</distributionManagement>
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
@@ -170,15 +178,86 @@
 					<fork>true</fork>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.3</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.doxia</groupId>
+						<artifactId>doxia-module-markdown</artifactId>
+						<version>1.5</version>
+					</dependency>
+					<dependency>
+						<groupId>lt.velykis.maven.skins</groupId>
+						<artifactId>reflow-velocity-tools</artifactId>
+						<version>1.0.0</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.velocity</groupId>
+						<artifactId>velocity</artifactId>
+						<version>1.7</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<skipDeploy>true</skipDeploy>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<configuration>
+				</configuration>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>summary</report>
+							<report>license</report>
+							<report>modules</report>
+							<report>project-team</report>
+							<report>scm</report>
+							<report>issue-tracking</report>
+							<report>dependencies</report>
+							<report>dependency-convergence</report>
+							<report>plugins</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-changes-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>changes-report</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
+	<profiles>
+		<profile>
+			<id>examples</id>
+			<modules>
+				<module>examples/calc-service</module>
+				<module>examples/calc-webapp</module>
+			</modules>
+		</profile>
+	</profiles>
 
 	<modules>
 		<module>core</module>
 		<module>gossip</module>
 		<module>http</module>
 		<module>work</module>
-		<module>examples/calc-service</module>
-		<module>examples/calc-webapp</module>
 	</modules>
 </project>
