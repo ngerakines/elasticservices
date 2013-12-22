@@ -7,10 +7,10 @@
 	</skin>
 	<custom>
 		<reflowSkin>
-			<theme>bootswatch-spacelab</theme>
+			<theme>bootswatch-readable</theme>
 			<brand>
-				<name>Elastic Services</name>
-				<href>http://elasticseriv.es/</href>
+				<name>ElasticServices</name>
+				<href>http://elasticservic.es/</href>
 			</brand>
 			<slogan>A framework for creating self coordinating asynchronous services.</slogan>
 			<titleTemplate>%2$s | %1$s</titleTemplate>

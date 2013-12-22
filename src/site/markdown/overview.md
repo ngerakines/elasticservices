@@ -7,3 +7,13 @@ A **component** is essentially a daemon that has one or more services running on
 When a service wants to engage another service, it uses the **service registry** to send a **message** to the service identified by the **service ref**.
 
 An example service implementation is the **gossip service**. It consists of a service implementation that listens to **component online** and **component status** messages that are broadcasts to a fanout topic as well as a broadcast **work** that periodically sends out those messages for other components to consume.
+
+## Examples
+
+### Calc Service
+
+The "calc" service is provided in the examples/calc-service directory as an example of a commons-daemon (JSVC) standalone service provider. It uses the RabbitMQ transport.
+
+### Calc Web API
+
+The calc webapp project is provided in the examples/calc-webapp director as an example of a Spring web application that can be used with Tomcat to expose an HTTP API that in-turn uses the calc service.
