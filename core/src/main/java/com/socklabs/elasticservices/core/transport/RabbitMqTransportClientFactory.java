@@ -8,13 +8,13 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class DefaultTransportClientFactory implements TransportClientFactory {
+public class RabbitMqTransportClientFactory implements TransportClientFactory {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultTransportClientFactory.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqTransportClientFactory.class);
 
 	private final ConnectionFactory connectionFactory;
 
-	public DefaultTransportClientFactory(final ConnectionFactory connectionFactory) {
+	public RabbitMqTransportClientFactory(final ConnectionFactory connectionFactory) {
 		this.connectionFactory = connectionFactory;
 	}
 

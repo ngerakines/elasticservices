@@ -4,8 +4,9 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.service.DefaultServiceRegistry;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
-import com.socklabs.elasticservices.core.transport.DefaultTransportClientFactory;
+import com.socklabs.elasticservices.core.transport.RabbitMqTransportClientFactory;
 import com.socklabs.elasticservices.core.transport.DefaultTransportFactory;
+import com.socklabs.elasticservices.core.transport.DelegatingTransportClientFactory;
 import com.socklabs.elasticservices.core.transport.TransportClientFactory;
 import com.socklabs.elasticservices.core.transport.TransportFactory;
 import org.springframework.context.annotation.Bean;
@@ -33,8 +34,16 @@ public class ServiceConfig {
 	}
 
 	@Bean
+	public TransportClientFactory rabbitMqTransportClientFactory() {
+		return new RabbitMqTransportClientFactory(rabbitMqConnectionFactory);
+	}
+
+	@Bean(name = {"transportClientFactory", "delegatingTransportClientFactory"})
 	public TransportClientFactory transportClientFactory() {
-		return new DefaultTransportClientFactory(rabbitMqConnectionFactory);
+		final DelegatingTransportClientFactory delegatingTransportClientFactory =
+				new DelegatingTransportClientFactory();
+		delegatingTransportClientFactory.addDelegate(rabbitMqTransportClientFactory());
+		return delegatingTransportClientFactory;
 	}
 
 	@Bean
