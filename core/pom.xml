@@ -101,7 +101,6 @@
 					<plugin>
 						<groupId>com.socklabs</groupId>
 						<artifactId>maven-protobuff</artifactId>
-						<version>${com.socklabs.maven-protobuff.version}</version>
 						<executions>
 							<execution>
 								<id>generate-sources</id>
@@ -128,10 +127,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<configuration>
-					<javadocDirectory>${project.basedir}/src/javadoc</javadocDirectory>
-					<docfilessubdirs>true</docfilessubdirs>
-				</configuration>
 				<reportSets>
 					<reportSet>
 						<reports>

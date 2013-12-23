@@ -1,15 +1,15 @@
 package com.socklabs.elasticservices.gossip;
 
-import com.google.common.base.Optional;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.ContentTypes;
+import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
-import com.socklabs.elasticservices.core.transport.TransportClient;
 import com.socklabs.elasticservices.core.work.AbstractWork;
 import com.socklabs.elasticservices.core.work.Work;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BroadcastWork extends AbstractWork implements Work {
@@ -75,10 +75,10 @@ public class BroadcastWork extends AbstractWork implements Work {
 					GossipServiceProto.ComponentService.newBuilder();
 			componentServiceBuilder.setServiceRef(serviceRef);
 			componentServiceBuilder.addAllFlag(serviceRegistry.getServiceFlags(serviceRef));
-			final Optional<TransportClient> transportClientOptional =
-					serviceRegistry.transportClientForService(serviceRef);
-			if (transportClientOptional.isPresent()) {
-				componentServiceBuilder.setTransportUrl(transportClientOptional.get().getRef().toString());
+			final List<Ref> transportRefs =
+					serviceRegistry.transportRefsForService(serviceRef);
+			for (final Ref ref : transportRefs) {
+				componentServiceBuilder.addTransportUrl(ref.toString());
 			}
 			builder.addServices(componentServiceBuilder);
 		}
@@ -86,19 +86,18 @@ public class BroadcastWork extends AbstractWork implements Work {
 	}
 
 	private GossipServiceProto.ComponentOnline buildComponentOnlineMessage() {
-		final GossipServiceProto.ComponentOnline.Builder builder = GossipServiceProto.ComponentOnline
-				.getDefaultInstance()
-				.newBuilderForType();
+		final GossipServiceProto.ComponentOnline.Builder builder =
+				GossipServiceProto.ComponentOnline.getDefaultInstance().newBuilderForType();
 		builder.setComponentRef(gossipServiceRef.getComponentRef());
 		for (ServiceProto.ServiceRef serviceRef : serviceRegistry.getServices(gossipServiceRef.getComponentRef())) {
 			final GossipServiceProto.ComponentService.Builder componentServiceBuilder =
 					GossipServiceProto.ComponentService.newBuilder();
 			componentServiceBuilder.setServiceRef(serviceRef);
 			componentServiceBuilder.addAllFlag(serviceRegistry.getServiceFlags(serviceRef));
-			final Optional<TransportClient> transportClientOptional = serviceRegistry.transportClientForService(
-					serviceRef);
-			if (transportClientOptional.isPresent()) {
-				componentServiceBuilder.setTransportUrl(transportClientOptional.get().getRef().toString());
+			final List<Ref> transportRefs =
+					serviceRegistry.transportRefsForService(serviceRef);
+			for (final Ref ref : transportRefs) {
+				componentServiceBuilder.addTransportUrl(ref.toString());
 			}
 			builder.addServices(componentServiceBuilder);
 		}

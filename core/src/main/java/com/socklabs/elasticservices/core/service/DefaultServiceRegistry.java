@@ -6,6 +6,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Ordering;
@@ -16,6 +17,7 @@ import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.collection.CollectionUtils;
 import com.socklabs.elasticservices.core.message.MessageFactory;
 import com.socklabs.elasticservices.core.message.MessageUtils;
+import com.socklabs.elasticservices.core.misc.OrderingRefComparator;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.transport.Transport;
 import com.socklabs.elasticservices.core.transport.TransportClient;
@@ -33,7 +35,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentMap;
 
-public class DefaultServiceRegistry implements ServiceRegistry {
+public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultServiceRegistry.class);
 
@@ -48,7 +50,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	private final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags;
 
 	// Simple mapping of service ref to transport, used to send messages to services
-	private final Map<ServiceProto.ServiceRef, Ref> transportRefsByServiceRef;
+	private final Multimap<ServiceProto.ServiceRef, Ref> transportRefsByServiceRef;
 
 	// An index of message factory by class/package.
 	private final Multimap<String, MessageFactory> messageFactories;
@@ -73,7 +75,7 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 
 		this.serviceFlags = HashMultimap.create();
 		this.serviceRefs = Sets.newHashSet();
-		this.transportRefsByServiceRef = Maps.newHashMap();
+		this.transportRefsByServiceRef = ArrayListMultimap.create();
 		this.transportClients = Maps.newHashMap();
 
 		this.senderCounters = new CounterCacheCompositeMonitor<>("senderCounters");
@@ -103,10 +105,11 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	@Override
 	public synchronized Optional<TransportClient> transportClientForService(final ServiceProto.ServiceRef serviceRef) {
 		LOGGER.debug("Requested transport client for serviceRef {}.", MessageUtils.serviceRefToString(serviceRef));
-		final Ref transportRef = transportRefsByServiceRef.get(serviceRef);
-		if (transportRef == null) {
+		final List<Ref> transportRefs = transportClientRefs(serviceRef);
+		if (transportRefs.size() == 0) {
 			return Optional.absent();
 		}
+		final Ref transportRef = transportRefs.get(0);
 		final TransportClient existingTransportClient = transportClients.get(transportRef);
 		if (existingTransportClient != null) {
 			return Optional.of(existingTransportClient);
@@ -121,12 +124,25 @@ public class DefaultServiceRegistry implements ServiceRegistry {
 	}
 
 	@Override
+	public synchronized List<Ref> transportRefsForService(final ServiceProto.ServiceRef serviceRef) {
+		return transportClientRefs(serviceRef);
+	}
+
+	private List<Ref> transportClientRefs(final ServiceProto.ServiceRef serviceRef) {
+		final List<Ref> refs = Lists.newArrayList(transportRefsByServiceRef.get(serviceRef));
+		if (refs.size() > 1) {
+			return Ordering.from(new OrderingRefComparator()).greatestOf(refs, 1);
+		}
+		return refs;
+	}
+
+	@Override
 	public void updateComponentServices(
 			final ServiceProto.ComponentRef componentRef,
-			final Map<ServiceProto.ServiceRef, String> services,
+			final Multimap<ServiceProto.ServiceRef, String> services,
 			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags) {
 		LOGGER.debug("Updating service information from gossip.");
-		for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entrySet()) {
+		for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entries()) {
 			LOGGER.debug(
 					"Received transport ref uri {} for {}",
 					entry.getValue(),

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="Elastic Services">
+	<googleAnalyticsAccountId>UA-46649870-1</googleAnalyticsAccountId>
 	<skin>
 		<groupId>lt.velykis.maven.skins</groupId>
 		<artifactId>reflow-maven-skin</artifactId>

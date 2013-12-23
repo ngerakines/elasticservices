@@ -1,10 +1,13 @@
 package com.socklabs.elasticservices.gossip;
 
+import com.google.common.collect.Lists;
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.misc.RefUtils;
+import com.socklabs.elasticservices.core.service.DefaultServiceRegistry;
 import com.socklabs.elasticservices.core.service.Service;
+import com.socklabs.elasticservices.core.service.ServicePresenceListener;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.RabbitMqTransport;
 import com.socklabs.elasticservices.core.transport.Transport;
@@ -16,6 +19,7 @@ import org.springframework.core.env.Environment;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.io.IOException;
+import java.util.List;
 
 @Configuration
 public class GossipServiceConfig {
@@ -56,7 +60,12 @@ public class GossipServiceConfig {
 
 	@Bean
 	public Service gossipService() {
-		return new GossipService(gossipServiceRef(), serviceRegistry);
+		final List<ServicePresenceListener> servicePresenceListeners = Lists.newArrayList();
+		// NKG: This should be cleaned up in the future.
+		if (serviceRegistry instanceof DefaultServiceRegistry) {
+			servicePresenceListeners.add((ServicePresenceListener) serviceRegistry);
+		}
+		return new GossipService(gossipServiceRef(), servicePresenceListeners);
 	}
 
 	@Bean

@@ -16,9 +16,10 @@ public final class GossipServiceProto {
     com.socklabs.elasticservices.core.ServiceProto.ServiceRef getServiceRef();
     com.socklabs.elasticservices.core.ServiceProto.ServiceRefOrBuilder getServiceRefOrBuilder();
     
-    // optional string transport_url = 2;
-    boolean hasTransportUrl();
-    String getTransportUrl();
+    // repeated string transport_url = 2;
+    java.util.List<String> getTransportUrlList();
+    int getTransportUrlCount();
+    String getTransportUrl(int index);
     
     // repeated int32 flag = 3;
     java.util.List<java.lang.Integer> getFlagList();
@@ -67,36 +68,18 @@ public final class GossipServiceProto {
       return serviceRef_;
     }
     
-    // optional string transport_url = 2;
+    // repeated string transport_url = 2;
     public static final int TRANSPORT_URL_FIELD_NUMBER = 2;
-    private java.lang.Object transportUrl_;
-    public boolean hasTransportUrl() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+    private com.google.protobuf.LazyStringList transportUrl_;
+    public java.util.List<String>
+        getTransportUrlList() {
+      return transportUrl_;
     }
-    public String getTransportUrl() {
-      java.lang.Object ref = transportUrl_;
-      if (ref instanceof String) {
-        return (String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        String s = bs.toStringUtf8();
-        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
-          transportUrl_ = s;
-        }
-        return s;
-      }
+    public int getTransportUrlCount() {
+      return transportUrl_.size();
     }
-    private com.google.protobuf.ByteString getTransportUrlBytes() {
-      java.lang.Object ref = transportUrl_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
-        transportUrl_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public String getTransportUrl(int index) {
+      return transportUrl_.get(index);
     }
     
     // repeated int32 flag = 3;
@@ -115,7 +98,7 @@ public final class GossipServiceProto {
     
     private void initFields() {
       serviceRef_ = com.socklabs.elasticservices.core.ServiceProto.ServiceRef.getDefaultInstance();
-      transportUrl_ = "";
+      transportUrl_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       flag_ = java.util.Collections.emptyList();;
     }
     private byte memoizedIsInitialized = -1;
@@ -133,8 +116,8 @@ public final class GossipServiceProto {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeMessage(1, serviceRef_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeBytes(2, getTransportUrlBytes());
+      for (int i = 0; i < transportUrl_.size(); i++) {
+        output.writeBytes(2, transportUrl_.getByteString(i));
       }
       for (int i = 0; i < flag_.size(); i++) {
         output.writeInt32(3, flag_.get(i));
@@ -152,9 +135,14 @@ public final class GossipServiceProto {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(1, serviceRef_);
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getTransportUrlBytes());
+      {
+        int dataSize = 0;
+        for (int i = 0; i < transportUrl_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(transportUrl_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getTransportUrlList().size();
       }
       {
         int dataSize = 0;
@@ -296,7 +284,7 @@ public final class GossipServiceProto {
           serviceRefBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000001);
-        transportUrl_ = "";
+        transportUrl_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
         flag_ = java.util.Collections.emptyList();;
         bitField0_ = (bitField0_ & ~0x00000004);
@@ -346,8 +334,10 @@ public final class GossipServiceProto {
         } else {
           result.serviceRef_ = serviceRefBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          transportUrl_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              transportUrl_);
+          bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.transportUrl_ = transportUrl_;
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
@@ -374,8 +364,15 @@ public final class GossipServiceProto {
         if (other.hasServiceRef()) {
           mergeServiceRef(other.getServiceRef());
         }
-        if (other.hasTransportUrl()) {
-          setTransportUrl(other.getTransportUrl());
+        if (!other.transportUrl_.isEmpty()) {
+          if (transportUrl_.isEmpty()) {
+            transportUrl_ = other.transportUrl_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureTransportUrlIsMutable();
+            transportUrl_.addAll(other.transportUrl_);
+          }
+          onChanged();
         }
         if (!other.flag_.isEmpty()) {
           if (flag_.isEmpty()) {
@@ -428,8 +425,8 @@ public final class GossipServiceProto {
               break;
             }
             case 18: {
-              bitField0_ |= 0x00000002;
-              transportUrl_ = input.readBytes();
+              ensureTransportUrlIsMutable();
+              transportUrl_.add(input.readBytes());
               break;
             }
             case 24: {
@@ -542,39 +539,59 @@ public final class GossipServiceProto {
         return serviceRefBuilder_;
       }
       
-      // optional string transport_url = 2;
-      private java.lang.Object transportUrl_ = "";
-      public boolean hasTransportUrl() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+      // repeated string transport_url = 2;
+      private com.google.protobuf.LazyStringList transportUrl_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureTransportUrlIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          transportUrl_ = new com.google.protobuf.LazyStringArrayList(transportUrl_);
+          bitField0_ |= 0x00000002;
+         }
       }
-      public String getTransportUrl() {
-        java.lang.Object ref = transportUrl_;
-        if (!(ref instanceof String)) {
-          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
-          transportUrl_ = s;
-          return s;
-        } else {
-          return (String) ref;
-        }
+      public java.util.List<String>
+          getTransportUrlList() {
+        return java.util.Collections.unmodifiableList(transportUrl_);
       }
-      public Builder setTransportUrl(String value) {
+      public int getTransportUrlCount() {
+        return transportUrl_.size();
+      }
+      public String getTransportUrl(int index) {
+        return transportUrl_.get(index);
+      }
+      public Builder setTransportUrl(
+          int index, String value) {
         if (value == null) {
     throw new NullPointerException();
   }
-  bitField0_ |= 0x00000002;
-        transportUrl_ = value;
+  ensureTransportUrlIsMutable();
+        transportUrl_.set(index, value);
+        onChanged();
+        return this;
+      }
+      public Builder addTransportUrl(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureTransportUrlIsMutable();
+        transportUrl_.add(value);
+        onChanged();
+        return this;
+      }
+      public Builder addAllTransportUrl(
+          java.lang.Iterable<String> values) {
+        ensureTransportUrlIsMutable();
+        super.addAll(values, transportUrl_);
         onChanged();
         return this;
       }
       public Builder clearTransportUrl() {
+        transportUrl_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
-        transportUrl_ = getDefaultInstance().getTransportUrl();
         onChanged();
         return this;
       }
-      void setTransportUrl(com.google.protobuf.ByteString value) {
-        bitField0_ |= 0x00000002;
-        transportUrl_ = value;
+      void addTransportUrl(com.google.protobuf.ByteString value) {
+        ensureTransportUrlIsMutable();
+        transportUrl_.add(value);
         onChanged();
       }
       
@@ -2058,7 +2075,7 @@ public final class GossipServiceProto {
       "re/service.proto\"{\n\020ComponentService\022B\n\013" +
       "service_ref\030\001 \001(\0132-.com.socklabs.elastic" +
       "services.core.ServiceRef\022\025\n\rtransport_ur" +
-      "l\030\002 \001(\t\022\014\n\004flag\030\003 \003(\005\"\242\001\n\017ComponentOnlin" +
+      "l\030\002 \003(\t\022\014\n\004flag\030\003 \003(\005\"\242\001\n\017ComponentOnlin" +
       "e\022F\n\rcomponent_ref\030\001 \001(\0132/.com.socklabs." +
       "elasticservices.core.ComponentRef\022G\n\010ser" +
       "vices\030\002 \003(\01325.com.socklabs.elasticservic",

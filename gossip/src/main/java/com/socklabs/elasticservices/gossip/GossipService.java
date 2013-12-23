@@ -1,29 +1,33 @@
 package com.socklabs.elasticservices.gossip;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.protobuf.Message;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.MessageFactory;
 import com.socklabs.elasticservices.core.service.AbstractService;
 import com.socklabs.elasticservices.core.service.MessageController;
-import com.socklabs.elasticservices.core.service.ServiceRegistry;
+import com.socklabs.elasticservices.core.service.ServicePresenceListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Map;
 
 public class GossipService extends AbstractService {
 
-	private final ServiceRegistry serviceRegistry;
+	private static final Logger LOGGER = LoggerFactory.getLogger(GossipService.class);
+
+	private final List<ServicePresenceListener> servicePresenceListeners;
 
 	private final GossipMessageFactory gossipMessageFactory;
 
 	public GossipService(
-			final ServiceProto.ServiceRef serviceRef, final ServiceRegistry serviceRegistry) {
+			final ServiceProto.ServiceRef serviceRef,
+			final List<ServicePresenceListener> servicePresenceListeners) {
 		super(serviceRef);
-		this.serviceRegistry = serviceRegistry;
+		this.servicePresenceListeners = servicePresenceListeners;
 
 		this.gossipMessageFactory = new GossipMessageFactory();
 	}
@@ -34,15 +38,15 @@ public class GossipService extends AbstractService {
 	}
 
 	@Override
-	public void handleMessage(
-			final MessageController controller, final Message message) {
+	public void handleMessage(final MessageController controller, final Message message) {
 		if (message instanceof GossipServiceProto.ComponentOnline) {
-			//log.info("Component online message received: {}", message);
+			// log.info("Component online message received: {}", message);
 			// NKG: This isn't really a message that is acted on. It is
 			// more informational than anything else.
 		}
 		if (message instanceof GossipServiceProto.ComponentStatus) {
-			//log.info("Component status message received: {}", message.toString());
+			// log.info("Component status message received: {}",
+			// message.toString());
 			// TODO[NKG]: Pass this information the the service manager.
 			// The service manager should then update any records that it
 			// has for the component ref. If there are knew services, they
@@ -50,16 +54,24 @@ public class GossipService extends AbstractService {
 			// consumers of the service manager.
 
 			final GossipServiceProto.ComponentStatus componentStatus = (GossipServiceProto.ComponentStatus) message;
-			final Map<ServiceProto.ServiceRef, String> transports = Maps.newHashMap();
+			final Multimap<ServiceProto.ServiceRef, String> transports = ArrayListMultimap.create();
 			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags = HashMultimap.create();
 			for (final GossipServiceProto.ComponentService componentService : componentStatus.getServicesList()) {
-				if (componentService.hasTransportUrl()) {
-					transports.put(componentService.getServiceRef(), componentService.getTransportUrl());
+				for (final String transportUrl : componentService.getTransportUrlList()) {
+					transports.put(componentService.getServiceRef(), transportUrl);
 				}
 				serviceFlags.putAll(getServiceRef(), componentService.getFlagList());
 			}
 			final ServiceProto.ComponentRef componentRef = componentStatus.getComponentRef();
-			serviceRegistry.updateComponentServices(componentRef, transports, serviceFlags);
+			for (final ServicePresenceListener servicePresenceListener : servicePresenceListeners) {
+				try {
+					servicePresenceListener.updateComponentServices(componentRef, transports, serviceFlags);
+				} catch (final RuntimeException e) {
+					LOGGER.error(
+							"Gossip service caught runtime exception attempting to notify service presence listener.",
+							e);
+				}
+			}
 		}
 	}
 

@@ -10,6 +10,7 @@ public class RefUtils {
 		refBuilder.addValue("exchange", exchange);
 		refBuilder.addValue("routingKey", routingKey);
 		refBuilder.addValue("type", type);
+		refBuilder.addValue("order", "5000");
 		return refBuilder.build();
 	}
 

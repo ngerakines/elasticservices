@@ -1,7 +1,6 @@
 package com.socklabs.elasticservices.core.service;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Multimap;
 import com.google.protobuf.AbstractMessage;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.misc.Ref;
@@ -9,7 +8,6 @@ import com.socklabs.elasticservices.core.transport.Transport;
 import com.socklabs.elasticservices.core.transport.TransportClient;
 
 import java.util.List;
-import java.util.Map;
 
 public interface ServiceRegistry {
 
@@ -24,13 +22,7 @@ public interface ServiceRegistry {
 	 */
 	Optional<TransportClient> transportClientForService(final ServiceProto.ServiceRef serviceRef);
 
-	/**
-	 * Called to do auto discovery via gossip of services associated with a component.
-	 */
-	void updateComponentServices(
-			final ServiceProto.ComponentRef componentRef,
-			final Map<ServiceProto.ServiceRef, String> services,
-			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags);
+	List<Ref> transportRefsForService(final ServiceProto.ServiceRef serviceRef);
 
 	void initTransportClient(final ServiceProto.ServiceRef serviceRef, final Ref ref);
 
