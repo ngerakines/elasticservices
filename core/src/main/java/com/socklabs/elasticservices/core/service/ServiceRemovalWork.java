@@ -13,19 +13,21 @@ import org.slf4j.LoggerFactory;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Created by ngerakines on 12/23/13.
- */
 public class ServiceRemovalWork extends AbstractWork implements ServicePresenceListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceRemovalWork.class);
 
+	private final ServiceProto.ComponentRef localComponentRef;
 	private final ServiceRegistry serviceRegistry;
 	private final Duration duration;
 
 	private final Map<Pair<ServiceProto.ServiceRef, String>, DateTime> lastReference;
 
-	public ServiceRemovalWork(final ServiceRegistry serviceRegistry, final Duration duration) {
+	public ServiceRemovalWork(
+			final ServiceProto.ComponentRef localComponentRef,
+			final ServiceRegistry serviceRegistry,
+			final Duration duration) {
+		this.localComponentRef = localComponentRef;
 		this.serviceRegistry = serviceRegistry;
 		this.duration = duration;
 
@@ -40,6 +42,9 @@ public class ServiceRemovalWork extends AbstractWork implements ServicePresenceL
 			final Multimap<ServiceProto.ServiceRef, String> services,
 			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags) {
 
+		if (localComponentRef.equals(componentRef)) {
+			return;
+		}
 		for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entries()) {
 			lastReference.put(new Pair<>(entry.getKey(), entry.getValue()), DateTime.now());
 		}
