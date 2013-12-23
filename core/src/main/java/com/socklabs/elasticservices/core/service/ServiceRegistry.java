@@ -6,6 +6,7 @@ import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.transport.Transport;
 import com.socklabs.elasticservices.core.transport.TransportClient;
+import com.socklabs.elasticservices.core.transport.TransportConsumer;
 
 import java.util.List;
 
@@ -79,4 +80,5 @@ public interface ServiceRegistry {
 			final AbstractMessage message,
 			final ServiceProto.ContentType contentType);
 
+	TransportConsumer newTransportConsumer();
 }

@@ -14,4 +14,13 @@ public class RefUtils {
 		return refBuilder.build();
 	}
 
+	public static Ref httpTransportRef(final String host, final int port, final String service) {
+		final Ref.Builder refBuilder = Ref.builder("http");
+		refBuilder.addValue("host", host);
+		refBuilder.addValue("port", String.valueOf(port));
+		refBuilder.addValue("service", service);
+		refBuilder.addValue("order", "4000");
+		return refBuilder.build();
+	}
+
 }

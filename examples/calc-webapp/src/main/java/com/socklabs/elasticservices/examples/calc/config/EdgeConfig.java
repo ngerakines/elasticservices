@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.misc.RefUtils;
+import com.socklabs.elasticservices.http.HttpTransportController;
 import org.joda.time.Duration;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.edge.DefaultEdgeManager;
@@ -84,9 +85,22 @@ public class EdgeConfig {
 				Duration.standardMinutes(5));
 	}
 
+	@Bean
+	public Ref httpControllerRef() {
+		return RefUtils.httpTransportRef(
+				"localhost",
+				environment.getRequiredProperty("transport.http.port", Integer.class),
+				"calcEdge");
+	}
+
+	@Bean
+	public HttpTransportController httpTransportController() {
+		return new HttpTransportController(serviceRegistry, httpControllerRef());
+	}
+
 	@PostConstruct
 	public void registerService() {
-		serviceRegistry.registerService(calcEdgeService(), calcEdgeTransport());
+		serviceRegistry.registerService(calcEdgeService(), calcEdgeTransport(), httpTransportController());
 	}
 
 }

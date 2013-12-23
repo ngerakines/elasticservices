@@ -2,7 +2,6 @@ package com.socklabs.elasticservices.core.service;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -70,12 +69,12 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 		this.transportClientFactory = transportClientFactory;
 
 		this.services = Maps.newConcurrentMap();
-		this.messageFactories = ArrayListMultimap.create();
-		this.serviceTransports = ArrayListMultimap.create();
+		this.messageFactories = HashMultimap.create();
+		this.serviceTransports = HashMultimap.create();
 
 		this.serviceFlags = HashMultimap.create();
 		this.serviceRefs = Sets.newHashSet();
-		this.transportRefsByServiceRef = ArrayListMultimap.create();
+		this.transportRefsByServiceRef = HashMultimap.create();
 		this.transportClients = Maps.newHashMap();
 
 		this.senderCounters = new CounterCacheCompositeMonitor<>("senderCounters");
@@ -140,7 +139,7 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 	private List<Ref> transportClientRefs(final ServiceProto.ServiceRef serviceRef) {
 		final List<Ref> refs = Lists.newArrayList(transportRefsByServiceRef.get(serviceRef));
 		if (refs.size() > 1) {
-			return Ordering.from(new OrderingRefComparator()).greatestOf(refs, 1);
+			return Ordering.from(new OrderingRefComparator()).sortedCopy(refs);
 		}
 		return refs;
 	}
@@ -317,6 +316,11 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 			}
 		}
 		return Optional.absent();
+	}
+
+	@Override
+	public TransportConsumer newTransportConsumer() {
+		return new ServiceRegistryTransportConsumer(this);
 	}
 
 	private static class ServiceRegistryTransportConsumer implements TransportConsumer {

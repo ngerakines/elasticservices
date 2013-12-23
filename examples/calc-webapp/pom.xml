@@ -57,6 +57,11 @@
 			<artifactId>calc-service</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.socklabs</groupId>
+			<artifactId>elasticservices-http</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>

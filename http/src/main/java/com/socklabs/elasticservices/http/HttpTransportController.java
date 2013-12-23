@@ -18,18 +18,14 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -49,7 +45,7 @@ public class HttpTransportController implements Transport {
 	public HttpTransportController(final ServiceRegistry serviceRegistry, final Ref transportRef) {
 		this.serviceRegistry = serviceRegistry;
 		this.transportRef = transportRef;
-		this.consumers = Lists.newArrayList();
+		this.consumers = Lists.newArrayList(serviceRegistry.newTransportConsumer());
 	}
 
 	@Override
@@ -66,11 +62,7 @@ public class HttpTransportController implements Transport {
 	@RequestMapping(value = "/{service}", method = RequestMethod.POST, produces = {"text/plain"})
 	public String handleRequest(
 			final HttpServletRequest httpServletRequest,
-			final HttpServletResponse httpServletResponse,
-			final Model model,
-			@PathVariable("service") final String serviceName,
-			@PathVariable("method") final String methodName,
-			@RequestParam(value = "json", required = false) @Nullable final String json) throws TransportException {
+			@PathVariable("service") final String serviceName) throws TransportException {
 
 		final Optional<byte[]> rawMessageOptional = readBody(httpServletRequest);
 		if (!rawMessageOptional.isPresent()) {
