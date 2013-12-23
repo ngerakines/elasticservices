@@ -103,6 +103,15 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 	}
 
 	@Override
+	public synchronized void deregisterService(final ServiceProto.ServiceRef serviceRef) {
+		final List<Ref> transportRefs = transportClientRefs(serviceRef);
+		transportRefsByServiceRef.removeAll(transportRefs);
+		for (final Ref transportRef : transportRefs) {
+			transportClients.remove(transportRef);
+		}
+	}
+
+	@Override
 	public synchronized Optional<TransportClient> transportClientForService(final ServiceProto.ServiceRef serviceRef) {
 		LOGGER.debug("Requested transport client for serviceRef {}.", MessageUtils.serviceRefToString(serviceRef));
 		final List<Ref> transportRefs = transportClientRefs(serviceRef);

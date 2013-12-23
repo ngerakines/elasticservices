@@ -17,6 +17,8 @@ public interface ServiceRegistry {
 	 */
 	void registerService(final Service service, final Transport... transports);
 
+	void deregisterService(final ServiceProto.ServiceRef serviceRef);
+
 	/**
 	 * Get, if it exists, a transport client associated with a given serviceref.
 	 */
