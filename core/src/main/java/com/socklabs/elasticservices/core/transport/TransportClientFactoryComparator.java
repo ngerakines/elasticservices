@@ -5,7 +5,8 @@ import org.springframework.core.Ordered;
 import java.util.Comparator;
 
 /**
- * Created by ngerakines on 12/23/13.
+ * A comparator of {@link TransportClientFactory} objects that gives priority to
+ * implementations of the {@link Ordered} interface.
  */
 public class TransportClientFactoryComparator implements Comparator<TransportClientFactory> {
 

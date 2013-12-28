@@ -4,7 +4,7 @@ import com.google.common.collect.Multimap;
 import com.socklabs.elasticservices.core.ServiceProto;
 
 /**
- * Created by ngerakines on 12/22/13.
+ * An object that can receive and act on component status events.
  */
 public interface ServicePresenceListener {
 

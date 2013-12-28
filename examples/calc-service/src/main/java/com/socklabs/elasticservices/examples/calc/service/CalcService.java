@@ -1,6 +1,5 @@
 package com.socklabs.elasticservices.examples.calc.service;
 
-import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
 import com.socklabs.elasticservices.core.ServiceProto;
@@ -11,7 +10,6 @@ import com.socklabs.elasticservices.core.service.MessageController;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
 import com.socklabs.feature.ToggleFeature;
-import org.joda.time.DateTime;
 
 import java.util.List;
 
@@ -39,12 +37,8 @@ public class CalcService extends AbstractService {
 
 	@Override
 	public void handleMessage(final MessageController controller, final Message message) {
-		final Optional<DateTime> expiresOptional = controller.getExpires();
-		if (expiresOptional.isPresent()) {
-			final DateTime expires = expiresOptional.get();
-			if (DateTime.now().isAfter(expires)) {
-				return;
-			}
+		if (messageHasExpired(controller)) {
+			return;
 		}
 		if (message instanceof CalcServiceProto.Subtract && toggleFeature.isEnabled()) {
 			final CalcServiceProto.Subtract subtractMessage = (CalcServiceProto.Subtract) message;

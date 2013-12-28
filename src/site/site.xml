@@ -41,6 +41,14 @@
 					<breadcrumbs>false</breadcrumbs>
 					<toc>false</toc>
 				</features>
+				<developers>
+					<breadcrumbs>false</breadcrumbs>
+					<toc>false</toc>
+				</developers>
+				<services>
+					<breadcrumbs>false</breadcrumbs>
+					<toc>false</toc>
+				</services>
 				<misc>
 					<breadcrumbs>false</breadcrumbs>
 					<toc>false</toc>
@@ -87,6 +95,7 @@
 		<menu name="Documentation" inherit="bottom">
 			<item name="Overview" href="overview.html" />
 			<item name="Features" href="features.html" />
+			<item name="Developer Guide" href="developers.html" />
 			<item name="Other" href="misc.html" />
 		</menu>
 		<menu name="Contribute" inherit="bottom">

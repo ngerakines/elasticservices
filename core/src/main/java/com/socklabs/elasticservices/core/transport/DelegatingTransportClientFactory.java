@@ -8,7 +8,8 @@ import com.socklabs.elasticservices.core.misc.Ref;
 import java.util.List;
 
 /**
- * Created by ngerakines on 12/23/13.
+ * A {@link TransportClientFactory} that uses an internal, ordered list of
+ * transport client factories to attempt to create transport clients with.
  */
 public class DelegatingTransportClientFactory implements TransportClientFactory {
 
