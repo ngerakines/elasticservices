@@ -1,4 +1,4 @@
-package com.socklabs.elasticservices.core.transport;
+package com.socklabs.elasticservices.rabbitmq;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -23,6 +23,8 @@ import com.socklabs.elasticservices.core.message.MessageUtils;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.service.DefaultMessageController;
 import com.socklabs.elasticservices.core.service.MessageController;
+import com.socklabs.elasticservices.core.transport.Transport;
+import com.socklabs.elasticservices.core.transport.TransportConsumer;
 import com.socklabs.servo.ext.CollectionSizeCallable;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;

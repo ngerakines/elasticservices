@@ -1,14 +1,15 @@
 package com.socklabs.elasticservices.examples.calc.config;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
 import com.socklabs.elasticservices.core.config.PropertiesConfig;
-import com.socklabs.elasticservices.core.config.RabbitMqConfig;
 import com.socklabs.elasticservices.core.config.ServiceConfig;
 import com.socklabs.elasticservices.core.config.WorkConfig;
 import com.socklabs.elasticservices.examples.calc.CalcPropertiesConfig;
 import com.socklabs.elasticservices.gossip.GossipServiceConfig;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import com.socklabs.elasticservices.rabbitmq.RabbitMqConfig;
 
 @Configuration
 @EnableWebMvc

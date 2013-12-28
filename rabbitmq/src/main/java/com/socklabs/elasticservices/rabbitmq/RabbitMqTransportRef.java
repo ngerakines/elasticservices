@@ -1,4 +1,4 @@
-package com.socklabs.elasticservices.core.transport;
+package com.socklabs.elasticservices.rabbitmq;
 
 import com.google.common.base.Preconditions;
 import com.socklabs.elasticservices.core.misc.Ref;

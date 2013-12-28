@@ -1,8 +1,10 @@
-package com.socklabs.elasticservices.core.transport;
+package com.socklabs.elasticservices.rabbitmq;
 
 import com.google.common.base.Optional;
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.misc.Ref;
+import com.socklabs.elasticservices.core.transport.TransportClient;
+import com.socklabs.elasticservices.core.transport.TransportClientFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

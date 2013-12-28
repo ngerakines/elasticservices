@@ -85,14 +85,15 @@ public class DefaultMessageController implements MessageController {
 		return expires;
 	}
 
-	@Override
-	public String toString() {
+	@Override public String toString() {
 		return "DefaultMessageController{" +
 				"senderServiceRef=" + senderServiceRef +
 				", destinationServiceRef=" + destinationServiceRef +
 				", contentType=" + contentType +
 				", messageId=" + messageId +
 				", correlationId=" + correlationId +
+				", expires=" + expires +
 				'}';
 	}
+
 }

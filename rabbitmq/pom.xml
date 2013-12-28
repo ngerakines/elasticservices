@@ -8,7 +8,7 @@
 		<version>develop-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>elasticservices-gossip</artifactId>
+	<artifactId>elasticservices-rabbitmq</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
@@ -45,47 +45,13 @@
 			<artifactId>cglib</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.socklabs</groupId>
 			<artifactId>elasticservices-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.socklabs</groupId>
-			<artifactId>elasticservices-rabbitmq</artifactId>
-		</dependency>
 	</dependencies>
-
-	<profiles>
-		<profile>
-			<id>protobuf-build</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.socklabs</groupId>
-						<artifactId>maven-protobuff</artifactId>
-						<version>${com.socklabs.maven-protobuff.version}</version>
-						<executions>
-							<execution>
-								<id>generate-sources</id>
-								<phase>generate-sources</phase>
-								<configuration>
-									<verbose>true</verbose>
-									<protoSources>
-										<protoSource>src/main/resources/com/socklabs/elasticservices/gossip/gossip.proto</protoSource>
-									</protoSources>
-									<includePaths>
-										<includePath>src/main/resources</includePath>
-										<includePath>../core/src/main/resources</includePath>
-									</includePaths>
-								</configuration>
-								<goals>
-									<goal>compile</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

@@ -1,4 +1,4 @@
-package com.socklabs.elasticservices.core.transport;
+package com.socklabs.elasticservices.rabbitmq;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
@@ -16,6 +16,7 @@ import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.ContentTypes;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.service.MessageController;
+import com.socklabs.elasticservices.core.transport.TransportClient;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

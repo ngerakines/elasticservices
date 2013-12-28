@@ -49,6 +49,11 @@
 			<artifactId>elasticservices-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.socklabs</groupId>
+			<artifactId>elasticservices-rabbitmq</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 
 	<profiles>

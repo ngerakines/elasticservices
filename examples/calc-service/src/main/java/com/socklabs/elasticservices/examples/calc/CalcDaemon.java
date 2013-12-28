@@ -1,14 +1,16 @@
 package com.socklabs.elasticservices.examples.calc;
 
 import org.apache.commons.daemon.DaemonContext;
+
 import com.socklabs.elasticservices.core.config.PropertiesConfig;
-import com.socklabs.elasticservices.core.config.RabbitMqConfig;
 import com.socklabs.elasticservices.core.config.ServiceConfig;
 import com.socklabs.elasticservices.core.config.WorkConfig;
 import com.socklabs.elasticservices.core.daemon.AbstractDaemon;
 import com.socklabs.elasticservices.core.daemon.SimpleDaemonContext;
 import com.socklabs.elasticservices.examples.calc.service.CalcServiceConfig;
 import com.socklabs.elasticservices.gossip.GossipServiceConfig;
+import com.socklabs.elasticservices.http.client.HttpClientConfig;
+import com.socklabs.elasticservices.rabbitmq.RabbitMqConfig;
 
 public class CalcDaemon extends AbstractDaemon {
 
@@ -29,6 +31,7 @@ public class CalcDaemon extends AbstractDaemon {
 				PropertiesConfig.class,
 				CalcPropertiesConfig.class,
 				RabbitMqConfig.class,
+				HttpClientConfig.class,
 				ServiceConfig.class,
 				WorkConfig.class,
 				GossipServiceConfig.class,

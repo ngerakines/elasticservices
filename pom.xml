@@ -154,6 +154,11 @@
 				<version>2.3.20</version>
 			</dependency>
 			<dependency>
+				<groupId>com.rabbitmq</groupId>
+				<artifactId>amqp-client</artifactId>
+				<version>${com.rabbitmq.amqp-client.version}</version>
+			</dependency>
+			<dependency>
 				<groupId>com.socklabs</groupId>
 				<artifactId>elasticservices-core</artifactId>
 				<version>${project.version}</version>
@@ -161,6 +166,21 @@
 			<dependency>
 				<groupId>com.socklabs</groupId>
 				<artifactId>elasticservices-gossip</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.socklabs</groupId>
+				<artifactId>elasticservices-http</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.socklabs</groupId>
+				<artifactId>elasticservices-rabbitmq</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.socklabs</groupId>
+				<artifactId>elasticservices-work</artifactId>
 				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
@@ -303,6 +323,7 @@
 		<module>core</module>
 		<module>gossip</module>
 		<module>http</module>
+		<module>rabbitmq</module>
 		<module>work</module>
 	</modules>
 </project>

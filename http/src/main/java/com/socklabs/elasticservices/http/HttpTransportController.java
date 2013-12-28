@@ -59,7 +59,11 @@ public class HttpTransportController implements Transport {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/{service}", method = RequestMethod.POST, produces = {"text/plain"})
+	@RequestMapping(
+			value = "/{service}",
+			method = RequestMethod.POST,
+			consumes = { "application/x-protobuf" },
+			produces = { "text/plain" })
 	public String handleRequest(
 			final HttpServletRequest httpServletRequest,
 			@PathVariable("service") final String serviceName) throws TransportException {
@@ -71,6 +75,9 @@ public class HttpTransportController implements Transport {
 
 		final MessageController messageController = buildMessageController(httpServletRequest);
 
+		LOGGER.info("Built controller {}.", messageController);
+
+		LOGGER.info("Dispatching message to {} consumers.", consumers.size());
 		for (final TransportConsumer transportConsumer : consumers) {
 			try {
 				transportConsumer.handleMessage(messageController, rawMessageOptional.get());
@@ -105,20 +112,17 @@ public class HttpTransportController implements Transport {
 	}
 
 	private MessageController buildMessageController(final HttpServletRequest httpServletRequest) {
-		final String rawContentType = httpServletRequest.getContentType();
-		final Optional<Message> contentType = MessageUtils.fromJson(
-				ServiceProto.ContentType.getDefaultInstance(),
-				rawContentType);
+		final String rawContentType = httpServletRequest.getHeader("X-CONTENT-TYPE");
+		final Optional<Message> contentType =
+				MessageUtils.fromJson(ServiceProto.ContentType.getDefaultInstance(), rawContentType);
 
 		final String rawDestinationServiceRef = httpServletRequest.getHeader("X-DESTINATION");
-		final Optional<Message> destinationServiceRef = MessageUtils.fromJson(
-				ServiceProto.ServiceRef.getDefaultInstance(),
-				rawDestinationServiceRef);
+		final Optional<Message> destinationServiceRef =
+				MessageUtils.fromJson(ServiceProto.ServiceRef.getDefaultInstance(), rawDestinationServiceRef);
 
 		final String rawSenderServiceRef = httpServletRequest.getHeader("X-SENDER");
-		final Optional<Message> senderServiceRef = MessageUtils.fromJson(
-				ServiceProto.ServiceRef.getDefaultInstance(),
-				rawSenderServiceRef);
+		final Optional<Message> senderServiceRef =
+				MessageUtils.fromJson(ServiceProto.ServiceRef.getDefaultInstance(), rawSenderServiceRef);
 
 		Optional<byte[]> optionalMessageId = Optional.absent();
 		Optional<byte[]> optionalCorrelationId = Optional.absent();
@@ -134,7 +138,7 @@ public class HttpTransportController implements Transport {
 			optionalCorrelationId = Optional.of(B16.decode(correlationId));
 		}
 
-		final String rawExpires = httpServletRequest.getHeader("X-CORRELATION-ID");
+		final String rawExpires = httpServletRequest.getHeader("X-EXPIRES");
 		if (rawExpires != null && !rawExpires.isEmpty()) {
 			final Long millis = Longs.tryParse(rawExpires);
 			if (millis != null) {

@@ -54,6 +54,10 @@
 			<groupId>com.socklabs</groupId>
 			<artifactId>elasticservices-gossip</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.socklabs</groupId>
+			<artifactId>elasticservices-http</artifactId>
+		</dependency>
 	</dependencies>
 
 	<profiles>

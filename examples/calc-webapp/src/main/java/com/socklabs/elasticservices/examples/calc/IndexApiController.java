@@ -56,7 +56,7 @@ public class IndexApiController {
 				CalcServiceProto.Add.class,
 				Optional.of(Expiration.fromNow(60, TimeUnit.SECONDS)));
 		try {
-			final Message message = resultfuture.get(10, TimeUnit.SECONDS);
+			final Message message = resultfuture.get(60, TimeUnit.SECONDS);
 			if (message instanceof CalcServiceProto.Result) {
 				return JsonFormat.printToString(message);
 			}
