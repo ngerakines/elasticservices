@@ -26,6 +26,13 @@ public class RefUtils {
 		return refBuilder.build();
 	}
 
+	public static Ref localTransportRef(final String service) {
+		final Ref.Builder refBuilder = Ref.builder("local");
+		refBuilder.addValue("service", service);
+		refBuilder.addValue("order", "25000");
+		return refBuilder.build();
+	}
+
 	public static Optional<String> value(final Ref ref, final String key) {
 		final Optional<Pair<String, Optional<String>>> pairOptional = ref.getValue(key);
 		if (pairOptional.isPresent()) {

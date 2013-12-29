@@ -4,6 +4,7 @@ import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.service.DefaultServiceRegistry;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.DelegatingTransportClientFactory;
+import com.socklabs.elasticservices.core.transport.LocalTransportClientFactory;
 import com.socklabs.elasticservices.core.transport.TransportClientFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,9 +23,17 @@ public class ServiceConfig {
 		return new DefaultServiceRegistry(localComponentRef(), transportClientFactory());
 	}
 
-	@Bean(name = {"transportClientFactory", "delegatingTransportClientFactory"})
+	@Bean(name = { "transportClientFactory", "delegatingTransportClientFactory" })
 	public TransportClientFactory transportClientFactory() {
-		return new DelegatingTransportClientFactory();
+		final DelegatingTransportClientFactory delegatingTransportClientFactory =
+				new DelegatingTransportClientFactory();
+		delegatingTransportClientFactory.addDelegate(localTransportClientFactory());
+		return delegatingTransportClientFactory;
+	}
+
+	@Bean(name = "localTransportClientFactory")
+	public TransportClientFactory localTransportClientFactory() {
+		return new LocalTransportClientFactory();
 	}
 
 	@Bean
