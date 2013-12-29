@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Elastic Services - An asynchronous service framework</title>
+		<meta name="description" content="An asynchronous service framework">
+		<meta name="author" content="Nick Gerakines">
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Elastic Services</h1>
+					<h3>An asynchronous service framework</h3>
+					<p>
+						<small>Created by <a href="http://ngerakines.me/">Nick Gerakines</a> / <a href="http://twitter.com/ngerakines">@ngerakines</a> and <a href="#">Chris Antenesse</a> / <a href="http://twitter.com/s333jay">@s333jay</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h2>tl;dr</h2>
+					<p>The ElasticServices project provides a thin layer of libraries and tools in addition to well established open source libraries and projects to create self-coordinating Java services and components.</p>
+				</section>
+
+				<section>
+					<p>At the heart of the ElasticServices framework is the <strong>Service Registry</strong>. The service registry is used to bond <strong>services</strong> onto <strong>components</strong>.</p>
+					<p>When services are bonded to a component through the service registry, they are exposed through <strong>transports</strong>.</p>
+					<p>When a service wants to communicate with another service, it uses a <strong>transport client</strong> to do so.</p>
+					<aside class="notes">
+						<p>...</p>
+					</aside>
+				</section>
+
+				<section>
+					<section>
+						<h2>Services</h2>
+						<p>Simply put, services receive <strong>messages</strong> and then do stuff.</p>
+					</section>
+					<section data-markdown>
+```
+public interface Service {
+
+	ServiceProto.ServiceRef getServiceRef();
+
+	List&lt;MessageFactory&gt; getMessageFactories();
+
+	void handleMessage(
+		final MessageController controller,
+		final Message message);
+
+}
+```
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Messages</h2>
+						<p>Protocol Buffers are used to represent messages sent to services.</p>
+					</section>
+					<section data-markdown>
+```text
+package com.socklabs.elasticservices.examples.calc;
+
+option optimize_for = SPEED;
+option java_package = "com.socklabs.elasticservices.examples.calc";
+option java_outer_classname = "CalcServiceProto";
+
+message Add {
+	repeated int32 values = 1;
+}
+
+message Subtract {
+	repeated int32 values = 1;
+}
+
+message Result {
+	optional int32 value = 1;
+}
+```
+					</section>
+					<section>
+						<h2>Why?</h2>
+						<ul>
+							<li>Proven, well-performing and stable technology</li>
+							<li>Cross-platform, supported by many languages</li>
+							<li>Easy to convert to/from json and text for debugging</li>
+						</ul>
+					</section>
+					<section data-markdown>
+## Easy to use (with Maven)
+
+```xml
+&lt;plugin>
+	&lt;groupId>com.socklabs&lt;/groupId>
+	&lt;artifactId>maven-protobuff&lt;/artifactId>
+	&lt;executions>
+		&lt;execution>
+			&lt;id>generate-sources&lt;/id>
+			&lt;phase>generate-sources&lt;/phase>
+			&lt;configuration>
+				&lt;protoSources>
+					&lt;protoSource>${proto.work.src}work.proto&lt;/protoSource>
+				&lt;/protoSources>
+			&lt;/configuration>
+			&lt;goals>
+				&lt;goal>compile&lt;/goal>
+			&lt;/goals>
+		&lt;/execution>
+	&lt;/executions>
+&lt;/plugin>
+```
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>Transports</h2>
+						<p>A transport is a binding of a service to some communication medium like RabbitMQ or an HTTP dispatcher.</p>
+						<p>When a service is configured on a component, it binds to one or more transports that expose the service to the other components and services.</p>
+					</section>
+					<section>
+						<h2>Transport Clients</h2>
+						<p>Created and used by the service registry to send messages to a remote service.</p>
+					</section>
+					<section>
+						<h2>Included Transports / Transport Clients</h2>
+						<ul>
+							<li>RabbitMQ</li>
+							<li>HTTP</li>
+						</ul>
+					</section>
+				</section>
+			</div>
+		</div>
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+		</script>
+	</body>
+</html>
