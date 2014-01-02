@@ -31,4 +31,5 @@ public class DefaultMessageFactory extends AbstractMessageFactory {
 		LOGGER.debug("Not prototype match for {}.", messageClass);
 		return Optional.absent();
 	}
+
 }

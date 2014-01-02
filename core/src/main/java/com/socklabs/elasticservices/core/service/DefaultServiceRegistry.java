@@ -83,12 +83,13 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 
 	@Override
 	public synchronized void registerService(final Service service, final Transport... transports) {
-		if (null != (services.putIfAbsent(service.getServiceRef(), service))) {
+		final ServiceProto.ServiceRef serviceRef = service.getServiceRef();
+		if (null != (services.putIfAbsent(serviceRef, service))) {
 			LOGGER.error("Attempting to double register service.");
 			throw new RuntimeException("Service with service ref already registered.");
 		}
 		service.setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
-		serviceRefs.add(service.getServiceRef());
+		serviceRefs.add(serviceRef);
 		for (final MessageFactory messageFactory : service.getMessageFactories()) {
 			for (final String factoryPackage : messageFactory.supportedMessagePackages()) {
 				messageFactories.put(factoryPackage, messageFactory);
@@ -96,9 +97,8 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 		}
 		for (final Transport transport : transports) {
 			transport.addConsumer(new ServiceRegistryTransportConsumer(this));
-			serviceTransports.put(service.getServiceRef(), transport);
-			transportRefsByServiceRef.put(service.getServiceRef(), transport.getRef());
-			serviceRefs.add(service.getServiceRef());
+			serviceTransports.put(serviceRef, transport);
+			transportRefsByServiceRef.put(serviceRef, transport.getRef());
 		}
 	}
 
@@ -140,7 +140,9 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 	private List<Ref> transportClientRefs(final ServiceProto.ServiceRef serviceRef) {
 		final List<Ref> refs = Lists.newArrayList(transportRefsByServiceRef.get(serviceRef));
 		if (refs.size() > 1) {
-			return Ordering.from(new OrderingRefComparator()).sortedCopy(refs);
+			final List<Ref> sortedRefs = Ordering.from(new OrderingRefComparator()).sortedCopy(refs);
+			LOGGER.info("Sorted refs {}", sortedRefs);
+			return sortedRefs;
 		}
 		return refs;
 	}

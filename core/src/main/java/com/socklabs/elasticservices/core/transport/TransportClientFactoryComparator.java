@@ -14,7 +14,7 @@ public class TransportClientFactoryComparator implements Comparator<TransportCli
 	public int compare(final TransportClientFactory o1, final TransportClientFactory o2) {
 		final Integer o1v = getOrder(o1);
 		final Integer o2v = getOrder(o2);
-		return o1v.compareTo(o2v);
+		return o2v.compareTo(o1v);
 	}
 
 	private Integer getOrder(final TransportClientFactory transportClientFactory) {

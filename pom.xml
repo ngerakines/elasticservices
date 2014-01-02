@@ -36,11 +36,6 @@
 			<name>Nick Gerakines</name>
 			<email>nick@gerakines.net</email>
 		</developer>
-		<developer>
-			<id>cantenesse</id>
-			<name>Chris Antenesse</name>
-			<email>chris@antenesse.net</email>
-		</developer>
 	</developers>
 
 	<url>http://elasticservic.es/</url>

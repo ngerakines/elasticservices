@@ -14,6 +14,7 @@ import com.socklabs.elasticservices.core.service.MessageController;
 import com.socklabs.elasticservices.core.service.Service;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.LocalTransportClientFactory;
+import com.socklabs.elasticservices.core.transport.Transport;
 import com.socklabs.elasticservices.core.transport.TransportClientFactory;
 import org.junit.After;
 import org.junit.Assert;
@@ -23,6 +24,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
@@ -32,6 +34,7 @@ import javax.annotation.Resource;
 import java.util.Map;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -89,9 +92,16 @@ public class ServiceTest {
 			return RefUtils.localTransportRef("mock");
 		}
 
+		@Bean
+		public Transport mockTransport() {
+			final Transport transport = mock(Transport.class);
+			when(transport.getRef()).thenReturn(mockTransportRef());
+			return transport;
+		}
+
 		@PostConstruct
 		public void registerService() {
-			serviceRegistry.registerService(mockService());
+			serviceRegistry.registerService(mockService(), mockTransport());
 			if (localTransportClientFactory instanceof LocalTransportClientFactory) {
 				final LocalTransportClientFactory localTransportClientFactoryImpl =
 						(LocalTransportClientFactory) localTransportClientFactory;
@@ -119,6 +129,7 @@ public class ServiceTest {
 	}
 
 	@Test
+	@DirtiesContext
 	public void verifyLocalComponent() {
 		Assert.assertEquals(localComponentRef.getSite(), "local");
 		Assert.assertEquals(localComponentRef.getCluster(), "test");
@@ -126,6 +137,7 @@ public class ServiceTest {
 	}
 
 	@Test
+	@DirtiesContext
 	public void handleMessage() {
 		final ServiceProto.ComponentRef request = ServiceProto.ComponentRef.newBuilder().build();
 		serviceRegistry.sendMessage(
@@ -133,11 +145,15 @@ public class ServiceTest {
 				mockServiceRef,
 				request,
 				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+		verify(mockService, times(1)).getServiceRef();
+		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
+		verify(mockService, times(1)).getMessageFactories();
 		verify(mockService, times(1)).handleMessage(any(MessageController.class), any(Message.class));
 		verifyNoMoreInteractions(mockService);
 	}
 
 	@Test
+	@DirtiesContext
 	public void invalidDestination() {
 		final ServiceProto.ComponentRef request = ServiceProto.ComponentRef.newBuilder().build();
 		serviceRegistry.sendMessage(
@@ -145,10 +161,14 @@ public class ServiceTest {
 				mockServiceRef,
 				request,
 				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+		verify(mockService, times(1)).getServiceRef();
+		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
+		verify(mockService, times(1)).getMessageFactories();
 		verifyNoMoreInteractions(mockService);
 	}
 
 	@Test
+	@DirtiesContext
 	public void cachedTransportClient() {
 		final ServiceProto.ComponentRef request = ServiceProto.ComponentRef.newBuilder().build();
 		serviceRegistry.sendMessage(
@@ -161,14 +181,37 @@ public class ServiceTest {
 				mockServiceRef,
 				request,
 				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
-		verify(mockService, times(2)).handleMessage(any(MessageController.class), any(Message.class));
+		verify(mockService, times(1)).getServiceRef();
+		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
+		verify(mockService, times(1)).getMessageFactories();
+		verify(mockService, times(2)).handleMessage(any(MessageController.class), eq(request));
 		verifyNoMoreInteractions(mockService);
 	}
 
 	@Test(expected = RuntimeException.class)
+	@DirtiesContext
 	public void doubleRegister() {
 		when(mockService.getServiceRef()).thenReturn(mockServiceRef);
 		serviceRegistry.registerService(mockService);
+	}
+
+	@Test
+	@DirtiesContext
+	public void invalidTransportRef() {
+		serviceRegistry.initTransportClient(
+				mockServiceRef, Ref.builder("fake").addValue("service", "mock").addValue(
+				"order",
+				"9999999").build());
+		final ServiceProto.ComponentRef request = ServiceProto.ComponentRef.newBuilder().build();
+		serviceRegistry.sendMessage(
+				mockServiceRef,
+				mockServiceRef,
+				request,
+				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+		verify(mockService, times(1)).getServiceRef();
+		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
+		verify(mockService, times(1)).getMessageFactories();
+		verifyNoMoreInteractions(mockService);
 	}
 
 }

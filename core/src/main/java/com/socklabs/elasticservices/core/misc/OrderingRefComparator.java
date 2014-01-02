@@ -18,7 +18,7 @@ public class OrderingRefComparator implements Comparator<Ref> {
 		if (o1v.equals(o2v)) {
 			return o1.getId().compareTo(o2.getId());
 		}
-		return o1v.compareTo(o2v);
+		return o2v.compareTo(o1v);
 	}
 
 	private Integer getOrder(final Ref ref) {

@@ -43,7 +43,6 @@ synchronous projects, like HTTP edges, can engage asynchronous services.
 
 # License
 
-Copyright (c) 2013 Nick Gerakines <nick@gerakines.net> and Chris
-Antenesse <chris@antenesse.net>
+Copyright (c) 2013,2014 Nick Gerakines <nick@gerakines.net>
 
 This project and its contents are open source under the MIT license.
