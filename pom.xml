@@ -5,7 +5,7 @@
 
 	<groupId>com.socklabs</groupId>
 	<artifactId>elasticservices-parent</artifactId>
-	<version>develop-SNAPSHOT</version>
+	<version>1.0.0-rc1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
