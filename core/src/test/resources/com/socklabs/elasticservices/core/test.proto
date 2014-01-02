@@ -1,0 +1,27 @@
+package com.socklabs.elasticservices.core;
+
+option java_package = "com.socklabs.elasticservices.core";
+
+option java_outer_classname = "TestProto";
+
+option java_generic_services = false;
+
+option optimize_for = SPEED;
+
+message Foo {
+	optional uint64 current_time = 1;
+}
+
+message Bar {
+	repeated Baz bazi = 1;
+}
+
+message Baz {
+	optional string value = 1;
+	repeated Attribute attribute = 2;
+
+	message Attribute {
+		optional string key = 1;
+		optional string value = 2;
+	}
+}

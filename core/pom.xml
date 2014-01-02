@@ -126,6 +126,23 @@
 									<goal>compile</goal>
 								</goals>
 							</execution>
+							<execution>
+								<id>generate-test-sources</id>
+								<phase>generate-test-sources</phase>
+								<configuration>
+									<verbose>true</verbose>
+									<protoSources>
+										<protoSource>src/test/resources/com/socklabs/elasticservices/core/test.proto</protoSource>
+									</protoSources>
+									<includePaths>
+										<includePath>src/test/resources/</includePath>
+									</includePaths>
+									<protoOutput>src/test/java</protoOutput>
+								</configuration>
+								<goals>
+									<goal>compile</goal>
+								</goals>
+							</execution>
 						</executions>
 					</plugin>
 				</plugins>

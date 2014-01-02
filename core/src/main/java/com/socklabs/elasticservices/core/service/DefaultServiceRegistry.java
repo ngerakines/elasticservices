@@ -96,7 +96,7 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 			}
 		}
 		for (final Transport transport : transports) {
-			transport.addConsumer(new ServiceRegistryTransportConsumer(this));
+			transport.addConsumer(newTransportConsumer());
 			serviceTransports.put(serviceRef, transport);
 			transportRefsByServiceRef.put(serviceRef, transport.getRef());
 		}

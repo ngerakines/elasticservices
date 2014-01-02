@@ -156,11 +156,11 @@ public class ServiceTest {
 	@DirtiesContext
 	public void invalidDestination() {
 		final ServiceProto.ComponentRef request = ServiceProto.ComponentRef.newBuilder().build();
-		serviceRegistry.sendMessage(
-				ServiceProto.ServiceRef.newBuilder().setComponentRef(localComponentRef).setServiceId("fake").build(),
-				mockServiceRef,
-				request,
-				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+		serviceRegistry.sendMessage(ServiceProto.ServiceRef
+				.newBuilder()
+				.setComponentRef(localComponentRef)
+				.setServiceId("fake")
+				.build(), mockServiceRef, request, ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
 		verify(mockService, times(1)).getServiceRef();
 		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
 		verify(mockService, times(1)).getMessageFactories();
@@ -199,9 +199,8 @@ public class ServiceTest {
 	@DirtiesContext
 	public void invalidTransportRef() {
 		serviceRegistry.initTransportClient(
-				mockServiceRef, Ref.builder("fake").addValue("service", "mock").addValue(
-				"order",
-				"9999999").build());
+				mockServiceRef,
+				Ref.builder("fake").addValue("service", "mock").addValue("order", "9999999").build());
 		final ServiceProto.ComponentRef request = ServiceProto.ComponentRef.newBuilder().build();
 		serviceRegistry.sendMessage(
 				mockServiceRef,
@@ -212,6 +211,27 @@ public class ServiceTest {
 		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
 		verify(mockService, times(1)).getMessageFactories();
 		verifyNoMoreInteractions(mockService);
+	}
+
+	@Test
+	@DirtiesContext
+	public void serviceList() {
+		Assert.assertTrue(serviceRegistry.getServices().size() == 1);
+		Assert.assertTrue(serviceRegistry.getServices("mock").size() == 1);
+		Assert.assertTrue(serviceRegistry.getServices("crock").size() == 0);
+		Assert.assertTrue(serviceRegistry.getServices(localComponentRef.getSite(), "mock").size() == 1);
+		Assert.assertTrue(serviceRegistry.getServices(localComponentRef.getSite(), "crock").size() == 0);
+		Assert.assertTrue(serviceRegistry.getServices(
+				localComponentRef.getSite(),
+				localComponentRef.getCluster(),
+				"mock").size() == 1);
+		Assert.assertTrue(serviceRegistry.getServices(
+				localComponentRef.getSite(),
+				localComponentRef.getCluster(),
+				"crock").size() == 0);
+		Assert.assertTrue(serviceRegistry.getServices(localComponentRef).size() == 1);
+		final ServiceProto.ComponentRef fakeComponentRef = localComponentRef.toBuilder().setCluster("foo").build();
+		Assert.assertTrue(serviceRegistry.getServices(fakeComponentRef).size() == 0);
 	}
 
 }
