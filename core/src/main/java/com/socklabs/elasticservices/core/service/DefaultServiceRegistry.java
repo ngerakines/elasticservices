@@ -84,6 +84,7 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 	@Override
 	public synchronized void registerService(final Service service, final Transport... transports) {
 		if (null != (services.putIfAbsent(service.getServiceRef(), service))) {
+			LOGGER.error("Attempting to double register service.");
 			throw new RuntimeException("Service with service ref already registered.");
 		}
 		service.setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
