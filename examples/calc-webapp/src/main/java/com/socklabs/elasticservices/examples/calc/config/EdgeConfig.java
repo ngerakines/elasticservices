@@ -3,9 +3,9 @@ package com.socklabs.elasticservices.examples.calc.config;
 import com.google.common.collect.ImmutableList;
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
-import com.socklabs.elasticservices.core.edge.DefaultEdgeManager;
-import com.socklabs.elasticservices.core.edge.EdgeManager;
-import com.socklabs.elasticservices.core.edge.StaleEdgeFutureRemoverWork;
+import com.socklabs.elasticservices.core.message.DefaultResponseManager;
+import com.socklabs.elasticservices.core.message.ResponseManager;
+import com.socklabs.elasticservices.core.message.ResponseRemovalWork;
 import com.socklabs.elasticservices.core.message.MessageFactory;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.misc.RefUtils;
@@ -67,20 +67,20 @@ public class EdgeConfig {
 	public Service calcEdgeService() {
 		return new CalcEdgeService(
 				calcEdgeServiceRef(),
-				edgeManager(),
+				calcResponseManager(),
 				ImmutableList.<MessageFactory>of(new CalcMessageFactory()));
 	}
 
-	@Bean(name = "calcEdgeManager")
-	public EdgeManager edgeManager() {
-		return new DefaultEdgeManager(calcEdgeServiceRef(), serviceRegistry);
+	@Bean(name = "calcResponseManager")
+	public ResponseManager calcResponseManager() {
+		return new DefaultResponseManager(calcEdgeServiceRef(), serviceRegistry);
 	}
 
 	@Bean
 	public Work staleEdgeFutureRemoverWork() {
-		return new StaleEdgeFutureRemoverWork(
+		return new ResponseRemovalWork(
 				"service:calc:edge:cleanup",
-				edgeManager(),
+				calcResponseManager(),
 				60,
 				Duration.standardMinutes(5));
 	}

@@ -4,11 +4,11 @@ import com.google.common.base.Optional;
 import com.google.common.primitives.Ints;
 import com.google.protobuf.Message;
 import com.googlecode.protobuf.format.JsonFormat;
+import com.socklabs.elasticservices.core.message.ResponseManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.collection.PartitionUtil;
-import com.socklabs.elasticservices.core.edge.EdgeManager;
 import com.socklabs.elasticservices.core.message.Expiration;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import org.springframework.stereotype.Controller;
@@ -34,8 +34,8 @@ public class IndexApiController {
 	@Resource
 	private ServiceRegistry serviceRegistry;
 
-	@Resource(name = "calcEdgeManager")
-	private EdgeManager edgeManager;
+	@Resource(name = "calcResponseManager")
+	private ResponseManager calcResponseManager;
 
 	@ResponseBody
 	@RequestMapping(value = "/calc", method = RequestMethod.GET)
@@ -50,7 +50,7 @@ public class IndexApiController {
 			}
 		}
 		final ServiceProto.ServiceRef serviceRef = selectDestination();
-		final Future<Message> resultfuture = edgeManager.sendAndReceive(
+		final Future<Message> resultfuture = calcResponseManager.sendAndReceive(
 				serviceRef,
 				addBuilder.build(),
 				CalcServiceProto.Add.class,

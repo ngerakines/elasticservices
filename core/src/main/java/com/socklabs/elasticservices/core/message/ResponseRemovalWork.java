@@ -1,4 +1,4 @@
-package com.socklabs.elasticservices.core.edge;
+package com.socklabs.elasticservices.core.message;
 
 import com.socklabs.elasticservices.core.work.AbstractWork;
 import org.joda.time.DateTime;
@@ -6,21 +6,21 @@ import org.joda.time.Duration;
 
 import java.util.concurrent.TimeUnit;
 
-public class StaleEdgeFutureRemoverWork extends AbstractWork {
+public class ResponseRemovalWork extends AbstractWork {
 
 	private final String id;
-	private final EdgeManager edgeManager;
+	private final ResponseManager responseManager;
 	private final int frequencyInSeconds;
 	private final Duration duration;
 
-	public StaleEdgeFutureRemoverWork(
+	public ResponseRemovalWork(
 			final String id,
-			final EdgeManager edgeManager,
+			final ResponseManager responseManager,
 			final int frequencyInSeconds,
 			final Duration duration) {
 		super();
 		this.id = id;
-		this.edgeManager = edgeManager;
+		this.responseManager = responseManager;
 		this.frequencyInSeconds = frequencyInSeconds;
 		this.duration = duration;
 		setPhase(StandardPhase.STARTING);
@@ -36,7 +36,7 @@ public class StaleEdgeFutureRemoverWork extends AbstractWork {
 		setPhase(StandardPhase.STARTED);
 		while (!isShuttingDown()) {
 			final DateTime clearPoint = DateTime.now().minus(duration);
-			edgeManager.clear(clearPoint);
+			responseManager.clear(clearPoint);
 			try {
 				Thread.sleep(TimeUnit.SECONDS.toMillis(frequencyInSeconds));
 			} catch (final InterruptedException e) {
