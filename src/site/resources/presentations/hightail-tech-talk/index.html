@@ -34,14 +34,22 @@
 					<section>
 						<h2>We aren't in the business of reinventing the wheel</h2>
 						<ul>
+						    <li><i>Java</i></li>
 							<li><i>Spring</i>: IoC, Dependency Injection, Configuration</li>
 							<li><i>Protocol Buffers</i>: Cross-language data structures, contract first</li>
 							<li><i>Guava</i>: Collections, primitives, hashing and everything else</li>
 							<li><i>slf4j/logback</i>: Logging</li>
-							<li><i>servo</i>: Metrics collection, aggregation and reporting</li>
+							<li><i>servo / JMX</i>: Metrics collection, aggregation and reporting</li>
 							<li><i>joda</i>: Date and time</li>
 							<li><i>junit / mockito</i>: testing and mocking</li>
 						</ul>
+					</section>
+					<section>
+					    <h2>Building Blocks</h2>
+					    <ul>
+					        <li>Very little is imposed on the developer</li>
+					        <li>Services, Components, Transports and Transport Clients can be custom implemented</li>
+				        </ul>
 					</section>
 				</section>
 
@@ -71,6 +79,20 @@ public interface Service {
 }
 ```
 					</section>
+					<section data-markdown>
+```
+public class FooService implements Service {
+	public void handleMessage(
+		final MessageController controller,
+		final Message message) {
+		    if (message instanceOf FooProto.Foo) {
+		        /* ... */
+	        }
+	}
+
+}
+```
+                	</section>
 				</section>
 
 				<section>
@@ -99,6 +121,7 @@ message Result {
 }
 ```
 					</section>
+					<!--
 					<section>
 						<h2>Why?</h2>
 						<ul>
@@ -131,6 +154,7 @@ message Result {
 &lt;/plugin>
 ```
 					</section>
+					-->
 				</section>
 
 				<section>
@@ -148,9 +172,66 @@ message Result {
 						<ul>
 							<li>RabbitMQ</li>
 							<li>HTTP</li>
+							<li>local</li>
 						</ul>
 					</section>
 				</section>
+
+                <section>
+                    <section>
+                        <h2>Self Coordinating</h2>
+                    </section>
+                    <section>
+                        <p>Services have <strong>state</strong>. That state is represented with flags.</p>
+                        <ul class="fragment fade-in">
+                            <li>Active</li>
+                            <li>Maintenance mode</li>
+                            <li>etc</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <p>With the <strong>service registry</strong>, service interaction can be managed and gated with little overhead.</p>
+                    </section>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Included Services</h1>
+                    </section>
+                    <section>
+                        <h2>Gossip</h2>
+                    </section>
+                    <section>
+                        <h2>Work</h2>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>Roadmap</h2>
+                    <ul>
+                        <li>Abstract Proxy Service / Routing Service</li>
+                        <li>Admin Service</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <section>
+                        <h1>Examples!</h1>
+                    </section>
+                    <section>
+                        <h2>Calc</h2>
+                    </section>
+                </section>
+
+                <section>
+                    <h2>Questions?</h2>
+                    <ul>
+                        <li>XYZ is dumb, why not use ABC?</li>
+                        <li>Open Source?</li>
+                        <li>How does release management fit into the picture?</li>
+                    </ul>
+                </section>
+
 			</div>
 		</div>
 		<script src="lib/js/head.min.js"></script>
