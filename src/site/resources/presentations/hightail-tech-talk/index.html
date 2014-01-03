@@ -27,17 +27,28 @@
 				</section>
 
 				<section>
-					<h2>tl;dr</h2>
-					<p>The ElasticServices project provides a thin layer of libraries and tools in addition to well established open source libraries and projects to create self-coordinating Java services and components.</p>
+					<section>
+						<h2>tl;dr</h2>
+						<p>The ElasticServices project provides a thin layer of libraries and tools in addition to well established open source libraries and projects to create self-coordinating Java services and components.</p>
+					</section>
+					<section>
+						<h2>We aren't in the business of reinventing the wheel</h2>
+						<ul>
+							<li><i>Spring</i>: IoC, Dependency Injection, Configuration</li>
+							<li><i>Protocol Buffers</i>: Cross-language data structures, contract first</li>
+							<li><i>Guava</i>: Collections, primitives, hashing and everything else</li>
+							<li><i>slf4j/logback</i>: Logging</li>
+							<li><i>servo</i>: Metrics collection, aggregation and reporting</li>
+							<li><i>joda</i>: Date and time</li>
+							<li><i>junit / mockito</i>: testing and mocking</li>
+						</ul>
+					</section>
 				</section>
 
 				<section>
 					<p>At the heart of the ElasticServices framework is the <strong>Service Registry</strong>. The service registry is used to bond <strong>services</strong> onto <strong>components</strong>.</p>
 					<p>When services are bonded to a component through the service registry, they are exposed through <strong>transports</strong>.</p>
 					<p>When a service wants to communicate with another service, it uses a <strong>transport client</strong> to do so.</p>
-					<aside class="notes">
-						<p>...</p>
-					</aside>
 				</section>
 
 				<section>
