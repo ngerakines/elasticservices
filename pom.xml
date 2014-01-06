@@ -242,15 +242,13 @@
 							</goals>
 							<configuration>
 								<rules>
-									<!-- implmentation is needed only for Maven 2 -->
 									<rule implementation="org.jacoco.maven.RuleConfiguration">
 										<element>BUNDLE</element>
 										<limits>
-											<!-- implmentation is needed only for Maven 2 -->
 											<limit implementation="org.jacoco.report.check.Limit">
 												<counter>COMPLEXITY</counter>
 												<value>COVEREDRATIO</value>
-												<minimum>0.60</minimum>
+												<minimum>0.30</minimum>
 											</limit>
 										</limits>
 									</rule>
