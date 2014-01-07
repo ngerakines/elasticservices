@@ -55,7 +55,7 @@ public class DefaultResponseManager implements ResponseManager {
 				new DefaultMessageController(
 						serviceRef,
 						destination,
-						ContentTypes.fromJsonClass(messageClass),
+						ContentTypes.fromClass(messageClass),
 						Optional.of(messageId),
 						Optional.<byte[]> absent(),
 						expirationOptional.isPresent() ? Optional.of(expirationOptional.get().getExpiration()) : Optional

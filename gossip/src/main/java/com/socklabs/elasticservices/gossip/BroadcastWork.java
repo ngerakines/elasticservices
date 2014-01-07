@@ -39,7 +39,7 @@ public class BroadcastWork extends AbstractWork implements Work {
 
 			final GossipServiceProto.ComponentOnline componentOnline = buildComponentOnlineMessage();
 			final ServiceProto.ContentType contentType =
-					ContentTypes.fromJsonClass(GossipServiceProto.ComponentOnline.class);
+					ContentTypes.fromClass(GossipServiceProto.ComponentOnline.class);
 			serviceRegistry.sendMessage(gossipServiceRef, gossipServiceRef, componentOnline, contentType);
 
 			int delay = 5;
@@ -49,7 +49,7 @@ public class BroadcastWork extends AbstractWork implements Work {
 						gossipServiceRef,
 						gossipServiceRef,
 						componentStatus,
-						ContentTypes.fromJsonClass(GossipServiceProto.ComponentStatus.class));
+						ContentTypes.fromClass(GossipServiceProto.ComponentStatus.class));
 				try {
 					Thread.sleep(TimeUnit.SECONDS.toMillis(delay));
 				} catch (final InterruptedException e) {

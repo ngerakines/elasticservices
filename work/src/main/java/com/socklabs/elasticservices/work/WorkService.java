@@ -68,7 +68,7 @@ public class WorkService extends AbstractService implements ApplicationContextAw
 					controller,
 					getServiceRef(),
 					responseBuilder.build(),
-					ContentTypes.fromJsonClass(WorkServiceProto.ListResponse.class));
+					ContentTypes.fromClass(WorkServiceProto.ListResponse.class));
 		}
 	}
 

@@ -144,7 +144,7 @@ public class ServiceTest {
 				mockServiceRef,
 				mockServiceRef,
 				request,
-				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+				ContentTypes.fromClass(ServiceProto.ComponentRef.class));
 		verify(mockService, times(1)).getServiceRef();
 		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
 		verify(mockService, times(1)).getMessageFactories();
@@ -160,7 +160,7 @@ public class ServiceTest {
 				.newBuilder()
 				.setComponentRef(localComponentRef)
 				.setServiceId("fake")
-				.build(), mockServiceRef, request, ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+				.build(), mockServiceRef, request, ContentTypes.fromClass(ServiceProto.ComponentRef.class));
 		verify(mockService, times(1)).getServiceRef();
 		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
 		verify(mockService, times(1)).getMessageFactories();
@@ -175,12 +175,12 @@ public class ServiceTest {
 				mockServiceRef,
 				mockServiceRef,
 				request,
-				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+				ContentTypes.fromClass(ServiceProto.ComponentRef.class));
 		serviceRegistry.sendMessage(
 				mockServiceRef,
 				mockServiceRef,
 				request,
-				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+				ContentTypes.fromClass(ServiceProto.ComponentRef.class));
 		verify(mockService, times(1)).getServiceRef();
 		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
 		verify(mockService, times(1)).getMessageFactories();
@@ -206,7 +206,7 @@ public class ServiceTest {
 				mockServiceRef,
 				mockServiceRef,
 				request,
-				ContentTypes.fromJsonClass(ServiceProto.ComponentRef.class));
+				ContentTypes.fromClass(ServiceProto.ComponentRef.class));
 		verify(mockService, times(1)).getServiceRef();
 		verify(mockService, times(1)).setFlag(ServiceProto.ServiceFlags.ACTIVE_VALUE);
 		verify(mockService, times(1)).getMessageFactories();
