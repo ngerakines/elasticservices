@@ -1,8 +1,12 @@
 package com.socklabs.elasticservices.gossip;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.google.protobuf.Message;
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
+import com.socklabs.elasticservices.core.message.DefaultMessageFactory;
+import com.socklabs.elasticservices.core.message.MessageFactory;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.misc.RefUtils;
 import com.socklabs.elasticservices.core.service.DefaultServiceRegistry;
@@ -37,6 +41,14 @@ public class GossipServiceConfig {
 	private ConnectionFactory connectionFactory;
 
 	@Bean
+	public MessageFactory gossipMessageFactory() {
+		return new DefaultMessageFactory(
+				ImmutableList.<Message>of(
+						GossipServiceProto.ComponentOnline.getDefaultInstance(),
+						GossipServiceProto.ComponentStatus.getDefaultInstance()));
+	}
+
+	@Bean
 	public ServiceProto.ServiceRef gossipServiceRef() {
 		return ServiceProto.ServiceRef.newBuilder().setComponentRef(localComponentRef).setServiceId("gossip").build();
 	}
@@ -65,7 +77,7 @@ public class GossipServiceConfig {
 		if (serviceRegistry instanceof DefaultServiceRegistry) {
 			servicePresenceListeners.add((ServicePresenceListener) serviceRegistry);
 		}
-		return new GossipService(gossipServiceRef(), servicePresenceListeners);
+		return new GossipService(gossipMessageFactory(), gossipServiceRef(), servicePresenceListeners);
 	}
 
 	@Bean

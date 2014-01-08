@@ -1,12 +1,10 @@
 package com.socklabs.elasticservices.examples.calc.config;
 
 import com.google.common.collect.ImmutableList;
+import com.google.protobuf.Message;
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
-import com.socklabs.elasticservices.core.message.DefaultResponseManager;
-import com.socklabs.elasticservices.core.message.ResponseManager;
-import com.socklabs.elasticservices.core.message.ResponseRemovalWork;
-import com.socklabs.elasticservices.core.message.MessageFactory;
+import com.socklabs.elasticservices.core.message.*;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.misc.RefUtils;
 import com.socklabs.elasticservices.core.service.Service;
@@ -14,7 +12,7 @@ import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.Transport;
 import com.socklabs.elasticservices.core.work.Work;
 import com.socklabs.elasticservices.examples.calc.CalcEdgeService;
-import com.socklabs.elasticservices.examples.calc.service.CalcMessageFactory;
+import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
 import com.socklabs.elasticservices.http.HttpTransportController;
 import com.socklabs.elasticservices.rabbitmq.RabbitMqTransport;
 import org.joda.time.Duration;
@@ -40,6 +38,15 @@ public class EdgeConfig {
 
 	@Resource
 	private ConnectionFactory connectionFactory;
+
+	@Bean
+	public MessageFactory calcMessageFactory() {
+		return new DefaultMessageFactory(
+				ImmutableList.<Message>of(
+						CalcServiceProto.Add.getDefaultInstance(),
+						CalcServiceProto.Subtract.getDefaultInstance(),
+						CalcServiceProto.Result.getDefaultInstance()));
+	}
 
 	@Bean
 	public ServiceProto.ServiceRef calcEdgeServiceRef() {
@@ -68,7 +75,7 @@ public class EdgeConfig {
 		return new CalcEdgeService(
 				calcEdgeServiceRef(),
 				calcResponseManager(),
-				ImmutableList.<MessageFactory>of(new CalcMessageFactory()));
+				ImmutableList.<MessageFactory>of(calcMessageFactory()));
 	}
 
 	@Bean(name = "calcResponseManager")

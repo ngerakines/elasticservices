@@ -6,6 +6,11 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import com.google.common.collect.ImmutableList;
+import com.google.protobuf.Message;
+import com.socklabs.elasticservices.core.message.DefaultMessageFactory;
+import com.socklabs.elasticservices.core.message.MessageFactory;
+import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -37,6 +42,15 @@ public class CalcServiceConfig {
 	private ConnectionFactory connectionFactory;
 
 	@Bean
+	public MessageFactory calcMessageFactory() {
+		return new DefaultMessageFactory(
+				ImmutableList.<Message>of(
+						CalcServiceProto.Add.getDefaultInstance(),
+						CalcServiceProto.Subtract.getDefaultInstance(),
+						CalcServiceProto.Result.getDefaultInstance()));
+	}
+
+	@Bean
 	public ServiceProto.ServiceRef calcServiceRef() {
 		return ServiceProto.ServiceRef.newBuilder().setComponentRef(localComponentRef).setServiceId("calc").build();
 	}
@@ -62,7 +76,7 @@ public class CalcServiceConfig {
 
 	@Bean
 	public Service calcService() {
-		return new CalcService(calcServiceRef(), serviceRegistry, subtractEnabledFeature());
+		return new CalcService(ImmutableList.of(calcMessageFactory()), calcServiceRef(), serviceRegistry, subtractEnabledFeature());
 	}
 
 	@Bean

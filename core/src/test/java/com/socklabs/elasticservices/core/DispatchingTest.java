@@ -1,6 +1,7 @@
 package com.socklabs.elasticservices.core;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.protobuf.Message;
@@ -30,6 +31,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,13 +54,10 @@ public class DispatchingTest {
 
 		@Bean
 		public MessageFactory messageFactory() {
-			final Map<String, Message> stuff =
-					ImmutableMap.<String, Message> of(
-							TestProto.Foo.class.getName(),
+			final List<Message> stuff =
+					ImmutableList.<Message> of(
 							TestProto.Foo.getDefaultInstance(),
-							TestProto.Bar.class.getName(),
 							TestProto.Bar.getDefaultInstance(),
-							TestProto.Baz.class.getName(),
 							TestProto.Baz.getDefaultInstance());
 			return new DefaultMessageFactory(stuff);
 		}

@@ -1,5 +1,6 @@
 package com.socklabs.elasticservices.core;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.protobuf.Message;
@@ -31,6 +32,7 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Matchers.any;
@@ -65,11 +67,9 @@ public class ServiceTest {
 
 		@Bean
 		public MessageFactory messageFactory() {
-			final Map<String, Message> stuff =
-					ImmutableMap.<String, Message> of(
-							ServiceProto.ComponentRef.class.getName(),
+			final List<Message> stuff =
+					ImmutableList.<Message> of(
 							ServiceProto.ComponentRef.getDefaultInstance(),
-							ServiceProto.ServiceRef.class.getName(),
 							ServiceProto.ServiceRef.getDefaultInstance());
 			return new DefaultMessageFactory(stuff);
 		}

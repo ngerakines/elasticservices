@@ -5,6 +5,10 @@ import java.io.IOException;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import com.google.common.collect.ImmutableList;
+import com.google.protobuf.Message;
+import com.socklabs.elasticservices.core.message.DefaultMessageFactory;
+import com.socklabs.elasticservices.core.message.MessageFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -37,6 +41,14 @@ public class WorkServiceConfig {
 	private ConnectionFactory connectionFactory;
 
 	@Bean
+	public MessageFactory workMessageFactory() {
+		return new DefaultMessageFactory(
+				ImmutableList.<Message>of(
+						WorkServiceProto.ListRequest.getDefaultInstance(),
+						WorkServiceProto.ListResponse.getDefaultInstance()));
+	}
+
+	@Bean
 	public ServiceProto.ServiceRef workServiceRef() {
 		return ServiceProto.ServiceRef.newBuilder().setComponentRef(localComponentRef).setServiceId("work").build();
 	}
@@ -60,7 +72,7 @@ public class WorkServiceConfig {
 
 	@Bean
 	public Service workService() {
-		return new WorkService(workServiceRef(), serviceRegistry);
+		return new WorkService(ImmutableList.of(workMessageFactory()), workServiceRef(), serviceRegistry);
 	}
 
 	@PostConstruct

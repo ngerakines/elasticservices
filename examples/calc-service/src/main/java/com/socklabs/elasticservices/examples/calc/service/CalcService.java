@@ -18,21 +18,22 @@ public class CalcService extends AbstractService {
 	private final ServiceRegistry serviceRegistry;
 	private final ToggleFeature toggleFeature;
 
-	private final MessageFactory calcMessageFactory;
+	private final List<MessageFactory> messageFactories;
 
 	public CalcService(
+			final List<MessageFactory> messageFactories,
 			final ServiceProto.ServiceRef serviceRef,
 			final ServiceRegistry serviceRegistry,
 			final ToggleFeature toggleFeature) {
 		super(serviceRef);
 		this.serviceRegistry = serviceRegistry;
 		this.toggleFeature = toggleFeature;
-		this.calcMessageFactory = new CalcMessageFactory();
+		this.messageFactories = messageFactories;
 	}
 
 	@Override
 	public List<MessageFactory> getMessageFactories() {
-		return ImmutableList.of(calcMessageFactory);
+		return messageFactories;
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class CalcService extends AbstractService {
 					controller,
 					getServiceRef(),
 					resultMessage,
-					ContentTypes.fromJsonClass(CalcServiceProto.Result.class));
+					ContentTypes.fromClass(CalcServiceProto.Result.class));
 		}
 		if (message instanceof CalcServiceProto.Add) {
 			int sum = 0;
@@ -70,7 +71,7 @@ public class CalcService extends AbstractService {
 					controller,
 					getServiceRef(),
 					result,
-					ContentTypes.fromJsonClass(CalcServiceProto.Result.class));
+					ContentTypes.fromClass(CalcServiceProto.Result.class));
 		}
 	}
 
