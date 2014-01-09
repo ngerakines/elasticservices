@@ -53,6 +53,30 @@
 			<groupId>com.socklabs</groupId>
 			<artifactId>elasticservices-rabbitmq</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.10</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<profiles>
@@ -88,4 +112,30 @@
 			</build>
 		</profile>
 	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>javadoc</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+
 </project>
