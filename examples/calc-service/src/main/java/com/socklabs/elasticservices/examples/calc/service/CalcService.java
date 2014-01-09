@@ -18,22 +18,14 @@ public class CalcService extends AbstractService {
 	private final ServiceRegistry serviceRegistry;
 	private final ToggleFeature toggleFeature;
 
-	private final List<MessageFactory> messageFactories;
-
 	public CalcService(
 			final List<MessageFactory> messageFactories,
 			final ServiceProto.ServiceRef serviceRef,
 			final ServiceRegistry serviceRegistry,
 			final ToggleFeature toggleFeature) {
-		super(serviceRef);
+		super(serviceRef, messageFactories);
 		this.serviceRegistry = serviceRegistry;
 		this.toggleFeature = toggleFeature;
-		this.messageFactories = messageFactories;
-	}
-
-	@Override
-	public List<MessageFactory> getMessageFactories() {
-		return messageFactories;
 	}
 
 	@Override

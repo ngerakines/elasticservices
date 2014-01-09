@@ -13,20 +13,13 @@ import java.util.List;
 public abstract class AbstractEdgeService extends AbstractService {
 
 	private final ResponseManager responseManager;
-	private final ImmutableList<MessageFactory> messageFactories;
 
 	public AbstractEdgeService(
 			final ServiceProto.ServiceRef serviceRef,
 			final ResponseManager responseManager,
 			final List<MessageFactory> messageFactories) {
-		super(serviceRef);
+		super(serviceRef, messageFactories);
 		this.responseManager = responseManager;
-		this.messageFactories = ImmutableList.copyOf(messageFactories);
-	}
-
-	@Override
-	public List<MessageFactory> getMessageFactories() {
-		return messageFactories;
 	}
 
 	@Override

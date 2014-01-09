@@ -4,6 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.socklabs.elasticservices.core.ServiceProto;
+import com.socklabs.elasticservices.core.message.MessageFactory;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -13,9 +14,12 @@ public abstract class AbstractService implements Service {
 
 	private final ServiceProto.ServiceRef serviceRef;
 	private final Set<Integer> serviceFlags;
+	private final List<MessageFactory> messageFactories;
 
-	protected AbstractService(final ServiceProto.ServiceRef serviceRef) {
+	protected AbstractService(final ServiceProto.ServiceRef serviceRef, final List<MessageFactory> messageFactories) {
 		this.serviceRef = serviceRef;
+		this.messageFactories = messageFactories;
+
 		this.serviceFlags = Sets.newHashSet();
 	}
 
@@ -37,6 +41,11 @@ public abstract class AbstractService implements Service {
 	@Override
 	public void removeFlag(final int flag) {
 		serviceFlags.remove(flag);
+	}
+
+	@Override
+	public List<MessageFactory> getMessageFactories() {
+		return messageFactories;
 	}
 
 	protected boolean messageHasExpired(final MessageController controller) {

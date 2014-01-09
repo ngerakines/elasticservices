@@ -12,17 +12,8 @@ import java.util.List;
  */
 public class ExplodingService extends AbstractService {
 
-	private final List<MessageFactory> messageFactories;
-
 	protected ExplodingService(final ServiceProto.ServiceRef serviceRef, final List<MessageFactory> messageFactories) {
-		super(serviceRef);
-
-		this.messageFactories = messageFactories;
-	}
-
-	@Override
-	public List<MessageFactory> getMessageFactories() {
-		return messageFactories;
+		super(serviceRef, messageFactories);
 	}
 
 	@Override

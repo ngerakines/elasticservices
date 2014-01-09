@@ -21,21 +21,12 @@ public class GossipService extends AbstractService {
 
 	private final List<ServicePresenceListener> servicePresenceListeners;
 
-	private final List<MessageFactory> messageFactories;
-
 	public GossipService(
 			final MessageFactory messageFactory,
 			final ServiceProto.ServiceRef serviceRef,
 			final List<ServicePresenceListener> servicePresenceListeners) {
-		super(serviceRef);
+		super(serviceRef, ImmutableList.of(messageFactory));
 		this.servicePresenceListeners = servicePresenceListeners;
-
-		this.messageFactories = ImmutableList.of(messageFactory);
-	}
-
-	@Override
-	public List<MessageFactory> getMessageFactories() {
-		return messageFactories;
 	}
 
 	@Override

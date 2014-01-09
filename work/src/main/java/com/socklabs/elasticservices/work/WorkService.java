@@ -26,21 +26,14 @@ public class WorkService extends AbstractService implements ApplicationContextAw
 	private static final Logger LOGGER = LoggerFactory.getLogger(WorkService.class);
 
 	private final ServiceRegistry serviceRegistry;
-	private final List<MessageFactory> messageFactories;
 
 	private ApplicationContext applicationContext;
 
 	protected WorkService(final List<MessageFactory> messageFactories,
 						  final ServiceProto.ServiceRef serviceRef,
 						  final ServiceRegistry serviceRegistry) {
-		super(serviceRef);
+		super(serviceRef, messageFactories);
 		this.serviceRegistry = serviceRegistry;
-		this.messageFactories = messageFactories;
-	}
-
-	@Override
-	public List<MessageFactory> getMessageFactories() {
-		return messageFactories;
 	}
 
 	@Override

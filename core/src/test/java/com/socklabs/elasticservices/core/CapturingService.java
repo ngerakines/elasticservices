@@ -14,19 +14,11 @@ import java.util.List;
  */
 public class CapturingService extends AbstractService {
 
-	private final List<MessageFactory> messageFactories;
 	private final List<Message> messages;
 
 	protected CapturingService(final ServiceProto.ServiceRef serviceRef, final List<MessageFactory> messageFactories) {
-		super(serviceRef);
-
-		this.messageFactories = messageFactories;
+		super(serviceRef, messageFactories);
 		this.messages = Lists.newArrayList();
-	}
-
-	@Override
-	public List<MessageFactory> getMessageFactories() {
-		return messageFactories;
 	}
 
 	@Override
