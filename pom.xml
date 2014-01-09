@@ -406,6 +406,7 @@
 		<module>gossip</module>
 		<module>http</module>
 		<module>rabbitmq</module>
+		<module>activemq</module>
 		<module>work</module>
 	</modules>
 </project>

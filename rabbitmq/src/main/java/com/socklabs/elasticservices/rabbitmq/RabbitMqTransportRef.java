@@ -13,7 +13,7 @@ class RabbitMqTransportRef {
 	private final String routingKey;
 	private final String type;
 
-	RabbitMqTransportRef(final Ref ref) {
+	public RabbitMqTransportRef(final Ref ref) {
 		Preconditions.checkArgument(ref.getValue("exchange").isPresent(), "exchange missing");
 		Preconditions.checkArgument(ref.getValue("routingKey").isPresent(), "routingKey missing");
 		Preconditions.checkArgument(ref.getValue("type").isPresent(), "type missing");

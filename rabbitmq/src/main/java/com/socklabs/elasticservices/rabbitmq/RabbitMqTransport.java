@@ -88,7 +88,7 @@ public class RabbitMqTransport implements Transport {
 		final String consumerTag = channel.basicConsume(
 				queueDecl.getQueue(),
 				true,
-				new FabricMessageConsumer(consumers, deliveryCount, deliveryFailureCount));
+				new RabbitMqMessageConsumer(consumers, deliveryCount, deliveryFailureCount));
 		LOGGER.info("Received consumer tag {}", consumerTag);
 	}
 
@@ -102,14 +102,14 @@ public class RabbitMqTransport implements Transport {
 		return transportRef.getRef();
 	}
 
-	private static class FabricMessageConsumer implements Consumer {
+	private static class RabbitMqMessageConsumer implements Consumer {
 
-		private static final Logger LOGGER = LoggerFactory.getLogger(FabricMessageConsumer.class);
+		private static final Logger LOGGER = LoggerFactory.getLogger(RabbitMqMessageConsumer.class);
 		private final List<TransportConsumer> transportConsumers;
 		private final Counter deliveryCount;
 		private final Counter deliveryFailureCount;
 
-		private FabricMessageConsumer(
+		private RabbitMqMessageConsumer(
 				final List<TransportConsumer> transportConsumers,
 				final Counter deliveryCount,
 				final Counter deliveryFailureCount) {

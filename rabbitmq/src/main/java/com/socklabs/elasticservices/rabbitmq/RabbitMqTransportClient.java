@@ -72,7 +72,8 @@ public class RabbitMqTransportClient implements TransportClient {
 		}
 	}
 
-	@Override public Ref getRef() {
+	@Override
+	public Ref getRef() {
 		return transportRef.getRef();
 	}
 
