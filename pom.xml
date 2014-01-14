@@ -1,12 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.sonatype.oss</groupId>
 		<artifactId>oss-parent</artifactId>
 		<version>7</version>
 	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.socklabs</groupId>
 	<artifactId>elasticservices-parent</artifactId>
@@ -41,6 +42,11 @@
 			<id>ngerakines</id>
 			<name>Nick Gerakines</name>
 			<email>nick@gerakines.net</email>
+		</developer>
+		<developer>
+			<id>cantenesse</id>
+			<name>Chris Antenesse</name>
+			<email>chris@antenesse.net</email>
 		</developer>
 	</developers>
 
