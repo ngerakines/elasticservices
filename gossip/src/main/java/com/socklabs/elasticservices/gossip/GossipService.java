@@ -31,38 +31,35 @@ public class GossipService extends AbstractService {
 
 	@Override
 	public void handleMessage(final MessageController controller, final Message message) {
+		if (messageHasExpired(controller)) {
+			return;
+		}
 		if (message instanceof GossipServiceProto.ComponentOnline) {
-			// log.info("Component online message received: {}", message);
-			// NKG: This isn't really a message that is acted on. It is
-			// more informational than anything else.
+			final GossipServiceProto.ComponentOnline componentOnline = (GossipServiceProto.ComponentOnline) message;
+			processComponentStatus(componentOnline.getComponentRef(), componentOnline.getServicesList());
 		}
 		if (message instanceof GossipServiceProto.ComponentStatus) {
-			// log.info("Component status message received: {}",
-			// message.toString());
-			// TODO[NKG]: Pass this information the the service manager.
-			// The service manager should then update any records that it
-			// has for the component ref. If there are knew services, they
-			// should be enabled by the service manager for use by
-			// consumers of the service manager.
-
 			final GossipServiceProto.ComponentStatus componentStatus = (GossipServiceProto.ComponentStatus) message;
-			final Multimap<ServiceProto.ServiceRef, String> transports = ArrayListMultimap.create();
-			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags = HashMultimap.create();
-			for (final GossipServiceProto.ComponentService componentService : componentStatus.getServicesList()) {
-				for (final String transportUrl : componentService.getTransportUrlList()) {
-					transports.put(componentService.getServiceRef(), transportUrl);
-				}
-				serviceFlags.putAll(getServiceRef(), componentService.getFlagList());
+			processComponentStatus(componentStatus.getComponentRef(), componentStatus.getServicesList());
+		}
+	}
+
+	private void processComponentStatus(
+			final ServiceProto.ComponentRef componentRef,
+			final List<GossipServiceProto.ComponentService> servicesList) {
+		final Multimap<ServiceProto.ServiceRef, String> transports = ArrayListMultimap.create();
+		final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags = HashMultimap.create();
+		for (final GossipServiceProto.ComponentService componentService : servicesList) {
+			for (final String transportUrl : componentService.getTransportUrlList()) {
+				transports.put(componentService.getServiceRef(), transportUrl);
 			}
-			final ServiceProto.ComponentRef componentRef = componentStatus.getComponentRef();
-			for (final ServicePresenceListener servicePresenceListener : servicePresenceListeners) {
-				try {
-					servicePresenceListener.updateComponentServices(componentRef, transports, serviceFlags);
-				} catch (final RuntimeException e) {
-					LOGGER.error(
-							"Gossip service caught runtime exception attempting to notify service presence listener.",
-							e);
-				}
+			serviceFlags.putAll(getServiceRef(), componentService.getFlagList());
+		}
+		for (final ServicePresenceListener servicePresenceListener : servicePresenceListeners) {
+			try {
+				servicePresenceListener.updateComponentServices(componentRef, transports, serviceFlags);
+			} catch (final RuntimeException e) {
+				LOGGER.error("Exception caught attempting to notify service presence listeners.", e);
 			}
 		}
 	}
