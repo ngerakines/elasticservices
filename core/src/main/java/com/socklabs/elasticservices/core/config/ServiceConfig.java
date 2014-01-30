@@ -18,7 +18,7 @@ public class ServiceConfig {
 	@Resource
 	private Environment environment;
 
-	@Bean
+	@Bean(name = {"serviceRegistry", "defaultServiceRegistry"})
 	public ServiceRegistry serviceRegistry() {
 		return new DefaultServiceRegistry(localComponentRef(), transportClientFactory());
 	}
@@ -36,7 +36,7 @@ public class ServiceConfig {
 		return new LocalTransportClientFactory();
 	}
 
-	@Bean
+	@Bean(name = "localComponentRef")
 	public ServiceProto.ComponentRef localComponentRef() {
 		return ServiceProto.ComponentRef
 				.newBuilder()

@@ -11,7 +11,8 @@ public class CollectionSizeCallable implements Callable<Integer> {
 		this.collection = collection;
 	}
 
-	@Override public Integer call() throws Exception {
+	@Override
+	public Integer call() throws Exception {
 		return collection.size();
 	}
 
