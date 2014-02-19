@@ -21,4 +21,8 @@ public interface MessageController {
 
 	Optional<DateTime> getExpires();
 
+	Optional<String> getMethod();
+
+	MessageController mutateWithMethod(final String method);
+
 }

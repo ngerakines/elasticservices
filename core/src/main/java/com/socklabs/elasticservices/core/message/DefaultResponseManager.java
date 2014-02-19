@@ -1,7 +1,9 @@
 package com.socklabs.elasticservices.core.message;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.AbstractFuture;
 import com.google.common.util.concurrent.SettableFuture;
 import com.google.protobuf.AbstractMessage;
 import com.google.protobuf.Message;
@@ -20,7 +22,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.Future;
 
 /**
  * Created by ngerakines on 1/2/14.
@@ -44,7 +45,7 @@ public class DefaultResponseManager implements ResponseManager {
 	}
 
 	@Override
-	public Future<Message> sendAndReceive(
+	public AbstractFuture<Message> sendAndReceive(
 			final ServiceProto.ServiceRef destination,
 			final AbstractMessage message,
 			final Class messageClass,
@@ -62,6 +63,17 @@ public class DefaultResponseManager implements ResponseManager {
 								.<DateTime> absent());
 		resultsFutures.putIfAbsent(Arrays.hashCode(messageId), new Pair<>(resultsFuture, DateTime.now()));
 		serviceRegistry.sendMessage(controller, message);
+		return resultsFuture;
+	}
+
+	@Override
+	public SettableFuture<Message> sendAndReceive(final MessageController messageController, final AbstractMessage message) {
+		final SettableFuture<Message> resultsFuture = SettableFuture.create();
+		final Optional<byte[]> messageIdOptional = messageController.getMessageId();
+		Preconditions.checkArgument(messageIdOptional.isPresent());
+		final byte[] messageId = messageIdOptional.get();
+		resultsFutures.putIfAbsent(Arrays.hashCode(messageId), new Pair<>(resultsFuture, DateTime.now()));
+		serviceRegistry.sendMessage(messageController, message);
 		return resultsFuture;
 	}
 
