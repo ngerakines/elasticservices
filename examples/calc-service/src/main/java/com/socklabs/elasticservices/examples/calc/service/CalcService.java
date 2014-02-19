@@ -1,6 +1,5 @@
 package com.socklabs.elasticservices.examples.calc.service;
 
-import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.ContentTypes;
@@ -9,23 +8,19 @@ import com.socklabs.elasticservices.core.service.AbstractService;
 import com.socklabs.elasticservices.core.service.MessageController;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
-import com.socklabs.feature.ToggleFeature;
 
 import java.util.List;
 
 public class CalcService extends AbstractService {
 
 	private final ServiceRegistry serviceRegistry;
-	private final ToggleFeature toggleFeature;
 
 	public CalcService(
 			final List<MessageFactory> messageFactories,
 			final ServiceProto.ServiceRef serviceRef,
-			final ServiceRegistry serviceRegistry,
-			final ToggleFeature toggleFeature) {
+			final ServiceRegistry serviceRegistry) {
 		super(serviceRef, messageFactories);
 		this.serviceRegistry = serviceRegistry;
-		this.toggleFeature = toggleFeature;
 	}
 
 	@Override
@@ -33,7 +28,7 @@ public class CalcService extends AbstractService {
 		if (messageHasExpired(controller)) {
 			return;
 		}
-		if (message instanceof CalcServiceProto.Subtract && toggleFeature.isEnabled()) {
+		if (message instanceof CalcServiceProto.Subtract) {
 			final CalcServiceProto.Subtract subtractMessage = (CalcServiceProto.Subtract) message;
 			int result = 0;
 			if (subtractMessage.getValuesCount() > 0) {

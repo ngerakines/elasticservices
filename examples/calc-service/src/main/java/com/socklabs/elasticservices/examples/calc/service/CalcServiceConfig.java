@@ -1,30 +1,26 @@
 package com.socklabs.elasticservices.examples.calc.service;
 
 
-import java.io.IOException;
-
-import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
-
 import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
-import com.socklabs.elasticservices.core.message.DefaultMessageFactory;
-import com.socklabs.elasticservices.core.message.MessageFactory;
-import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
-
 import com.rabbitmq.client.ConnectionFactory;
 import com.socklabs.elasticservices.core.ServiceProto;
+import com.socklabs.elasticservices.core.message.DefaultMessageFactory;
+import com.socklabs.elasticservices.core.message.MessageFactory;
 import com.socklabs.elasticservices.core.misc.Ref;
 import com.socklabs.elasticservices.core.misc.RefUtils;
 import com.socklabs.elasticservices.core.service.Service;
 import com.socklabs.elasticservices.core.service.ServiceRegistry;
 import com.socklabs.elasticservices.core.transport.Transport;
+import com.socklabs.elasticservices.examples.calc.CalcServiceProto;
 import com.socklabs.elasticservices.rabbitmq.RabbitMqTransport;
-import com.socklabs.feature.DefaultToggleFeature;
-import com.socklabs.feature.ToggleFeature;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import java.io.IOException;
 
 @Configuration
 public class CalcServiceConfig {
@@ -76,12 +72,7 @@ public class CalcServiceConfig {
 
 	@Bean
 	public Service calcService() {
-		return new CalcService(ImmutableList.of(calcMessageFactory()), calcServiceRef(), serviceRegistry, subtractEnabledFeature());
-	}
-
-	@Bean
-	public ToggleFeature subtractEnabledFeature() {
-		return new DefaultToggleFeature("calc.subtract");
+		return new CalcService(ImmutableList.of(calcMessageFactory()), calcServiceRef(), serviceRegistry);
 	}
 
 	@PostConstruct

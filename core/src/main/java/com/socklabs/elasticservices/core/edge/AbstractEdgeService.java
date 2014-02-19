@@ -1,6 +1,5 @@
 package com.socklabs.elasticservices.core.edge;
 
-import com.google.common.collect.ImmutableList;
 import com.google.protobuf.Message;
 import com.socklabs.elasticservices.core.ServiceProto;
 import com.socklabs.elasticservices.core.message.MessageFactory;
