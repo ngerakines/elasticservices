@@ -25,8 +25,8 @@ public class CounterCacheCompositeMonitor<K> implements CompositeMonitor, KeyInc
 	public CounterCacheCompositeMonitor(final String id) {
 		this.id = id;
 
-		final CacheBuilder<K, Counter> cacheBuilder = CacheBuilder.newBuilder()
-				.removalListener(new MonitorRemovalListener<K, Counter>());
+		final CacheBuilder<K, Counter> cacheBuilder =
+				CacheBuilder.newBuilder().removalListener(new MonitorRemovalListener<K, Counter>());
 		this.counters = cacheBuilder.build(new CounterCacheLoader<K>());
 	}
 
@@ -42,7 +42,8 @@ public class CounterCacheCompositeMonitor<K> implements CompositeMonitor, KeyInc
 		return counters.size();
 	}
 
-	@Override public MonitorConfig getConfig() {
+	@Override
+	public MonitorConfig getConfig() {
 		return MonitorConfig.builder(id).build();
 	}
 
