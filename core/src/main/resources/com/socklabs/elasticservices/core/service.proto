@@ -29,6 +29,11 @@ message ContentType {
 	}
 }
 
+message EncodedError {
+	optional string code = 1;
+	optional EncodedError cause = 2;
+}
+
 enum ServiceFlags {
 	ACTIVE = -1;
 	MAINTENANCE = -2;

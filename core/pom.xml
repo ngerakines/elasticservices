@@ -65,6 +65,11 @@
 			<artifactId>joda-time</artifactId>
 			<version>${joda-time.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.socklabs</groupId>
+			<artifactId>error</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>

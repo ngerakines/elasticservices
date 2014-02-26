@@ -48,7 +48,8 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 	private final ConcurrentMap<ServiceProto.ServiceRef, Service> services;
 	private final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags;
 
-	// Simple mapping of service ref to transport, used to send messages to services
+	// Simple mapping of service ref to transport, used to send messages to
+	// services
 	private final Multimap<ServiceProto.ServiceRef, Ref> transportRefsByServiceRef;
 
 	// An index of message factory by class/package.
@@ -61,6 +62,8 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 
 	private final KeyIncrementable<String> senderCounters;
 	private final KeyIncrementable<String> destinationCounters;
+
+	private final Map<ServiceProto.ServiceRef, ?> serviceStubs;
 
 	public DefaultServiceRegistry(
 			final ServiceProto.ComponentRef componentRef,
@@ -76,6 +79,8 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 		this.serviceRefs = Sets.newHashSet();
 		this.transportRefsByServiceRef = HashMultimap.create();
 		this.transportClients = Maps.newHashMap();
+
+		this.serviceStubs = Maps.newHashMap();
 
 		this.senderCounters = new CounterCacheCompositeMonitor<>("senderCounters");
 		this.destinationCounters = new CounterCacheCompositeMonitor<>("destinationCounters");
@@ -111,6 +116,16 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 		}
 	}
 
+	private List<Ref> transportClientRefs(final ServiceProto.ServiceRef serviceRef) {
+		final List<Ref> refs = Lists.newArrayList(transportRefsByServiceRef.get(serviceRef));
+		if (refs.size() > 1) {
+			final List<Ref> sortedRefs = Ordering.from(new OrderingRefComparator()).sortedCopy(refs);
+			LOGGER.info("Sorted refs {}", sortedRefs);
+			return sortedRefs;
+		}
+		return refs;
+	}
+
 	@Override
 	public synchronized Optional<TransportClient> transportClientForService(final ServiceProto.ServiceRef serviceRef) {
 		LOGGER.debug("Requested transport client for serviceRef {}.", MessageUtils.serviceRefToString(serviceRef));
@@ -137,31 +152,6 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 		return transportClientRefs(serviceRef);
 	}
 
-	private List<Ref> transportClientRefs(final ServiceProto.ServiceRef serviceRef) {
-		final List<Ref> refs = Lists.newArrayList(transportRefsByServiceRef.get(serviceRef));
-		if (refs.size() > 1) {
-			final List<Ref> sortedRefs = Ordering.from(new OrderingRefComparator()).sortedCopy(refs);
-			LOGGER.info("Sorted refs {}", sortedRefs);
-			return sortedRefs;
-		}
-		return refs;
-	}
-
-	@Override
-	public void updateComponentServices(
-			final ServiceProto.ComponentRef componentRef,
-			final Multimap<ServiceProto.ServiceRef, String> services,
-			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags) {
-		LOGGER.debug("Updating service information from gossip.");
-		for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entries()) {
-			LOGGER.debug(
-					"Received transport ref uri {} for {}",
-					entry.getValue(),
-					MessageUtils.serviceRefToString(entry.getKey()));
-			initTransportClient(entry.getKey(), Ref.builderFromUri(entry.getValue()).build());
-		}
-	}
-
 	@Override
 	public synchronized void initTransportClient(final ServiceProto.ServiceRef serviceRef, final Ref ref) {
 		transportRefsByServiceRef.put(serviceRef, ref);
@@ -175,22 +165,14 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 
 	@Override
 	public synchronized List<ServiceProto.ServiceRef> getServices(final ServiceProto.ComponentRef componentRef) {
-		return Ordering.from(new ServiceRefComparator())
-				.sortedCopy(
-						ImmutableList.copyOf(
-								Iterables.filter(
-										serviceRefs,
-										new ComponentRefServiceRefsFilter(componentRef))));
+		return Ordering.from(new ServiceRefComparator()).sortedCopy(
+				ImmutableList.copyOf(Iterables.filter(serviceRefs, new ComponentRefServiceRefsFilter(componentRef))));
 	}
 
 	@Override
 	public synchronized List<ServiceProto.ServiceRef> getServices(final String id) {
-		return Ordering.from(new ServiceRefComparator())
-				.sortedCopy(
-						ImmutableList.copyOf(
-								Iterables.filter(
-										serviceRefs,
-										new IdServiceRefsFilter(id))));
+		return Ordering.from(new ServiceRefComparator()).sortedCopy(
+				ImmutableList.copyOf(Iterables.filter(serviceRefs, new IdServiceRefsFilter(id))));
 	}
 
 	@Override
@@ -206,10 +188,9 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 			final String cluster,
 			final String id) {
 		return Ordering.from(new ServiceRefComparator()).sortedCopy(
-				ImmutableList.copyOf(
-						Iterables.filter(
-								serviceRefs,
-								new SiteClusterIdServiceRefsFilter(site, cluster, id))));
+				ImmutableList.copyOf(Iterables.filter(
+						serviceRefs,
+						new SiteClusterIdServiceRefsFilter(site, cluster, id))));
 	}
 
 	@Override
@@ -227,10 +208,8 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 			final ServiceProto.ServiceRef senderServiceRef,
 			final AbstractMessage message,
 			final ServiceProto.ContentType contentType) {
-		final MessageController controller = new DefaultMessageController(
-				senderServiceRef,
-				destinationServiceRef,
-				contentType);
+		final MessageController controller =
+				new DefaultMessageController(senderServiceRef, destinationServiceRef, contentType);
 		sendMessage(controller, message);
 	}
 
@@ -238,14 +217,18 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 	public synchronized void sendMessage(final MessageController controller, final AbstractMessage message) {
 		senderCounters.incr(MessageUtils.serviceRefToString(controller.getSender()));
 		destinationCounters.incr(MessageUtils.serviceRefToString(controller.getDestination()));
-		final Optional<TransportClient> transportClientOptional = transportClientForService(controller.getDestination());
+		final Optional<TransportClient> transportClientOptional =
+				transportClientForService(controller.getDestination());
 		if (transportClientOptional.isPresent()) {
 			final TransportClient transportClient = transportClientOptional.get();
 			LOGGER.debug(
-					"Sending message ({}) to {}", message.getClass().getName(), MessageUtils.serviceRefToString(
-					controller.getDestination()));
+					"Sending message ({}) to {}",
+					message.getClass().getName(),
+					MessageUtils.serviceRefToString(controller.getDestination()));
 			transportClient.send(controller, message);
+			return;
 		}
+		LOGGER.debug("No transport client for destination {}.", controller.getDestination());
 	}
 
 	@Override
@@ -255,13 +238,34 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 			final AbstractMessage message,
 			final ServiceProto.ContentType contentType) {
 
-		final MessageController outboundController = new DefaultMessageController(
-				senderServiceRef,
-				inboundMessageController.getSender(),
-				contentType,
-				Optional.of(MessageUtils.randomMessageId(24)),
-				inboundMessageController.getMessageId());
+		final MessageController outboundController =
+				new DefaultMessageController(
+						senderServiceRef,
+						inboundMessageController.getSender(),
+						contentType,
+						Optional.of(MessageUtils.randomMessageId(24)),
+						inboundMessageController.getMessageId());
 		sendMessage(outboundController, message);
+	}
+
+	@Override
+	public TransportConsumer newTransportConsumer() {
+		return new ServiceRegistryTransportConsumer(this);
+	}
+
+	@Override
+	public void updateComponentServices(
+			final ServiceProto.ComponentRef componentRef,
+			final Multimap<ServiceProto.ServiceRef, String> services,
+			final Multimap<ServiceProto.ServiceRef, Integer> serviceFlags) {
+		LOGGER.debug("Updating service information from gossip.");
+		for (final Map.Entry<ServiceProto.ServiceRef, String> entry : services.entries()) {
+			LOGGER.debug(
+					"Received transport ref uri {} for {}",
+					entry.getValue(),
+					MessageUtils.serviceRefToString(entry.getKey()));
+			initTransportClient(entry.getKey(), Ref.builderFromUri(entry.getValue()).build());
+		}
 	}
 
 	private void dispatchMessage(final MessageController messageController, final byte[] rawMessage) {
@@ -283,6 +287,29 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 		}
 	}
 
+	private Optional<? extends Message> composeMessage(
+			final MessageController messageController,
+			final byte[] rawMessage) {
+		final ServiceProto.ContentType contentType = messageController.getContentType();
+		if (contentType != null) {
+			final Optional<String> classNameOptional =
+					CollectionUtils.firstAttributeValue(contentType.getAttributeList(), "class");
+			if (classNameOptional.isPresent()) {
+				final String className = classNameOptional.get();
+				final List<MessageFactory> messageFactories =
+						ImmutableList.copyOf(this.messageFactories.get(className));
+				for (final MessageFactory messageFactory : messageFactories) {
+					final Optional<? extends Message> fabricMessageOptional =
+							messageFactory.get(messageController, rawMessage);
+					if (fabricMessageOptional.isPresent()) {
+						return fabricMessageOptional;
+					}
+				}
+			}
+		}
+		return Optional.absent();
+	}
+
 	private ServiceProto.ServiceRef destinationOf(final MessageController messageController) {
 		final ServiceProto.ServiceRef serviceRef = messageController.getDestination();
 		if (serviceRef != null && "gossip".equals(serviceRef.getServiceId())) {
@@ -294,36 +321,6 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 			}
 		}
 		return serviceRef;
-	}
-
-	private Optional<? extends Message> composeMessage(
-			final MessageController messageController,
-			final byte[] rawMessage) {
-		final ServiceProto.ContentType contentType = messageController.getContentType();
-		if (contentType != null) {
-			final Optional<String> classNameOptional = CollectionUtils.firstAttributeValue(
-					contentType.getAttributeList(),
-					"class");
-			if (classNameOptional.isPresent()) {
-				final String className = classNameOptional.get();
-				final List<MessageFactory> messageFactories = ImmutableList.copyOf(
-						this.messageFactories.get(className));
-				for (final MessageFactory messageFactory : messageFactories) {
-					final Optional<? extends Message> fabricMessageOptional = messageFactory.get(
-							messageController,
-							rawMessage);
-					if (fabricMessageOptional.isPresent()) {
-						return fabricMessageOptional;
-					}
-				}
-			}
-		}
-		return Optional.absent();
-	}
-
-	@Override
-	public TransportConsumer newTransportConsumer() {
-		return new ServiceRegistryTransportConsumer(this);
 	}
 
 	private static class ServiceRegistryTransportConsumer implements TransportConsumer {
@@ -381,9 +378,8 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 
 		@Override
 		public boolean apply(@Nullable final ServiceProto.ServiceRef input) {
-			return input != null && site.equals(
-					input.getComponentRef()
-							.getSite()) && serviceId.equals(input.getServiceId());
+			return input != null && site.equals(input.getComponentRef().getSite()) && serviceId.equals(input
+					.getServiceId());
 		}
 	}
 
@@ -403,10 +399,9 @@ public class DefaultServiceRegistry implements ServiceRegistry, ServicePresenceL
 
 		@Override
 		public boolean apply(@Nullable final ServiceProto.ServiceRef input) {
-			return input != null &&
-					site.equals(input.getComponentRef().getSite()) &&
-					cluster.equals(input.getComponentRef().getCluster()) &&
-					serviceId.equals(input.getServiceId());
+			return input != null && site.equals(input.getComponentRef().getSite()) && cluster.equals(input
+					.getComponentRef()
+					.getCluster()) && serviceId.equals(input.getServiceId());
 		}
 	}
 

@@ -50,6 +50,16 @@ public class DefaultResponseManager implements ResponseManager {
 			final AbstractMessage message,
 			final Class messageClass,
 			final Optional<Expiration> expirationOptional) {
+		return sendAndReceive(destination, message, messageClass, expirationOptional, Optional.<String> absent());
+	}
+
+	@Override
+	public AbstractFuture<Message> sendAndReceive(
+			final ServiceProto.ServiceRef destination,
+			final AbstractMessage message,
+			final Class messageClass,
+			final Optional<Expiration> expirationOptional,
+			final Optional<String> methodOptional) {
 		final SettableFuture<Message> resultsFuture = SettableFuture.create();
 		final byte[] messageId = MessageUtils.randomMessageId(24);
 		final MessageController controller =
@@ -60,14 +70,17 @@ public class DefaultResponseManager implements ResponseManager {
 						Optional.of(messageId),
 						Optional.<byte[]> absent(),
 						expirationOptional.isPresent() ? Optional.of(expirationOptional.get().getExpiration()) : Optional
-								.<DateTime> absent());
+								.<DateTime> absent(),
+						methodOptional);
 		resultsFutures.putIfAbsent(Arrays.hashCode(messageId), new Pair<>(resultsFuture, DateTime.now()));
 		serviceRegistry.sendMessage(controller, message);
 		return resultsFuture;
 	}
 
 	@Override
-	public SettableFuture<Message> sendAndReceive(final MessageController messageController, final AbstractMessage message) {
+	public SettableFuture<Message> sendAndReceive(
+			final MessageController messageController,
+			final AbstractMessage message) {
 		final SettableFuture<Message> resultsFuture = SettableFuture.create();
 		final Optional<byte[]> messageIdOptional = messageController.getMessageId();
 		Preconditions.checkArgument(messageIdOptional.isPresent());
@@ -85,7 +98,12 @@ public class DefaultResponseManager implements ResponseManager {
 					resultsFutures.get(Arrays.hashCode(messageId.get()));
 			if (resultsFuturePair != null) {
 				final SettableFuture<Message> resultsFuture = resultsFuturePair.getA();
-				resultsFuture.set(message);
+				if (message instanceof ServiceProto.EncodedError) {
+					final ServiceProto.EncodedError encodedError = (ServiceProto.EncodedError) message;
+					resultsFuture.setException(new Exception(encodedError.getCode()));
+				} else {
+					resultsFuture.set(message);
+				}
 				resultsFutures.remove(Arrays.hashCode(messageId.get()));
 			}
 		}

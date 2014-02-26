@@ -2275,6 +2275,524 @@ public final class ServiceProto {
     // @@protoc_insertion_point(class_scope:com.socklabs.elasticservices.core.ContentType)
   }
   
+  public interface EncodedErrorOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // optional string code = 1;
+    boolean hasCode();
+    String getCode();
+    
+    // optional .com.socklabs.elasticservices.core.EncodedError cause = 2;
+    boolean hasCause();
+    com.socklabs.elasticservices.core.ServiceProto.EncodedError getCause();
+    com.socklabs.elasticservices.core.ServiceProto.EncodedErrorOrBuilder getCauseOrBuilder();
+  }
+  public static final class EncodedError extends
+      com.google.protobuf.GeneratedMessage
+      implements EncodedErrorOrBuilder {
+    // Use EncodedError.newBuilder() to construct.
+    private EncodedError(Builder builder) {
+      super(builder);
+    }
+    private EncodedError(boolean noInit) {}
+    
+    private static final EncodedError defaultInstance;
+    public static EncodedError getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public EncodedError getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.socklabs.elasticservices.core.ServiceProto.internal_static_com_socklabs_elasticservices_core_EncodedError_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.socklabs.elasticservices.core.ServiceProto.internal_static_com_socklabs_elasticservices_core_EncodedError_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // optional string code = 1;
+    public static final int CODE_FIELD_NUMBER = 1;
+    private java.lang.Object code_;
+    public boolean hasCode() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public String getCode() {
+      java.lang.Object ref = code_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          code_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getCodeBytes() {
+      java.lang.Object ref = code_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        code_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional .com.socklabs.elasticservices.core.EncodedError cause = 2;
+    public static final int CAUSE_FIELD_NUMBER = 2;
+    private com.socklabs.elasticservices.core.ServiceProto.EncodedError cause_;
+    public boolean hasCause() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public com.socklabs.elasticservices.core.ServiceProto.EncodedError getCause() {
+      return cause_;
+    }
+    public com.socklabs.elasticservices.core.ServiceProto.EncodedErrorOrBuilder getCauseOrBuilder() {
+      return cause_;
+    }
+    
+    private void initFields() {
+      code_ = "";
+      cause_ = com.socklabs.elasticservices.core.ServiceProto.EncodedError.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getCodeBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeMessage(2, cause_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getCodeBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, cause_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.socklabs.elasticservices.core.ServiceProto.EncodedError parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.socklabs.elasticservices.core.ServiceProto.EncodedError prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.socklabs.elasticservices.core.ServiceProto.EncodedErrorOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.socklabs.elasticservices.core.ServiceProto.internal_static_com_socklabs_elasticservices_core_EncodedError_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.socklabs.elasticservices.core.ServiceProto.internal_static_com_socklabs_elasticservices_core_EncodedError_fieldAccessorTable;
+      }
+      
+      // Construct using com.socklabs.elasticservices.core.ServiceProto.EncodedError.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getCauseFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        code_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        if (causeBuilder_ == null) {
+          cause_ = com.socklabs.elasticservices.core.ServiceProto.EncodedError.getDefaultInstance();
+        } else {
+          causeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.socklabs.elasticservices.core.ServiceProto.EncodedError.getDescriptor();
+      }
+      
+      public com.socklabs.elasticservices.core.ServiceProto.EncodedError getDefaultInstanceForType() {
+        return com.socklabs.elasticservices.core.ServiceProto.EncodedError.getDefaultInstance();
+      }
+      
+      public com.socklabs.elasticservices.core.ServiceProto.EncodedError build() {
+        com.socklabs.elasticservices.core.ServiceProto.EncodedError result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.socklabs.elasticservices.core.ServiceProto.EncodedError buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.socklabs.elasticservices.core.ServiceProto.EncodedError result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.socklabs.elasticservices.core.ServiceProto.EncodedError buildPartial() {
+        com.socklabs.elasticservices.core.ServiceProto.EncodedError result = new com.socklabs.elasticservices.core.ServiceProto.EncodedError(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.code_ = code_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        if (causeBuilder_ == null) {
+          result.cause_ = cause_;
+        } else {
+          result.cause_ = causeBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.socklabs.elasticservices.core.ServiceProto.EncodedError) {
+          return mergeFrom((com.socklabs.elasticservices.core.ServiceProto.EncodedError)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.socklabs.elasticservices.core.ServiceProto.EncodedError other) {
+        if (other == com.socklabs.elasticservices.core.ServiceProto.EncodedError.getDefaultInstance()) return this;
+        if (other.hasCode()) {
+          setCode(other.getCode());
+        }
+        if (other.hasCause()) {
+          mergeCause(other.getCause());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              code_ = input.readBytes();
+              break;
+            }
+            case 18: {
+              com.socklabs.elasticservices.core.ServiceProto.EncodedError.Builder subBuilder = com.socklabs.elasticservices.core.ServiceProto.EncodedError.newBuilder();
+              if (hasCause()) {
+                subBuilder.mergeFrom(getCause());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setCause(subBuilder.buildPartial());
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // optional string code = 1;
+      private java.lang.Object code_ = "";
+      public boolean hasCode() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public String getCode() {
+        java.lang.Object ref = code_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          code_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setCode(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        code_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearCode() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        code_ = getDefaultInstance().getCode();
+        onChanged();
+        return this;
+      }
+      void setCode(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000001;
+        code_ = value;
+        onChanged();
+      }
+      
+      // optional .com.socklabs.elasticservices.core.EncodedError cause = 2;
+      private com.socklabs.elasticservices.core.ServiceProto.EncodedError cause_ = com.socklabs.elasticservices.core.ServiceProto.EncodedError.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.socklabs.elasticservices.core.ServiceProto.EncodedError, com.socklabs.elasticservices.core.ServiceProto.EncodedError.Builder, com.socklabs.elasticservices.core.ServiceProto.EncodedErrorOrBuilder> causeBuilder_;
+      public boolean hasCause() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public com.socklabs.elasticservices.core.ServiceProto.EncodedError getCause() {
+        if (causeBuilder_ == null) {
+          return cause_;
+        } else {
+          return causeBuilder_.getMessage();
+        }
+      }
+      public Builder setCause(com.socklabs.elasticservices.core.ServiceProto.EncodedError value) {
+        if (causeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          cause_ = value;
+          onChanged();
+        } else {
+          causeBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      public Builder setCause(
+          com.socklabs.elasticservices.core.ServiceProto.EncodedError.Builder builderForValue) {
+        if (causeBuilder_ == null) {
+          cause_ = builderForValue.build();
+          onChanged();
+        } else {
+          causeBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      public Builder mergeCause(com.socklabs.elasticservices.core.ServiceProto.EncodedError value) {
+        if (causeBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002) &&
+              cause_ != com.socklabs.elasticservices.core.ServiceProto.EncodedError.getDefaultInstance()) {
+            cause_ =
+              com.socklabs.elasticservices.core.ServiceProto.EncodedError.newBuilder(cause_).mergeFrom(value).buildPartial();
+          } else {
+            cause_ = value;
+          }
+          onChanged();
+        } else {
+          causeBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000002;
+        return this;
+      }
+      public Builder clearCause() {
+        if (causeBuilder_ == null) {
+          cause_ = com.socklabs.elasticservices.core.ServiceProto.EncodedError.getDefaultInstance();
+          onChanged();
+        } else {
+          causeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+      public com.socklabs.elasticservices.core.ServiceProto.EncodedError.Builder getCauseBuilder() {
+        bitField0_ |= 0x00000002;
+        onChanged();
+        return getCauseFieldBuilder().getBuilder();
+      }
+      public com.socklabs.elasticservices.core.ServiceProto.EncodedErrorOrBuilder getCauseOrBuilder() {
+        if (causeBuilder_ != null) {
+          return causeBuilder_.getMessageOrBuilder();
+        } else {
+          return cause_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.socklabs.elasticservices.core.ServiceProto.EncodedError, com.socklabs.elasticservices.core.ServiceProto.EncodedError.Builder, com.socklabs.elasticservices.core.ServiceProto.EncodedErrorOrBuilder> 
+          getCauseFieldBuilder() {
+        if (causeBuilder_ == null) {
+          causeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.socklabs.elasticservices.core.ServiceProto.EncodedError, com.socklabs.elasticservices.core.ServiceProto.EncodedError.Builder, com.socklabs.elasticservices.core.ServiceProto.EncodedErrorOrBuilder>(
+                  cause_,
+                  getParentForChildren(),
+                  isClean());
+          cause_ = null;
+        }
+        return causeBuilder_;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:com.socklabs.elasticservices.core.EncodedError)
+    }
+    
+    static {
+      defaultInstance = new EncodedError(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:com.socklabs.elasticservices.core.EncodedError)
+  }
+  
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_com_socklabs_elasticservices_core_ComponentRef_descriptor;
   private static
@@ -2295,6 +2813,11 @@ public final class ServiceProto {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_com_socklabs_elasticservices_core_ContentType_Attribute_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_com_socklabs_elasticservices_core_EncodedError_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_com_socklabs_elasticservices_core_EncodedError_fieldAccessorTable;
   
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2314,10 +2837,12 @@ public final class ServiceProto {
       "alue\030\001 \001(\t\022K\n\tattribute\030\002 \003(\01328.com.sock" +
       "labs.elasticservices.core.ContentType.At" +
       "tribute\032\'\n\tAttribute\022\013\n\003key\030\001 \001(\t\022\r\n\005val",
-      "ue\030\002 \001(\t*=\n\014ServiceFlags\022\023\n\006ACTIVE\020\377\377\377\377\377" +
-      "\377\377\377\377\001\022\030\n\013MAINTENANCE\020\376\377\377\377\377\377\377\377\377\001B6\n!com.s" +
-      "ocklabs.elasticservices.coreB\014ServicePro" +
-      "toH\001\210\001\000"
+      "ue\030\002 \001(\t\"\\\n\014EncodedError\022\014\n\004code\030\001 \001(\t\022>" +
+      "\n\005cause\030\002 \001(\0132/.com.socklabs.elasticserv" +
+      "ices.core.EncodedError*=\n\014ServiceFlags\022\023" +
+      "\n\006ACTIVE\020\377\377\377\377\377\377\377\377\377\001\022\030\n\013MAINTENANCE\020\376\377\377\377\377" +
+      "\377\377\377\377\001B6\n!com.socklabs.elasticservices.co" +
+      "reB\014ServiceProtoH\001\210\001\000"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2356,6 +2881,14 @@ public final class ServiceProto {
               new java.lang.String[] { "Key", "Value", },
               com.socklabs.elasticservices.core.ServiceProto.ContentType.Attribute.class,
               com.socklabs.elasticservices.core.ServiceProto.ContentType.Attribute.Builder.class);
+          internal_static_com_socklabs_elasticservices_core_EncodedError_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_com_socklabs_elasticservices_core_EncodedError_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_com_socklabs_elasticservices_core_EncodedError_descriptor,
+              new java.lang.String[] { "Code", "Cause", },
+              com.socklabs.elasticservices.core.ServiceProto.EncodedError.class,
+              com.socklabs.elasticservices.core.ServiceProto.EncodedError.Builder.class);
           return null;
         }
       };

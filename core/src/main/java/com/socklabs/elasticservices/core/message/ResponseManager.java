@@ -20,6 +20,13 @@ public interface ResponseManager {
 			final Class messageClass,
 			final Optional<Expiration> expirationOptional);
 
+	AbstractFuture<Message> sendAndReceive(
+			final ServiceProto.ServiceRef destination,
+			final AbstractMessage message,
+			final Class messageClass,
+			final Optional<Expiration> expirationOptional,
+			final Optional<String> methodOptional);
+
 	AbstractFuture<Message> sendAndReceive(final MessageController messageController, final AbstractMessage message);
 
 	void handleMessage(final MessageController controller, final Message message);
